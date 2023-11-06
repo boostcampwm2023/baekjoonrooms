@@ -194,21 +194,21 @@ WFM - “Works For Me”
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
-            <td><img width="200" src="" /></td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/63452858?v=4" /></td>
         </tr>
         <tr>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
-            <td><a href=""></a></td>
+            <td><a href="https://github.com/glowisn">@glowisn</a></td>
         </tr>
         <tr>
             <td width="200"></td>
             <td width="200"></td>
             <td width="200"></td>
             <td width="200"></td>
-            <td width="200"></td>
+            <td width="200">협업 마스터가 되고 싶은 FE 뉴비</td>
         </tr>
     </tbody>
 </table>
