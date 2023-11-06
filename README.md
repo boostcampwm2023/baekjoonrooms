@@ -190,21 +190,21 @@ WFM - “Works For Me”
     </thead>
     <tbody>
         <tr>
-            <td><img width="200" src="" /> </td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/74997112?v=4" /> </td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
         </tr>
         <tr>
-            <td><a href=""></a></td>
+            <td><a href="https://github.com/kiuuon">@kiuuon</a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
         </tr>
         <tr>
-            <td width="200"></td>
+            <td width="200">든든한 기초를 바탕으로 같이 일하고 싶은 개발자가 되고싶어요</td>
             <td width="200"></td>
             <td width="200"></td>
             <td width="200"></td>
