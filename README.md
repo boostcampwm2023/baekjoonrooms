@@ -190,22 +190,22 @@ WFM - “Works For Me”
     </thead>
     <tbody>
         <tr>
-            <td><img width="200" src="" /> </td>
             <td><img width="200" src="" /></td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/18080546?s=400&u=504dc96bb5e1946d10056ca91b21bafaf0dce2f3&v=4" /> </td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
         </tr>
         <tr>
             <td><a href=""></a></td>
-            <td><a href=""></a></td>
+            <td><a href="https://github.com/dqgthb">@dqgthb</a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
         </tr>
         <tr>
             <td width="200"></td>
-            <td width="200"></td>
+            <td width="200">건강한 신체에 건강한 코드가 깃든다. 모두가 행복한 체덕지 프로그래밍 화이팅!</td>
             <td width="200"></td>
             <td width="200"></td>
             <td width="200"></td>
