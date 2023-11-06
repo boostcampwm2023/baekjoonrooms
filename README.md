@@ -1,24 +1,24 @@
 # BaekjoonRooms
 
 ## 프로젝트 소개
+
 **백준룸즈**는 [LeetRooms](https://leetrooms.com/)에서 영감을 받아 [백준](https://www.acmicpc.net/)에서 동일한 기능을 제공하기 위한 프로젝트입니다.
 
-*[LeetRooms](https://leetrooms.com/)는 [LeetCode](https://leetcode.com/)에 멀티플레이어 방을 추가하는 플랫폼입니다.
+\*[LeetRooms](https://leetrooms.com/)는 [LeetCode](https://leetcode.com/)에 멀티플레이어 방을 추가하는 플랫폼입니다.
 [LeetRooms Github](https://github.com/marwanhawari/LeetRooms)
 
-
 ### 백준룸즈 기능
-* 콘테스트 스타일 멀티플레이어 방 생성
-* 실시간 채팅 기능
-* 방 설정의 사용자 정의
-* 로그인 옵션
 
+- 콘테스트 스타일 멀티플레이어 방 생성
+- 실시간 채팅 기능
+- 방 설정의 사용자 정의
+- 로그인 옵션
 
 <br>
 
 ## 깃 컨벤션
 
-### 브랜치 전략 
+### 브랜치 전략
 
 #### **Git Flow** 전략 사용
 
@@ -26,16 +26,15 @@
 
 > 출처: https://blog.kinto-technologies.com/posts/2023-03-07-From-Git-flow-to-GitHub-flow/
 
-
 #### 사용할 브랜치
 
-* release
-* develop
-* feat
-* hotfix
-
+- release
+- develop
+- feat
+- hotfix
 
 ##### feat 브랜치 네이밍
+
     - 영어 소문자, 하이픈 띄어쓰기(kebab-case)
     - 예시 : `feat/new-feature-name, feat/hello-controller/get`
 
@@ -44,21 +43,24 @@
 ### 커밋 컨벤션
 
 - Type
-    - `test` — 테스트 코트, 리펙토링 테스트 코드 추가
-    - `feat` — 기능 추가 및 수정
-    - `fix` — 버그 수정
-    - `chore` — 빌드 관련
-    - `docs` — 문서 변경
-    - `refactor` — 코드 리펙토링
-    - `style` — 코드 포맷팅, 세미콜론 누락, 주석 작성 등 코드 변경이 없는 경우
+
+  - `test` — 테스트 코트, 리펙토링 테스트 코드 추가
+  - `feat` — 기능 추가 및 수정
+  - `fix` — 버그 수정
+  - `chore` — 빌드 관련
+  - `docs` — 문서 변경
+  - `refactor` — 코드 리펙토링
+  - `style` — 코드 포맷팅, 세미콜론 누락, 주석 작성 등 코드 변경이 없는 경우
 
 - 커밋 메시지와 바디는 한글로 적어요.
 - 커밋 예시 <br>
-    ```
-    feat: Github 로그인 기능 추가
-    
-    Github OAuth 로그인 구현
-    ```
+
+  ```
+  feat: Github 로그인 기능 추가
+
+  Github OAuth 로그인 구현
+  ```
+
 - commitizen이라는 것도 한번 살펴보세요.
 
 <br>
@@ -79,7 +81,9 @@
 
 ```markdown
 <!-- Review the checklist below before submitting -->
+
 ## Checklist
+
 - [ ] **Code Review:** 작성한 코드를 다시 한 번 꼼꼼이 확인했나요?
 - [ ] **Testing:** 앱이 잘 구동되는지 개발한 기능이 문제 없이 작동하는지 확인했나요?
 - [ ] **Remove:** print나 주석 등 필요없는 코드를 삭제했나요?
@@ -88,15 +92,19 @@
 - [ ] **New Dependencies:** 새로운 dependency를 추가했나요?
 
 <!-- Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context -->
+
 ## Description
 
-<!-- List core changes that were made in this pull request --> 
+<!-- List core changes that were made in this pull request -->
+
 ## Changes Made
 
 <!-- Concerns, etc. -->
+
 ## Extra Comments
 
 <!-- If applicable, add screenshots to help explain your changes -->
+
 ## Demo
 ```
 
@@ -122,6 +130,7 @@ TL;DR. - “Too Long. Didn’t Read”
 WFM - “Works For Me”
 나에게 좋다는 의미로 사용. 시스템의 프로토 타입을 만들어 테스트 할 때, 자신의 환경에서 잘 움직일 때, 또는 의견 조정시에 나에게 고마운
 ```
+
 <br>
 
 ### 코드 리뷰 및 머지 컨벤션
@@ -144,7 +153,7 @@ WFM - “Works For Me”
 - 일주일에 한번은 같이 밥을 먹어요.
 - 코어 타임 내에서 쉰다고 알려주면 존중해주어요. 저희는 팀원 개개인의 자율성과 적극성을 믿어요.
 - 최대한 부드럽게 말하도록 노력해요.
-- 자신의 코드뿐만 아니라 팀원 모두의 진행 상황에도 관심을 가져요. 
+- 자신의 코드뿐만 아니라 팀원 모두의 진행 상황에도 관심을 가져요.
 
 ### 주간 일정
 
@@ -152,9 +161,9 @@ WFM - “Works For Me”
 
 ### 협업 관리
 
-- 같이 무언가를 기록할 일이 있으면 notion과 live share, hackmd를 통해서 기록해요. 
+- 같이 무언가를 기록할 일이 있으면 notion과 live share, hackmd를 통해서 기록해요.
 - 업무 관리는 무엇으로 하나요
-- 기록 관리는 어떻게 무엇을 할까요, 칸반 차트를 어디서 쓸까요 
+- 기록 관리는 어떻게 무엇을 할까요, 칸반 차트를 어디서 쓸까요
 - 데일리 스크럼, 스프린트 회의록, 기타 짜잘한 회의록, 팀 회고록, 멘토링 일지, 피어세션?
 - 기획 및 디자인 피그마, 아키텍쳐 구조도, 핵심 기능 별 flow chart, API 문서, 백로그
 
@@ -173,11 +182,10 @@ WFM - “Works For Me”
 
 - 생략
 
-
-
 ## 팀원 소개
 
 팀 이름: ETA
+
 <table align=center>
     <thead>
         <tr >
@@ -193,21 +201,21 @@ WFM - “Works For Me”
             <td><img width="200" src="" /> </td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
-            <td><img width="200" src="" /></td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/97015501?v=4" /></td>
             <td><img width="200" src="" /></td>
         </tr>
         <tr>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
-            <td><a href=""></a></td>
+            <td><a href="https://github.com/Lukaid-dev">@Lukaid-dev</a></td>
             <td><a href=""></a></td>
         </tr>
         <tr>
             <td width="200"></td>
             <td width="200"></td>
             <td width="200"></td>
-            <td width="200"></td>
+            <td width="200">같이 일하고 싶은,<br>일을 잘하는 개발자<br>개발도 잘함</td>
             <td width="200"></td>
         </tr>
     </tbody>
