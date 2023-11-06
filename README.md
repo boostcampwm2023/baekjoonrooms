@@ -192,21 +192,21 @@ WFM - “Works For Me”
         <tr>
             <td><img width="200" src="" /> </td>
             <td><img width="200" src="" /></td>
-            <td><img width="200" src="" /></td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/71765155?v=4" /></td>
             <td><img width="200" src="" /></td>
             <td><img width="200" src="" /></td>
         </tr>
         <tr>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
-            <td><a href=""></a></td>
+            <td><a href="https://github.com/sjn0910">@sjn0910</a></td>
             <td><a href=""></a></td>
             <td><a href=""></a></td>
         </tr>
         <tr>
             <td width="200"></td>
             <td width="200"></td>
-            <td width="200"></td>
+            <td width="200">다른 사람과 함께<br> 자라고 싶은 개발자!</td>
             <td width="200"></td>
             <td width="200"></td>
         </tr>
