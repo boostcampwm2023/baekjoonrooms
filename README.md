@@ -54,11 +54,13 @@
 
 - 커밋 메시지와 바디는 한글로 적어요.
 - 커밋 예시 <br>
+
   ```
   feat: Github 로그인 기능 추가
 
   Github OAuth 로그인 구현
   ```
+
 - commitizen이라는 것도 한번 살펴보세요.
 
 <br>
@@ -199,21 +201,21 @@ WFM - “Works For Me”
             <td><img width="200" src="https://avatars.githubusercontent.com/u/74997112?v=4" /> </td>
             <td><img width="200" src="https://avatars.githubusercontent.com/u/18080546?s=400&u=504dc96bb5e1946d10056ca91b21bafaf0dce2f3&v=4" /> </td>
             <td><img width="200" src="https://avatars.githubusercontent.com/u/71765155?v=4" /></td>
-            <td><img width="200" src="" /></td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/97015501?v=4" /></td>
             <td><img width="200" src="https://avatars.githubusercontent.com/u/63452858?v=4" /></td>
         </tr>
         <tr>
             <td><a href="https://github.com/kiuuon">@kiuuon</a></td>
             <td><a href="https://github.com/dqgthb">@dqgthb</a></td>
             <td><a href="https://github.com/sjn0910">@sjn0910</a></td>
-            <td><a href=""></a></td>
+            <td><a href="https://github.com/Lukaid-dev">@Lukaid-dev</a></td>
             <td><a href="https://github.com/glowisn">@glowisn</a></td>
         </tr>
         <tr>
             <td width="200">든든한 기초를 바탕으로 같이 일하고 싶은 개발자가 되고싶어요</td>
             <td width="200">건강한 신체에 건강한 코드가 깃든다. 모두가 행복한 체덕지 프로그래밍 화이팅!</td>
             <td width="200">다른 사람과 함께<br> 자라고 싶은 개발자!</td>
-            <td width="200"></td>
+            <td width="200">같이 일하고 싶은,<br>일을 잘하는 개발자<br>개발도 잘함</td>
             <td width="200">협업 마스터가 되고 싶은 FE 뉴비</td>
         </tr>
     </tbody>
