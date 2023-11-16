@@ -21,5 +21,6 @@ src
 ├── components
 ├── contexts : 상태 보관 (context api)
 ├── pages
+├── types
 └── utils
 ```
