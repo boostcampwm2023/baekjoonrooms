@@ -1,12 +1,12 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from 'react-router-dom';
 
-import App from "./App.tsx";
-import Home from "./pages/Home.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import App from './App.tsx';
+import Home from './pages/Home.tsx';
+import NotFound from './pages/NotFound.tsx';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
     errorElement: <NotFound />,
     children: [
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "home",
+        path: 'home',
         element: <Home />,
       },
     ],
