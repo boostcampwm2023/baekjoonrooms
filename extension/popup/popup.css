@@ -1,0 +1,20 @@
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 200px;
+  height: 130px;
+}
+
+.bojrooms-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 30px;
+  margin: 15px 0;
+  border-radius: 33px;
+  background-color: aqua;
+  cursor: pointer;
+}
