@@ -12,3 +12,15 @@
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 ```
+
+## directory 구조
+
+```
+src
+├── apis
+├── components
+├── contexts : 상태 보관 (context api)
+├── pages
+├── types
+└── utils
+```
