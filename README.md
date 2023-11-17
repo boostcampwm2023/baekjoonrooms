@@ -247,13 +247,6 @@ WFM - “Works For Me”
             <td width="200">같이 일하고 싶은,<br>일을 잘하는 개발자<br>개발도 잘함</td>
             <td width="200">협업 마스터가 되고 싶은 FE 뉴비</td>
         </tr>
-         <tr>
-            <td style="text-align:center;">ISTP</td>
-            <td style="text-align:center;">INTP</td> 
-            <td style="text-align:center;">ISTP</td> 
-            <td style="text-align:center;">INTJ</td> 
-            <td style="text-align:center;">INTJ</td>
-        </tr>
     </tbody>
 </table>
 
