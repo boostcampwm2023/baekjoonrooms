@@ -16,5 +16,17 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'require-jsdoc': [
+      'error',
+      {
+        require: {
+          FunctionDeclaration: false,
+          MethodDefinition: false,
+          ClassDeclaration: false,
+          ArrowFunctionExpression: false,
+          FunctionExpression: false,
+        },
+      },
+    ],
   },
 };
