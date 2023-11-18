@@ -7,7 +7,7 @@ export const AuthProvider = ({
   value,
 }: {
   children: JSX.Element;
-  value: any;
+  value: unknown;
 }) => {
   return (
     <AuthContext.Provider value={{ value }}>{children}</AuthContext.Provider>
