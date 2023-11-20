@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider value={null}>
+        <AuthProvider>
           <Outlet />
         </AuthProvider>
       </QueryClientProvider>

@@ -1,8 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
+import ProtectedRoute from './pages/ProtectedRoute.tsx';
 
 import App from './App.tsx';
 import Home from './pages/Home.tsx';
 import NotFound from './pages/NotFound.tsx';
+import Lobby from './pages/Lobby.tsx';
+import Room from './pages/Room.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -15,8 +18,18 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'home',
-        element: <Home />,
+        path: 'lobby',
+        element: (
+          <ProtectedRoute>
+            <Lobby />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: 'room/:roomId',
+            element: <Room />,
+          },
+        ],
       },
     ],
   },

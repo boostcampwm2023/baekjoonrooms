@@ -1,17 +1,26 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { login } from '../apis/Auth';
+import { UserType } from '../types/UserType';
 
-const AuthContext = createContext({});
+interface AuthContextType {
+  user: UserType | null;
+}
 
-export const AuthProvider = ({
-  children,
-  value,
-}: {
-  children: JSX.Element;
-  value: unknown;
-}) => {
+const AuthContext = createContext<AuthContextType>({ user: null });
+
+export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const [user, setUser] = useState<UserType | null>(null);
+
+  useEffect(() => {
+    console.log('AuthProvider');
+    login().then((res) => {
+      setUser(res);
+    });
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ value }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuthContext = () => useContext(AuthContext);
