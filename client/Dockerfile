@@ -20,5 +20,5 @@ COPY . .
 EXPOSE 4173
 
 # Command to run the application
-RUN ["npm", "run", "build"]
-CMD ["npm", "run", "preview"]
+RUN npm run build
+CMD npm run preview
