@@ -1,4 +1,7 @@
+import { useAuthContext } from '../contexts/AuthContext';
+
 export default function Home() {
+  const { onLogin } = useAuthContext();
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-400/50 to-blue-500/50">
       <h1 className="my-2 text-3xl font-bold">BOJ Rooms</h1>
@@ -10,7 +13,10 @@ export default function Home() {
         />
         Login with GitHub
       </button>
-      <button className="my-2 rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700">
+      <button className="my-2 rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700"
+        onClick={() => {
+          onLogin();
+        }}>
         Test Login
       </button>
     </div>
