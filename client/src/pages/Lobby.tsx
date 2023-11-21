@@ -2,20 +2,27 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Lobby() {
-  const { user, onLogout } = useAuthContext();
+  const user = JSON.parse(localStorage.getItem('user') as string);
+  const { onLogout } = useAuthContext();
 
   return (
     <>
-      <h1 className="bg-red-50 text-2xl font-bold">Lobby</h1>
-      <h2>{user?.username}</h2>
-      <button
-        className="border-2 border-black p-2"
-        onClick={() => {
-          onLogout();
-        }}>
-        Logout
-      </button>
-      <Link to="/room/1">Room</Link>
+      <div>
+        <Link to="/">
+          <button onClick={onLogout}>Log out</button>
+        </Link>
+        <div>
+          <img src={user.avatar_url} alt="프로필 이미지" />
+          <p>{user.username}</p>
+        </div>
+        <div>
+          <button>Create room</button>
+          <form>
+            <input />
+            <button>Join</button>
+          </form>
+        </div>
+      </div>
     </>
   );
 }
