@@ -1,25 +1,49 @@
+import { useNavigate } from 'react-router-dom';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { login } from '../apis/Auth';
 import { UserType } from '../types/UserType';
 
 interface AuthContextType {
   user: UserType | null;
+  onLogin: () => Promise<void>;
+  onLogout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null });
+// TODO: 서버의 세션 확인 api가 개발 되면 그때 localStorage로직을 변경
+
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const navigate = useNavigate();
+
+  // 새로고침하면 여기서 다시 user가 null이 되어, 로그인이 풀린다...
   const [user, setUser] = useState<UserType | null>(null);
 
+  const onLogin = async () => {
+    const res = await login();
+    setUser(res);
+    // 이를 해결하기 위해 로컬스토리지에 저장한다. 추후에 서버에서 세션을 관리하면 만료시간에 관한 로직도 추가해야 한다.
+    localStorage.setItem('user', JSON.stringify(res));
+    navigate('/lobby');
+  };
+
+  const onLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+  };
+
   useEffect(() => {
-    console.log('AuthProvider');
-    login().then((res) => {
-      setUser(res);
-    });
+    // 새로고침시 로컬스토리지에서 user를 가져온다.
+    if (localStorage.getItem('user')) {
+      // 로컬스토리지에 user가 있으면 setUser한다.
+      setUser(JSON.parse(localStorage.getItem('user') as string));
+    }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, onLogin, onLogout }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

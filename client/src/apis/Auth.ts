@@ -6,6 +6,8 @@ const config = {
 };
 
 export async function login(): Promise<UserType> {
-  const response = await axios.post(`${config.baseUrl}/auth/login`, {});
+  // const response = await axios.post(`${config.baseUrl}/auth/login`, {});
+  // mock data from /mocks/User.json
+  const response = await axios.get('/mocks/User.json');
   return response.data;
 }

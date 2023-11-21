@@ -15,21 +15,24 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        path: '/',
         element: <Home />,
       },
       {
-        path: 'lobby',
+        path: '/lobby',
         element: (
           <ProtectedRoute>
             <Lobby />
           </ProtectedRoute>
         ),
-        children: [
-          {
-            path: 'room/:roomId',
-            element: <Room />,
-          },
-        ],
+      },
+      {
+        path: '/room/:roomId',
+        element: (
+          <ProtectedRoute>
+            <Room />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

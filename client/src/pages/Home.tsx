@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useAuthContext } from '../contexts/AuthContext';
 
 export default function Home() {
-  const [count, setCount] = useState(0);
+  const { onLogin } = useAuthContext();
   return (
     <>
       <h1 className="bg-red-50 text-2xl font-bold">BOJ Rooms</h1>
-      <h2>{count}</h2>
       <button
+        className="border-2 border-black p-2"
         onClick={() => {
-          setCount(count + 1);
+          onLogin();
         }}>
-        test
+        Login
       </button>
     </>
   );
