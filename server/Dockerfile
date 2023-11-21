@@ -3,6 +3,9 @@ FROM node:18.14
 
 LABEL title="server"
 
+# Install netcat
+RUN apt-get update && apt-get install -y netcat
+
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
@@ -19,5 +22,6 @@ COPY . .
 EXPOSE 4000
 
 # Command to run the application
-RUN ["npm", "run", "build"]
-CMD ["npm", "run", "start:prod"]
+RUN npm run build
+RUN chmod +x wait-for-mysql.sh
+CMD ./wait-for-mysql.sh mysql 3306 npm run start:prod
