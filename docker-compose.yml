@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  client:
+    container_name: client
+    build:
+      context: ./client
+    ports:
+      - '4173:4173'
+
   server:
     container_name: server
     build:
