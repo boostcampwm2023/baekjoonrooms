@@ -5,14 +5,16 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Room } from './room.entity';
+import Room from './room.entity';
+import Submission from './submission.entity';
 
 @Entity()
-export class User extends BaseEntity {
+export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -39,4 +41,7 @@ export class User extends BaseEntity {
 
   @ManyToOne(() => Room, (room) => room.inactiveUsers, { cascade: true })
   inactiveRoom: Room;
+
+  @OneToMany(() => Submission, (submission) => submission.submitter)
+  submissions: Submission[];
 }

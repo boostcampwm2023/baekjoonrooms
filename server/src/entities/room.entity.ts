@@ -10,10 +10,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+import User from './user.entity';
 
 @Entity()
-export class Room extends BaseEntity {
+export default class Room extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

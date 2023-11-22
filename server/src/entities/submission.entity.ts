@@ -1,7 +1,8 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import User from './user.entity';
 
 @Entity()
-export class Submission extends BaseEntity {
+export default class Submission extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,4 +17,7 @@ export class Submission extends BaseEntity {
 
   @CreateDateColumn({ type: 'timestamp' })
   submittedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.submissions, { cascade: true })
+  submitter: User;
 }
