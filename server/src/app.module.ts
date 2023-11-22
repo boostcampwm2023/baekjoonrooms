@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -19,6 +20,7 @@ import { AppService } from './app.service';
       entities: [__dirname + '/**/*.entity.*'],
       logging: true,
       synchronize: true, // production시 false로 변경
+      namingStrategy: new SnakeNamingStrategy(),
     }),
   ],
   controllers: [AppController],
