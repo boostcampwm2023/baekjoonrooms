@@ -3,38 +3,35 @@ version: '3.8'
 services:
   client:
     container_name: client
+    image: boj-client-img
     build:
       context: ./client
     ports:
-      - '4173:4173'
+      - '${CLIENT_PORT}:${CLIENT_PORT}'
+    env_file:
+      - ./.env
 
   server:
+    image: boj-server-img
     container_name: server
     build:
       context: ./server
-    environment:
-      - DB_HOSTNAME=mysql
-      - DB_PORT=3306
-      - DB_USERNAME=bojrooms
-      - DB_PASSWORD=bojroomssecret123!@#
-      - DB_NAME=bojrooms
     ports:
-      - '4000:4000'
+      - '${SERVER_PORT}:${SERVER_PORT}'
     depends_on:
       - mysql
+    env_file:
+      - ./.env
 
   mysql:
     container_name: mysql
     image: mysql
-    environment:
-      MYSQL_DATABASE: bojrooms
-      MYSQL_USER: bojrooms
-      MYSQL_PASSWORD: bojroomssecret123!@#
-      MYSQL_ROOT_PASSWORD: bojroomssecret123!@#
     ports:
-      - '3306:3306'
+      - '${DB_PORT}:${DB_PORT}'
     volumes:
       - mysql_data:/var/lib/mysql
+    env_file:
+      - ./.env
 
 volumes:
   mysql_data:
