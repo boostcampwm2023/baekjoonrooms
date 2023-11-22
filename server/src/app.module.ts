@@ -16,7 +16,8 @@ import { AppService } from './app.service';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [],
+      entities: [__dirname + '/**/*.entity.*'],
+      logging: true,
       synchronize: true, // production시 false로 변경
     }),
   ],
