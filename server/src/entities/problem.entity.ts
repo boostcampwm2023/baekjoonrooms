@@ -14,6 +14,6 @@ export class Problem extends BaseEntity {
   @Column()
   url: string;
 
-  @Column()
+  @Column({ comment: 'solved.ac의 난이도, 정수로 표현됨' })
   level: number;
 }

@@ -8,10 +8,10 @@ export class Submission extends BaseEntity {
   @Column()
   status: string;
 
-  @Column()
+  @Column({ comment: '제출한 코드의 프로그래밍 언어' })
   language: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', comment: '제출한 코드' })
   code: string;
 
   @CreateDateColumn({ type: 'timestamp' })

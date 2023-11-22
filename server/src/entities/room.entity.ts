@@ -16,15 +16,15 @@ export class Room extends BaseEntity {
   @Column()
   code: string;
 
-  @Column({ type: 'timestamp' })
-  end: Date;
+  @Column({ type: 'timestamp', comment: '방 내 대회 만료 시간' })
+  endAt: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp', nullable: true })
   updatedAt: Date;
 
-  @DeleteDateColumn({ type: 'timestamp' })
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 }
