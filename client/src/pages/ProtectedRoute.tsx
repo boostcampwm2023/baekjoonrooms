@@ -7,7 +7,6 @@ export default function ProtectedRoute({
 }) {
   if (!localStorage.getItem('user')) {
     return <Navigate to="/" replace />;
-  } else {
   }
 
   return children;
