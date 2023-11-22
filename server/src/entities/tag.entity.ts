@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Problem from './problem.entity';
 
 @Entity()
 export default class Tag extends BaseEntity {
@@ -7,4 +8,8 @@ export default class Tag extends BaseEntity {
 
   @Column()
   name: string;
+
+  // 이 태그가 붙은 문제들
+  @ManyToMany(() => Problem, (problem) => problem.tags)
+  problems: Problem[];
 }

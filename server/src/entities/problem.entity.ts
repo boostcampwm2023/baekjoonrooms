@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import Submission from './submission.entity';
+import Tag from './tag.entity';
 
 @Entity()
 export default class Problem extends BaseEntity {
@@ -20,4 +21,8 @@ export default class Problem extends BaseEntity {
 
   @OneToMany(() => Submission, (submission) => submission.problem)
   submissions: Submission[];
+
+  @ManyToMany(() => Tag, (tag) => tag.problems)
+  @JoinTable()
+  tags: Tag[];
 }
