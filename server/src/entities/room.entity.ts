@@ -5,6 +5,8 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -12,6 +14,7 @@ import {
 } from 'typeorm';
 import User from './user.entity';
 import Submission from './submission.entity';
+import Problem from './problem.entity';
 
 @Entity()
 export default class Room extends BaseEntity {
@@ -45,4 +48,9 @@ export default class Room extends BaseEntity {
 
   @OneToMany(() => Submission, (submission) => submission.room)
   submissions: Submission[];
+
+  // 이 방에서 출제된 문제들
+  @ManyToMany(() => Problem, (problem) => problem.rooms)
+  @JoinTable()
+  problems: Problem[];
 }
