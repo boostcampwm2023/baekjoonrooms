@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Room } from './room.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -27,4 +29,9 @@ export class User extends BaseEntity {
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date;
+
+  @OneToOne(() => Room, (room) => room.host, {
+    cascade: true,
+  })
+  room: Room;
 }
