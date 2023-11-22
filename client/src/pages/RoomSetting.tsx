@@ -11,6 +11,9 @@ export default function RoomSetting() {
     setProblemList([...problemList, problem]);
     setProblem('');
   };
+  const deleteProblem = (deleteIndex: number) => {
+    setProblemList(problemList.filter((_, index) => index !== deleteIndex));
+  };
 
   return (
     <>
@@ -35,7 +38,13 @@ export default function RoomSetting() {
               <div className="w-[150px] rounded-lg font-semibold">
                 {problem}
               </div>
-              <button className="px-2 py-1">❌</button>
+              <button
+                className="px-2 py-1"
+                onClick={() => {
+                  deleteProblem(index);
+                }}>
+                ❌
+              </button>
             </div>
           ))}
         </div>
