@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -34,4 +35,7 @@ export class User extends BaseEntity {
     cascade: true,
   })
   room: Room;
+
+  @ManyToOne(() => Room, (room) => room.activeUsers, { cascade: true })
+  activeRoom: Room;
 }

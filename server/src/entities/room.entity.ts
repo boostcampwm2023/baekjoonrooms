@@ -5,6 +5,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -34,4 +35,7 @@ export class Room extends BaseEntity {
   @OneToOne(() => User)
   @JoinColumn()
   host: User;
+
+  @OneToMany(() => User, (user) => user.activeRoom)
+  activeUsers: User[];
 }
