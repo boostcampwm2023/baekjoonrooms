@@ -6,6 +6,7 @@ export default class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  // TODO?: enum으로 바꾸기
   @Column()
   name: string;
 
