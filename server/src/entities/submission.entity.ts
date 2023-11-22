@@ -1,5 +1,6 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import User from './user.entity';
+import Room from './room.entity';
 
 @Entity()
 export default class Submission extends BaseEntity {
@@ -18,6 +19,10 @@ export default class Submission extends BaseEntity {
   @CreateDateColumn({ type: 'timestamp' })
   submittedAt: Date;
 
+  // 제출한 사람
   @ManyToOne(() => User, (user) => user.submissions, { cascade: true })
-  submitter: User;
+  user: User;
+
+  @ManyToOne(() => Room, (room) => room.submissions, { cascade: true })
+  room: Room;
 }

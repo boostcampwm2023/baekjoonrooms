@@ -42,6 +42,6 @@ export default class User extends BaseEntity {
   @ManyToOne(() => Room, (room) => room.inactiveUsers, { cascade: true })
   inactiveRoom: Room;
 
-  @OneToMany(() => Submission, (submission) => submission.submitter)
+  @OneToMany(() => Submission, (submission) => submission.user)
   submissions: Submission[];
 }

@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import User from './user.entity';
+import Submission from './submission.entity';
 
 @Entity()
 export default class Room extends BaseEntity {
@@ -41,4 +42,7 @@ export default class Room extends BaseEntity {
 
   @OneToMany(() => User, (user) => user.inactiveRoom)
   inactiveUsers: User[];
+
+  @OneToMany(() => Submission, (submission) => submission.room)
+  submissions: Submission[];
 }
