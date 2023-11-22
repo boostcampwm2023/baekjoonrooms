@@ -31,11 +31,12 @@ export class User extends BaseEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
-  @OneToOne(() => Room, (room) => room.host, {
-    cascade: true,
-  })
+  @OneToOne(() => Room, (room) => room.host, { cascade: true })
   room: Room;
 
   @ManyToOne(() => Room, (room) => room.activeUsers, { cascade: true })
   activeRoom: Room;
+
+  @ManyToOne(() => Room, (room) => room.inactiveUsers, { cascade: true })
+  inactiveRoom: Room;
 }

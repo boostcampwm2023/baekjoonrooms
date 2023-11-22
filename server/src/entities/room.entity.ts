@@ -38,4 +38,7 @@ export class Room extends BaseEntity {
 
   @OneToMany(() => User, (user) => user.activeRoom)
   activeUsers: User[];
+
+  @OneToMany(() => User, (user) => user.inactiveRoom)
+  inactiveUsers: User[];
 }
