@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const onLogout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    navigate('/');
   };
 
   useEffect(() => {
