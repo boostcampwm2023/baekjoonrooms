@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Submission from './submission.entity';
 
 @Entity()
 export default class Problem extends BaseEntity {
@@ -16,4 +17,7 @@ export default class Problem extends BaseEntity {
 
   @Column({ comment: 'solved.ac의 난이도, 정수로 표현됨' })
   level: number;
+
+  @OneToMany(() => Submission, (submission) => submission.problem)
+  submissions: Submission[];
 }
