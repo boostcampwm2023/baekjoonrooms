@@ -40,11 +40,9 @@ export default class Room extends BaseEntity {
   @JoinColumn()
   host: User;
 
-  @OneToMany(() => User, (user) => user.activeRoom)
-  activeUsers: User[];
-
-  @OneToMany(() => User, (user) => user.inactiveRoom)
-  inactiveUsers: User[];
+  // 이 방에 참가한 사람들
+  @OneToMany(() => User, (user) => user.joinedRoom)
+  users: User[];
 
   @OneToMany(() => Submission, (submission) => submission.room)
   submissions: Submission[];
