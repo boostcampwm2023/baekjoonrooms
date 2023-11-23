@@ -1,7 +1,7 @@
-import { useAuthContext } from '../contexts/AuthContext';
+import { useAuthUpdateContext } from '../contexts/AuthContext';
 
 export default function Home() {
-  const { onLogin } = useAuthContext();
+  const { onLogin } = useAuthUpdateContext();
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-400/50 to-blue-500/50">
       <h1 className="my-2 text-3xl font-bold">BOJ Rooms</h1>

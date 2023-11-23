@@ -5,6 +5,9 @@ import { UserType } from '../types/UserType';
 
 interface AuthContextType {
   user: UserType | null;
+}
+
+interface AuthUpdateType {
   onLogin: () => Promise<void>;
   onLogout: () => void;
 }
@@ -12,6 +15,7 @@ interface AuthContextType {
 // TODO: 서버의 세션 확인 api가 개발 되면 그때 localStorage로직을 변경
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
@@ -34,7 +38,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   };
 
   useEffect(() => {
-    // 새로고침시 로컬스토리지에서 user를 가져온다.
+    // 새로고침 시 로컬스토리지에서 user를 가져온다.
     if (localStorage.getItem('user')) {
       // 로컬스토리지에 user가 있으면 setUser한다.
       setUser(JSON.parse(localStorage.getItem('user') as string));
@@ -42,10 +46,13 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, onLogin, onLogout }}>
-      {children}
+    <AuthContext.Provider value={{ user }}>
+      <AuthUpdateContext.Provider value={{ onLogin, onLogout }}>
+        {children}
+      </AuthUpdateContext.Provider>
     </AuthContext.Provider>
   );
 };
 
 export const useAuthContext = () => useContext(AuthContext);
+export const useAuthUpdateContext = () => useContext(AuthUpdateContext);

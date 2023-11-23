@@ -1,9 +1,9 @@
-import { useAuthContext } from '../contexts/AuthContext';
+import { useAuthUpdateContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function Lobby() {
   const user = JSON.parse(localStorage.getItem('user') as string);
-  const { onLogout } = useAuthContext();
+  const { onLogout } = useAuthUpdateContext();
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-green-400/50 to-blue-500/50">
