@@ -20,7 +20,7 @@ export default class User extends BaseEntity {
   @Column({ comment: 'github id' })
   username: string;
 
-  @Column({ comment: 'github 프로필 이미지 url' })
+  @Column({ comment: 'github 프로필 이미지 url', nullable: true })
   avatarUrl: string;
 
   @CreateDateColumn({ type: 'timestamp' })
