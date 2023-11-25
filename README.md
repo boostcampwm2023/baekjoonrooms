@@ -4,13 +4,7 @@
 
 **백준룸즈**는 [LeetRooms](https://leetrooms.com/)에서 영감을 받아 [백준](https://www.acmicpc.net/)에서 동일한 기능을 제공하기 위한 프로젝트입니다.
 
-[LeetRooms](https://leetrooms.com/)는 [LeetCode](https://leetcode.com/)에서 사용하는 익스텐션 입니다.
-
-### LeetRooms 개요
-
-LeetCode를 위한 멀티 플레이어 룸.
-
-리트룸스는 리트코드에 멀티플레이어 룸을 추가합니다. 이 확장 기능은 새로운 리트코드 UI에 또 다른 패널을 추가하여 문제를 푸는 동안 방에 있는 다른 사람들과 채팅할 수 있습니다. 콜라보레이션이나 심지어 경쟁에도 완벽합니다!
+[LeetRooms](https://leetrooms.com/)는 [LeetCode](https://leetcode.com/)를 위한 멀티 플레이어 룸 기능을 제공하는 익스텐션 입니다.
 
 ### 백준룸즈 기능
 
@@ -76,7 +70,7 @@ git clone https://github.com/boostcampwm2023/web15-BaekjoonRooms.git
 
 - HTML
 - CSS
-- JavasCript
+- JavaScript
 
 ## 팀 ETA
 
