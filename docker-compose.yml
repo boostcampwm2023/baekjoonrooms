@@ -35,5 +35,16 @@ services:
     env_file:
       - ./server/.env
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - client
+      - server
+      
 volumes:
   mysql_data:
