@@ -2,12 +2,15 @@ import LogoutButton from '../components/buttons/LogoutButton';
 import Profile from '../components/Profile';
 import RoomAccessPanel from '../components/RoomAccessPanel';
 
-import axios from 'axios';
+// import axios from 'axios';
 
 export default function Lobby() {
   async function testApi(): Promise<void> {
-    const response = await axios.get(`/`);
-    console.log(response);
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+
+    // const response = await axios.get(`${baseUrl}/auth/github/`);
+    window.location.href = `${baseUrl}/auth/github/`;
+    // console.log(response);
   }
 
   return (
