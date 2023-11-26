@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -24,7 +23,6 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true, // production시 false로 변경
       namingStrategy: new SnakeNamingStrategy(),
     }),
-    UserModule,
     AuthModule,
   ],
   controllers: [AppController],
