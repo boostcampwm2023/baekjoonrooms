@@ -1,6 +1,6 @@
 export default function RoomJoinButton() {
   return (
-    <button className="h-[33px] w-[60px] items-center justify-center rounded-lg bg-green-500 font-medium text-white hover:bg-green-400">
+    <button className="text-aod_white bg-aod_accent h-[33px] w-[60px] items-center justify-center rounded-lg font-medium hover:opacity-80">
       Join
     </button>
   );
