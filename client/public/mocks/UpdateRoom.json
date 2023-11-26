@@ -23,8 +23,8 @@
       "level": "1"
     },
     {
-      "boj_problem_id": "1002",
-      "title": "터렛",
+      "boj_problem_id": "21002",
+      "title": "긴 이름의 문제가 있어 다음 줄로 넘어가야 하는 경우의 테스트가 필요해서 쓰는 긴 이름",
       "url": "https://www.acmicpc.net/problem/1002",
       "tag": [
         "수학",

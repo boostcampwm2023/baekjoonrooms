@@ -7,7 +7,7 @@ type ProblemProps = {
 
 export default function Problems({ problems: problemProps }: ProblemProps) {
   return (
-    <ul>
+    <ul className='flex flex-col w-full'>
       {problemProps.map((problem) => (
         <ProblemButton key={problem.boj_problem_id} {...problem} />
       ))}

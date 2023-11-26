@@ -14,7 +14,7 @@ export default function StartButton() {
     <div className="flex w-full justify-end">
       <button
         onClick={start}
-        className="m-1 flex flex-row items-center justify-center rounded-[21px] p-1">
+        className="bg-aod_accent text-aod_white flex h-[33px] w-[150px] items-center justify-center rounded-lg font-medium hover:opacity-80">
         {timer}
       </button>
     </div>
