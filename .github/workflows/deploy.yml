@@ -24,4 +24,4 @@ jobs:
         script: |
           cd ~/project/develop/
           git pull
-          docker compose up --build
+          docker compose up --build -d
