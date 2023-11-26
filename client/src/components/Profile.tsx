@@ -8,7 +8,7 @@ export default function Profile() {
         src={user.avatar_url}
         alt="프로필 이미지"
       />
-      <p className="text-lg font-semibold">{user.username}</p>
+      <p className="text-aod_text text-lg font-semibold">{user.username}</p>
     </div>
   );
 }
