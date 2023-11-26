@@ -4,7 +4,7 @@ import RoomAccessPanel from '../components/RoomAccessPanel';
 
 export default function Lobby() {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-green-400/50 to-blue-500/50">
+    <div className="bg-aod_bg min-h-screen">
       <div className="flex w-full justify-end">
         <LogoutButton />
       </div>

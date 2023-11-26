@@ -9,7 +9,7 @@ services:
     ports:
       - '${CLIENT_PORT}:${CLIENT_PORT}'
     env_file:
-      - ./.env
+      - ./client/.env
 
   server:
     image: boj-server-img
@@ -21,7 +21,9 @@ services:
     depends_on:
       - mysql
     env_file:
-      - ./.env
+      - ./server/.env
+    environment:
+      - DB_HOSTNAME=mysql
 
   mysql:
     container_name: mysql
@@ -31,7 +33,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     env_file:
-      - ./.env
+      - ./server/.env
 
 volumes:
   mysql_data:
