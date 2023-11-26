@@ -13,6 +13,7 @@ export class AuthController {
   @UseGuards(AuthGuard('github'))
   async authCallback(@Req() req, @Res() res) {
     console.log(req.user);
+    res.cookie('user', JSON.stringify(req.user));
     return res.redirect('http://localhost:5173/lobby');
   }
 }

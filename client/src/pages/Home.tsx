@@ -3,6 +3,7 @@ import { FaGithub } from 'react-icons/fa6';
 
 export default function Home() {
   const { onLogin } = useAuthUpdateContext();
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-aod_bg">
       <h1 className="my-2 text-3xl font-bold text-aod_text">Baekjoon Rooms</h1>
