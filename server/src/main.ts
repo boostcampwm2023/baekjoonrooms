@@ -1,9 +1,16 @@
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: 'http://localhost:5173',
+      methods: 'GET ,HEAD, PUT, PATCH, POST, DELETE',
+      allowedHeaders: 'Content-Type, Accept',
+      credentials: true,
+    },
+  });
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('bojrooms API Docs')
@@ -13,8 +20,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
-  // TODO: cors 설정 필요
-
   await app.listen(4000);
 }
+
 bootstrap();
