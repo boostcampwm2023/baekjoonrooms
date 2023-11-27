@@ -2,24 +2,31 @@ import { useState } from 'react';
 
 import SelectProblem from './SelectProblem';
 import RandomProblem from './RandomProblem';
+import ProblemList from './ProblemList';
+import XIcon from '../../icons/XIcon';
 import ToggleIcon from '../../icons/ToggleIcon';
 
-export default function RoomSettingModal() {
+interface RoomSettingModalProps {
+  closeModal: () => void;
+}
+
+export default function RoomSettingModal({
+  closeModal,
+}: RoomSettingModalProps) {
   const [problem, setProblem] = useState('');
   const [problemList, setProblemList] = useState<string[]>([]);
   const [isRandom, setIsRandom] = useState<boolean>(false);
-
-  const deleteProblem = (deleteIndex: number) => {
-    setProblemList(problemList.filter((_, index) => index !== deleteIndex));
-  };
 
   const togleType = () => {
     setIsRandom(!isRandom);
   };
 
   return (
-    <>
-      <div className="bg-aod_fg flex h-[430px] w-[330px] flex-col items-center">
+    <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
+      <div className="bg-aod_fg z-100 relative flex h-[430px] w-[330px] flex-col items-center">
+        <button className="absolute right-3 top-3" onClick={closeModal}>
+          <XIcon />
+        </button>
         <div className="text-aod_text mb-2 mt-4 flex gap-2 text-lg font-semibold">
           {isRandom ? '랜덤 출제' : '번호로 출제'}
           <button onClick={togleType}>
@@ -36,22 +43,10 @@ export default function RoomSettingModal() {
             setProblemList={setProblemList}
           />
         )}
-        <div className="border-aod_black m-2 flex h-[250px] w-[250px] flex-col items-center rounded-lg border-2 p-4">
-          {problemList.map((problem, index) => (
-            <div className="flex w-full justify-between" key={index}>
-              <div className="w-[150px] rounded-lg font-semibold">
-                {problem}
-              </div>
-              <button
-                className="px-2 py-1"
-                onClick={() => {
-                  deleteProblem(index);
-                }}>
-                ❌
-              </button>
-            </div>
-          ))}
-        </div>
+        <ProblemList
+          problemList={problemList}
+          setProblemList={setProblemList}
+        />
         <div className="m-2 flex w-[250px] justify-between">
           <select className="rounded-lg bg-gray-200 px-2 py-1">
             <option value="15분">15분</option>
@@ -67,6 +62,6 @@ export default function RoomSettingModal() {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

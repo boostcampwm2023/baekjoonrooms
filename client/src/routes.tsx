@@ -35,10 +35,6 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {
-        path: '/roomsetting',
-        element: <RoomSetting />,
-      },
     ],
   },
 ]);
