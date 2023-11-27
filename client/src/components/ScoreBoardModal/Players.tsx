@@ -1,11 +1,11 @@
 import { PlayerScoreType } from '../../types/ScoreType';
-import { Result } from './Result';
+import Result from './Result';
 
 interface PlayersProps {
   playerScore: PlayerScoreType;
 }
 
-export function Players({ playerScore }: PlayersProps) {
+export default function Players({ playerScore }: PlayersProps) {
   return (
     <li className="flex flex-row gap-3 bg-aod_bg px-5 py-2.5 text-aod_text odd:bg-aod_text_alt odd:text-aod_gutter">
       <div>{playerScore.name}</div>
