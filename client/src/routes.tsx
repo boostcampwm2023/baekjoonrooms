@@ -7,7 +7,7 @@ import NotFound from './pages/NotFound.tsx';
 import Lobby from './pages/Lobby.tsx';
 import Room from './pages/Room.tsx';
 import RoomSetting from './pages/RoomSetting.tsx';
-import ScoreBoardModal from './components/ScoreBoard.tsx';
+import ScoreBoardModal from './components/ScoreBoardModal/ScoreBoardModal.tsx';
 
 export const router = createBrowserRouter([
   {
