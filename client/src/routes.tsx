@@ -6,7 +6,6 @@ import Home from './pages/Home.tsx';
 import NotFound from './pages/NotFound.tsx';
 import Lobby from './pages/Lobby.tsx';
 import Room from './pages/Room.tsx';
-import RoomSetting from './pages/RoomSetting.tsx';
 import ScoreBoardModal from './components/ScoreBoardModal/ScoreBoardModal.tsx';
 
 export const router = createBrowserRouter([
@@ -35,10 +34,6 @@ export const router = createBrowserRouter([
             <Room />
           </ProtectedRoute>
         ),
-      },
-      {
-        path: '/roomsetting',
-        element: <RoomSetting />,
       },
       // ScoreBoardModal
       {

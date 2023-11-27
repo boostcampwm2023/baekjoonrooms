@@ -1,9 +1,13 @@
-import ExitIcon from '../../icons/ExitIcon';
+import { RxExit } from 'react-icons/rx';
 
 export default function ExitButton() {
   return (
-    <button className="text-aod_white flex flex-row items-center gap-x-2 rounded-lg bg-aod_accent px-2.5 py-1 hover:opacity-80">
-      <ExitIcon />
+    <button className="flex flex-row items-center gap-x-2 rounded-lg bg-aod_accent px-2.5 py-1 text-aod_white hover:opacity-80">
+      <RxExit
+        style={{
+          fontWeight: 'bold',
+        }}
+      />
       <div className="font-medium ">Exit</div>
     </button>
   );
