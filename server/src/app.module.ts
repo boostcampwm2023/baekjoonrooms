@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ClassifiedModule } from './classified/classified.module';
 import { PassportModule } from '@nestjs/passport';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -29,7 +30,6 @@ import { PassportModule } from '@nestjs/passport';
       namingStrategy: new SnakeNamingStrategy(),
     }),
     AuthModule,
-    ClassifiedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
