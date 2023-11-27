@@ -8,7 +8,7 @@
     {
       "name": "Player2",
       "score": 0,
-      "results": ["SOLVING", "SOLVING", "WRONG"]
+      "results": ["CORRECT", "SOLVING", "WRONG"]
     },
     {
       "name": "Player3",
