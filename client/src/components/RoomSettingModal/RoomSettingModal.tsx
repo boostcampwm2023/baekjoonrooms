@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { RefObject, useState } from 'react';
 
 import SelectProblem from './SelectProblem';
 import RandomProblem from './RandomProblem';
@@ -7,11 +7,15 @@ import XIcon from '../../icons/XIcon';
 import ToggleIcon from '../../icons/ToggleIcon';
 
 interface RoomSettingModalProps {
+  modalOverlayRef: RefObject<HTMLDivElement>;
   closeModal: () => void;
+  modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function RoomSettingModal({
+  modalOverlayRef,
   closeModal,
+  modalOutsideClick,
 }: RoomSettingModalProps) {
   const [problem, setProblem] = useState('');
   const [problemList, setProblemList] = useState<string[]>([]);
@@ -22,7 +26,10 @@ export default function RoomSettingModal({
   };
 
   return (
-    <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
+    <div
+      className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-[rgb(0,0,0,0.5)]"
+      ref={modalOverlayRef}
+      onClick={modalOutsideClick}>
       <div className="bg-aod_fg z-100 relative flex h-[430px] w-[330px] flex-col items-center">
         <button className="absolute right-3 top-3" onClick={closeModal}>
           <XIcon />
