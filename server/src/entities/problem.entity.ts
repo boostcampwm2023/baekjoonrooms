@@ -1,7 +1,15 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import Room from './room.entity';
 import Submission from './submission.entity';
 import Tag from './tag.entity';
-import Room from './room.entity';
 
 @Entity()
 export default class Problem extends BaseEntity {

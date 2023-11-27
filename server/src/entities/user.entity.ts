@@ -32,7 +32,10 @@ export default class User extends BaseEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
-  @ManyToOne(() => Room, (room) => room.users, { cascade: true, nullable: true })
+  @ManyToOne(() => Room, (room) => room.users, {
+    cascade: true,
+    nullable: true,
+  })
   joinedRoom: Room;
 
   @OneToMany(() => Submission, (submission) => submission.user)
