@@ -10,7 +10,7 @@ export default function RoomCreateButton() {
   const navigate = useNavigate();
   const onClick = async () => {
     const roomId = await getNewRoomId();
-    navigate(`/room/${roomId}`, { state: { isMaster: true } });
+    navigate(`/room/${roomId}`, { state: { isHost: true } });
   };
 
   return (

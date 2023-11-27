@@ -9,8 +9,8 @@ import RoomInfo from '../components/RoomInfo';
 
 export default function Room() {
   const location = useLocation();
-  const isMaster = location.state?.isMaster;
-  console.log(isMaster);
+  const isHost = location.state?.isHost;
+  console.log(isHost);
 
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-aod_fg">

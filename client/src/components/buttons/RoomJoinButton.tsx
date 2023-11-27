@@ -15,7 +15,7 @@ export default function RoomJoinButton() {
     }
 
     // TODO: 여기도 서버 로직 나오면 수정
-    navigate(`/room/${'q1w2e3'}`, { state: { isMaster: false } });
+    navigate(`/room/${'q1w2e3'}`, { state: { isHost: false } });
   };
 
   return (
