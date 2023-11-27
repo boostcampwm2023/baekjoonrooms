@@ -24,7 +24,7 @@ jobs:
         script: |
           cd ~/project/develop/
           git fetch --all
-          git checkout origin/${{ github.ref }}
+          git checkout origin/${{ github.head_ref }}
           docker compose up --build -d
           git checkout develop
           git pull origin
