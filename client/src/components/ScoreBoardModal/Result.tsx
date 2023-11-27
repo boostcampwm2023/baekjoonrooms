@@ -6,7 +6,7 @@ interface ResultProps {
   result: ResultType;
 }
 
-export function Result({ result }: ResultProps) {
+export default function Result({ result }: ResultProps) {
   return (
     <div className="flex flex-1 flex-row justify-around">
       {result === ResultType.CORRECT ? (
