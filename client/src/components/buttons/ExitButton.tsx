@@ -2,7 +2,7 @@ import { RxExit } from 'react-icons/rx';
 
 export default function ExitButton() {
   return (
-    <button className="flex flex-row items-center gap-x-2 rounded-lg bg-aod_accent px-2.5 py-1 text-aod_white hover:opacity-80">
+    <button className="flex flex-row items-center gap-x-2 rounded-lg bg-aod_accent px-2.5 py-1 text-aod_white hover:opacity-80" onClick={exit}>
       <RxExit
         style={{
           fontWeight: 'bold',
@@ -11,4 +11,8 @@ export default function ExitButton() {
       <div className="font-medium ">Exit</div>
     </button>
   );
+}
+
+function exit() {
+  window.location.href = '/lobby';
 }
