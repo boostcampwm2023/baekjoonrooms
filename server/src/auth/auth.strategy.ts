@@ -1,8 +1,9 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-import { Profile, Strategy } from 'passport-github2';
+import { Strategy } from 'passport-github2';
 import { Injectable } from '@nestjs/common';
 import User from '../entities/user.entity';
+import { GitHubProfile } from '../types/authProfiles';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -15,9 +16,9 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     });
   }
 
-  validate(accessToken: string, refreshToken: string, profile: Profile) {
+  validate(accessToken: string, refreshToken: string, profile: GitHubProfile) {
     console.log(profile);
-    const { username, provider, id, profileUrl } = profile;
+    const { username, provider, id, profileUrl, _json } = profile;
     console.log(
       'got github profile! create or get user and set up on the session',
     );
@@ -25,7 +26,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
       provider,
       providerId: id,
       username,
-      avatarUrl: profileUrl,
+      avatarUrl: _json.avatar_url,
     };
     return user;
   }

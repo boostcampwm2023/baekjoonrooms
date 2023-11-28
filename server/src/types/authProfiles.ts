@@ -4,6 +4,8 @@ export interface AuthProfile {
 }
 
 export interface GitHubProfile extends AuthProfile {
+  id: string;
+  profileUrl: string;
   login: string;
   username: string;
   _json?: {
