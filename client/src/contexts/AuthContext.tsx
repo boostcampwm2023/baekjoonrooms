@@ -25,8 +25,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [user, setUser] = useState<UserType | null>(null);
 
   const onLogout = () => {
+    // TODO: waiting for server api
     setUser(null);
-    localStorage.removeItem('user');
     navigate('/');
   };
 
