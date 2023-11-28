@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Redirect, Req, UseGuards } from '@nestjs/common';
 import { GithubAuthGuard } from './auth.guard';
 
 @Controller('auth')
@@ -11,6 +11,7 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(GithubAuthGuard)
+  @Redirect('http://localhost:5173/success')
   async authCallback(@Req() req) {
     return 'login success!';
   }

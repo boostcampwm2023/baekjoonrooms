@@ -16,7 +16,8 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   }
 
   validate(accessToken: string, refreshToken: string, profile: Profile) {
-    const { username, provider, id } = profile;
+    console.log(profile);
+    const { username, provider, id, profileUrl } = profile;
     console.log(
       'got github profile! create or get user and set up on the session',
     );
@@ -24,6 +25,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
       provider,
       providerId: id,
       username,
+      avatarUrl: profileUrl,
     };
     return user;
   }
