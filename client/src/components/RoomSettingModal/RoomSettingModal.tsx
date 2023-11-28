@@ -13,6 +13,10 @@ interface RoomSettingModalProps {
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
 }
 
+const iconStyle = {
+  fontSize: '1.5rem',
+};
+
 export default function RoomSettingModal({
   modalOverlayRef,
   closeModal,
@@ -38,25 +42,13 @@ export default function RoomSettingModal({
           <div className="absolute right-8 top-1/2 flex -translate-y-1/2 transform gap-2">
             <button onClick={toggleType}>
               {isRandom ? (
-                <FaToggleOff
-                  style={{
-                    fontSize: '1.5rem',
-                  }}
-                />
+                <FaToggleOff style={iconStyle} />
               ) : (
-                <FaToggleOn
-                  style={{
-                    fontSize: '1.5rem',
-                  }}
-                />
+                <FaToggleOn style={iconStyle} />
               )}
             </button>
             <button className="" onClick={closeModal}>
-              <FaXmark
-                style={{
-                  fontSize: '1.5rem',
-                }}
-              />
+              <FaXmark style={iconStyle} />
             </button>
           </div>
         </div>
