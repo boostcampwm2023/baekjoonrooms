@@ -24,6 +24,7 @@ services:
       - ./server/.env
     environment:
       - DB_HOSTNAME=mysql
+      - DB_PORT=${DB_PORT}
 
   mysql:
     container_name: mysql
