@@ -30,8 +30,8 @@ export default class User extends BaseEntity {
   @Column({ comment: 'OAuth provider' })
   provider: string;
 
-  @Column({ comment: 'OAuth provider numeric id' })
-  providerId: number;
+  @Column({ comment: 'OAuth provider id' })
+  providerId: string;
 
   @Column({ comment: 'github 프로필 이미지 url', nullable: true })
   avatarUrl: string;
