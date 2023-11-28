@@ -1,0 +1,19 @@
+{
+  "players": [
+    {
+      "name": "Player1",
+      "score": 100,
+      "results": ["CORRECT", "WRONG", "SOLVING"]
+    },
+    {
+      "name": "Player2",
+      "score": 0,
+      "results": ["CORRECT", "SOLVING", "WRONG"]
+    },
+    {
+      "name": "Player3",
+      "score": 300,
+      "results": ["WRONG", "SOLVING", "CORRECT"]
+    }
+  ]
+}

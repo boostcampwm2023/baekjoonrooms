@@ -23,6 +23,10 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd ~/project/develop/
-          git switch develop
-          git pull
-          docker compose up --build -d
+          git fetch --all
+          git checkout ${{ github.head_ref }} &&
+          git pull &&
+          docker compose up --build -d &&
+          git checkout develop &&
+          git pull origin
+          git checkout develop
