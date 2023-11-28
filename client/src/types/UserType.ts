@@ -1,5 +1,6 @@
 export interface UserType {
-  id: string;
+  provider: string;
+  providerId: string;
   username: string;
-  avatar_url: string;
+  avatarUrl: string;
 }

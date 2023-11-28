@@ -2,7 +2,6 @@ export default function GithubLoginButton() {
   async function login(): Promise<void> {
     const baseUrl = import.meta.env.VITE_BASE_URL;
     window.location.assign(`${baseUrl}/auth/github/`);
-    console.log(document.cookie);
   }
 
   return (
