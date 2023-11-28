@@ -1,8 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from 'src/dto/create.user.dto';
+import { ProviderInfo } from 'src/types/user';
 import { Repository } from 'typeorm';
 import User from '../entities/user.entity';
+import { CreateUserDto } from './dto/create.user.dto';
 
 @Injectable()
 export class UserService {
@@ -19,10 +20,7 @@ export class UserService {
     return this.userRepository.create(createUserDto).save();
   }
 
-  async findUserByProviderInfo(providerInfo: {
-    provider: string;
-    providerId: string;
-  }) {
+  async findUserByProviderInfo(providerInfo: ProviderInfo) {
     return this.userRepository.findOne({
       where: providerInfo,
     });
