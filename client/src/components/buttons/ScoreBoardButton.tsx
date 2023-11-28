@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 export default function ScoreboardButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOverlayRef = useRef<HTMLDivElement>(null);
-  
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -26,7 +26,15 @@ export default function ScoreboardButton() {
         <FaChartSimple />
         <div className="pl-2 font-medium">Scoreboard</div>
       </button>
-      {isModalOpen ? <ScoreBoardModal modalOverlayRef={modalOverlayRef} closeModal={closeModal} modalOutsideClick={modalOutsideClick}/> : <></>}
+      {isModalOpen ? (
+        <ScoreBoardModal
+          modalOverlayRef={modalOverlayRef}
+          closeModal={closeModal}
+          modalOutsideClick={modalOutsideClick}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

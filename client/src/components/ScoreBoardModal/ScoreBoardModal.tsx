@@ -35,7 +35,7 @@ export default function ScoreBoardModal({
       ref={modalOverlayRef}
       onClick={modalOutsideClick}>
       <div className="relative flex h-[430px] w-[calc(50%-100px)] flex-col items-center rounded-2xl border-[0.5px] border-aod_gutter bg-aod_bg">
-        <button className="absolute top-4 right-4" onClick={closeModal}>
+        <button className="absolute right-4 top-4" onClick={closeModal}>
           <FaXmark style={iconStyle} />
         </button>
         <div className="flex w-full flex-col items-center gap-y-[2px] border-b-[0.5px] border-aod_gutter px-5 py-3">
