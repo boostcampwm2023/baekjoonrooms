@@ -40,10 +40,9 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     getSession().then((session) => {
       if (session) {
-        console.log('session.data: ', session.data);
         setUser(session.data);
       } else {
-        console.log('session is false');
+        setUser(null);
       }
     });
   }, []);
