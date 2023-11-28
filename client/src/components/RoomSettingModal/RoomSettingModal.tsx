@@ -13,6 +13,10 @@ interface RoomSettingModalProps {
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
 }
 
+const iconStyle = {
+  fontSize: '1.5rem',
+};
+
 export default function RoomSettingModal({
   modalOverlayRef,
   closeModal,
@@ -28,30 +32,27 @@ export default function RoomSettingModal({
 
   return (
     <div
-      className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-[rgb(0,0,0,0.5)]"
+      className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-aod_bg/80"
+      style={{ backdropFilter: 'blur(10px)' }}
       ref={modalOverlayRef}
       onClick={modalOutsideClick}>
-      <div className="z-100 relative flex h-[430px] w-[330px] flex-col items-center bg-aod_fg">
-        <button className="absolute right-3 top-3" onClick={closeModal}>
-          <FaXmark />
-        </button>
-        <div className="mb-2 mt-4 flex gap-2 text-lg font-semibold text-aod_text">
-          {isRandom ? (
-            <div>
-              <p>랜덤으로 출제</p>
-              <button onClick={toggleType}>
-                <FaToggleOff />
-              </button>
-            </div>
-          ) : (
-            <div>
-              <p>번호로 출제</p>
-              <button onClick={toggleType}>
-                <FaToggleOn />
-              </button>
-            </div>
-          )}
+      <div className="z-100 relative flex h-[430px] w-[330px] flex-col items-center rounded-lg bg-aod_bg">
+        <div className="relative mb-2 mt-4 flex w-full justify-center gap-2 align-middle text-lg font-semibold text-aod_text">
+          {isRandom ? <p>랜덤으로 출제</p> : <p>번호로 출제</p>}
+          <div className="absolute right-8 top-1/2 flex -translate-y-1/2 transform gap-2">
+            <button onClick={toggleType}>
+              {isRandom ? (
+                <FaToggleOff style={iconStyle} />
+              ) : (
+                <FaToggleOn style={iconStyle} />
+              )}
+            </button>
+            <button className="" onClick={closeModal}>
+              <FaXmark style={iconStyle} />
+            </button>
+          </div>
         </div>
+
         {isRandom ? (
           <RandomProblem />
         ) : (
