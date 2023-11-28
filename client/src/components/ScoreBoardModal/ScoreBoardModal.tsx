@@ -1,8 +1,7 @@
 import { ResultType, ScoreType } from '../../types/ScoreType';
 import mockScoresData from '../../../public/mocks/Scores.json';
-import { ScoreBoard } from './ScoreBoard';
+import ScoreBoard from './ScoreBoard';
 import { FaChartSimple } from 'react-icons/fa6';
-
 
 const mockScores: ScoreType = {
   players: mockScoresData.players.map((player) => ({
@@ -28,5 +27,3 @@ export default function ScoreBoardModal() {
     </div>
   );
 }
-
-
