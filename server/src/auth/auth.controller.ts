@@ -11,7 +11,7 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(GithubAuthGuard)
-  @Redirect('http://localhost:5173/home')
+  @Redirect('http://baekjoonrooms.com/home')
   async authCallback(@Req() req) {
     return 'login success!';
   }
