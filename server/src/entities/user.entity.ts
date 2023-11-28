@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -13,17 +14,19 @@ import Room from './room.entity';
 import Submission from './submission.entity';
 
 @Entity()
+@Index(['provider', 'providerId'], { unique: true })
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+
+  @Column({ comment: 'OAuth provider string id' })
+  username: string;
+
+  @Column({ comment: 'OAuth provider' })
   provider: string;
 
-  @Column()
+  @Column({ comment: 'OAuth provider id' })
   providerId: string;
-
-  @Column({ comment: 'github id' })
-  username: string;
 
   @Column({ comment: 'github 프로필 이미지 url', nullable: true })
   avatarUrl: string;
