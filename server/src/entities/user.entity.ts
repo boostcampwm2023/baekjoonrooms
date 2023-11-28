@@ -18,11 +18,6 @@ import Submission from './submission.entity';
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
-  provider: string;
-
-  @Column()
-  providerId: string;
 
   @Column({ comment: 'OAuth provider string id' })
   username: string;
