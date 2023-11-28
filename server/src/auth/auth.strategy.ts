@@ -1,7 +1,9 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-import { Strategy, Profile } from 'passport-github';
+import { Strategy } from 'passport-github2';
 import { Injectable } from '@nestjs/common';
+import User from '../entities/user.entity';
+import { GitHubProfile } from '../types/authProfiles';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -14,16 +16,18 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-    done: (err: any, user: any, info?: any) => void,
-  ) {
+  validate(accessToken: string, refreshToken: string, profile: GitHubProfile) {
     console.log(profile);
-    const { id, username, displayName } = profile;
-
-    const user = { id, username, displayName };
-    done(null, user);
+    const { username, provider, id, profileUrl, _json } = profile;
+    console.log(
+      'got github profile! create or get user and set up on the session',
+    );
+    const user: Partial<User> = {
+      provider,
+      providerId: id,
+      username,
+      avatarUrl: _json.avatar_url,
+    };
+    return user;
   }
 }

@@ -5,9 +5,14 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { ClassifiedModule } from './classified/classified.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule.register({
+      session: true,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -24,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
       namingStrategy: new SnakeNamingStrategy(),
     }),
     AuthModule,
+    ClassifiedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

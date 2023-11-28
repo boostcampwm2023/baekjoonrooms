@@ -1,18 +1,18 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Get, Redirect, Req, UseGuards } from '@nestjs/common';
+import { GithubAuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor() {}
 
   @Get('github')
-  @UseGuards(AuthGuard('github'))
+  @UseGuards(GithubAuthGuard)
   async login() {}
 
   @Get('github/callback')
-  @UseGuards(AuthGuard('github'))
+  @UseGuards(GithubAuthGuard)
+  @Redirect('http://localhost:5173/home')
   async authCallback(@Req() req) {
-    console.log(req.user);
     return 'login success!';
   }
 }
