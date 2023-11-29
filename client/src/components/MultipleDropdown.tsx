@@ -1,5 +1,5 @@
 import { Key, useEffect, useState } from 'react';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
+import { FaAngleDown, FaAngleUp, FaCheck } from 'react-icons/fa6';
 
 export interface MultipleChoiceDropdownProps<T> {
   options: Array<T>;
@@ -8,7 +8,6 @@ export interface MultipleChoiceDropdownProps<T> {
   buttonClassName?: string;
   itemBoxClassName?: string;
   itemClassName?: string;
-  highlightClassName?: string;
 }
 
 /**
@@ -20,7 +19,6 @@ export interface MultipleChoiceDropdownProps<T> {
  * @param {string} props.buttonClassName className of dropdown button for tailwindcss
  * @param {string} props.itemBoxClassName className of dropdown item box for tailwindcss
  * @param {string} props.itemClassName className of dropdown item for tailwindcss
- * @param {string} props.highlightClassName className of dropdown highlight item for tailwindcss
  *
  * @return {JSX.Element}
  */
@@ -32,7 +30,6 @@ export default function MultipleChoiceDropdown<T>({
   buttonClassName = '',
   itemBoxClassName = '',
   itemClassName = '',
-  highlightClassName = 'font-bold',
 }: MultipleChoiceDropdownProps<T>): JSX.Element {
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState<T[]>([]);
@@ -68,31 +65,27 @@ export default function MultipleChoiceDropdown<T>({
           setIsActive(!isActive);
         }}
         className={`${buttonClassName} cursor-pointer`}>
-        <div className="flex flex-row items-center gap-2 overflow-hidden">
-          <div
-            className={`${
-              isActive ? '' : 'overflow-hidden whitespace-nowrap'
-            }`}>
-            {selected.length === 0
-              ? '선택'
-              : selected.join(', ') + optionPostFix}
-          </div>
+        <div className="flex flex-row items-center gap-2">
+          <div>선택</div>
           <div className="w-4">
             {isActive ? <FaAngleUp /> : <FaAngleDown />}
           </div>
         </div>
       </div>
       <ol
-        className={`${itemBoxClassName} absolute flex w-full overflow-hidden z-10`}
+        className={`${itemBoxClassName} absolute z-10 flex w-full overflow-auto max-h-[320px]`}
         style={{ display: isActive ? 'block' : 'none' }}>
         {options.map((option) => (
           <li
             key={option as Key}
             onClick={() => handleOptionClick(option)}
-            className={`${
-              selected.includes(option) ? `${highlightClassName}` : ''
-            } ${itemClassName} flex cursor-pointer justify-center`}>
-            {option + optionPostFix}
+            className={`${itemClassName} flex cursor-pointer justify-between items-center`}>
+            <div className={`w-4 p-1`}>
+              <FaCheck color={selected.includes(option) ? "green" : "gray"} />
+            </div>
+            <div className="flex-grow text-center px-1 overflow-hidden overflow-ellipsis whitespace-nowrap hover:whitespace-normal">
+              {option + optionPostFix}
+            </div>
           </li>
         ))}
       </ol>
