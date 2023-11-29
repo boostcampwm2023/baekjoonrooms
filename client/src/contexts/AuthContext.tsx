@@ -8,6 +8,8 @@ interface AuthContextType {
 }
 
 interface AuthUpdateType {
+  // TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP
+  tmpLogin: (user: UserType) => void;
   onLogout: () => void;
 }
 
@@ -30,26 +32,32 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     navigate('/');
   };
 
-  useEffect(() => {
-    async function getSession() {
-      const response = await axios.get(`${baseURL}/session`, {
-        withCredentials: true,
-      });
-      return response;
-    }
+  const tmpLogin = (user: UserType) => {
+    setUser(user);
+    navigate('/lobby');
+  };
 
-    getSession().then((session) => {
-      if (session) {
-        setUser(session.data);
-      } else {
-        setUser(null);
-      }
-    });
-  }, []);
+  // TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP
+  // useEffect(() => {
+  //   async function getSession() {
+  //     const response = await axios.get(`${baseURL}/session`, {
+  //       withCredentials: true,
+  //     });
+  //     return response;
+  //   }
+
+  //   getSession().then((session) => {
+  //     if (session) {
+  //       setUser(session.data);
+  //     } else {
+  //       setUser(null);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <AuthContext.Provider value={{ user }}>
-      <AuthUpdateContext.Provider value={{ onLogout }}>
+      <AuthUpdateContext.Provider value={{ onLogout, tmpLogin }}>
         {children}
       </AuthUpdateContext.Provider>
     </AuthContext.Provider>
