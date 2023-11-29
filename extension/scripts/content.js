@@ -1,7 +1,5 @@
-const observer = new MutationObserver(function (mutations) {
-  mutations.forEach(function () {
-    injectScript();
-  });
+const observer = new MutationObserver((mutationRecords) => {
+  mutationRecords.forEach(injectScript);
 });
 
 const targetNode = document.body;
@@ -11,11 +9,11 @@ observer.observe(targetNode, config);
 
 function injectScript() {
   const urlPattern = /^http:\/\/localhost:5173\/room\/.*$/;
-  console.log(window.location.href);
-  const roomExitButton = document.getElementById('room-exit-button');
   if (urlPattern.test(window.location.href)) {
     chrome.runtime.sendMessage({ data: true });
   }
+
+  const roomExitButton = document.getElementById('room-exit-button');
   if (roomExitButton) {
     roomExitButton.addEventListener('click', () => {
       chrome.runtime.sendMessage({ data: false });

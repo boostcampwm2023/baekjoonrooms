@@ -19,9 +19,28 @@ chrome.runtime.onMessage.addListener(function (req) {
   }
 });
 
+chrome.webRequest.onBeforeRequest.addListener(
+  function (details) {
+    if (isActive) {
+      if (details.method === 'POST') {
+        const sourceCode = details.requestBody.formData.source[0];
+        console.log(sourceCode);
+        // fetch('', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(sourceCode),
+        // });
+      }
+    }
+  },
+  { urls: ['https://www.acmicpc.net/submit/*'] },
+  ['requestBody'],
+);
+
 chrome.webRequest.onHeadersReceived.addListener(
   function (details) {
-    console.log(isActive);
     if (isActive) {
       if (details.method === 'POST') {
         const submitURL = details.responseHeaders.filter((item) => item.name === 'location')[0].value;
@@ -39,24 +58,4 @@ chrome.webRequest.onHeadersReceived.addListener(
   },
   { urls: ['https://www.acmicpc.net/submit/*'] },
   ['responseHeaders'],
-);
-
-chrome.webRequest.onBeforeRequest.addListener(
-  function (details) {
-    if (isActive) {
-      if (details.method === 'POST') {
-        const sourceCode = details.requestBody.formData.source[0];
-        console.log(sourceCode);
-        // fetch('http://localhost:3000/test', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(details),
-        // });
-      }
-    }
-  },
-  { urls: ['https://www.acmicpc.net/submit/*'] },
-  ['requestBody'],
 );
