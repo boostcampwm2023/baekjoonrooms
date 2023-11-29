@@ -29,6 +29,7 @@ import { UserModule } from './user/user.module';
       namingStrategy: new SnakeNamingStrategy(),
     }),
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
