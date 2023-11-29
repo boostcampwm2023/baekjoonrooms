@@ -10,5 +10,11 @@
   },
   "action": {
     "default_popup": "popup/popup.html"
-  }
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": ["http://localhost:5173/*"]
+    }
+  ]
 }
