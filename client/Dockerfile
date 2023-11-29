@@ -16,7 +16,7 @@ RUN npm ci
 COPY . .
 
 # Expose the port the app runs on
-EXPOSE 4173
+EXPOSE 5173
 
 # Command to run the application
 RUN npm run build
