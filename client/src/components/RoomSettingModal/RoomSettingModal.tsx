@@ -6,6 +6,7 @@ import ProblemList from './ProblemList';
 import { FaXmark } from 'react-icons/fa6';
 import { FaToggleOff } from 'react-icons/fa6';
 import { FaToggleOn } from 'react-icons/fa6';
+import Dropdown from '../Dropdown';
 
 interface RoomSettingModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;
@@ -28,6 +29,10 @@ export default function RoomSettingModal({
 
   const toggleType = () => {
     setIsRandom(!isRandom);
+  };
+
+  const handleTimeClick = (option: number) => {
+    console.log(option);
   };
 
   return (
@@ -68,16 +73,15 @@ export default function RoomSettingModal({
           setProblemList={setProblemList}
         />
         <div className="m-2 flex w-[250px] justify-between">
-          <select className="bg-gray-200 rounded-lg px-2 py-1">
-            <option value="15분">15분</option>
-            <option value="15분">30분</option>
-            <option value="15분">45분</option>
-            <option value="15분">60분</option>
-            <option value="15분">90분</option>
-            <option value="15분">120분</option>
-            <option value="15분">무제한</option>
-          </select>
-          <button className="hover:bg-gray-600 rounded-lg bg-aod_accent px-5 py-1 text-sm text-aod_white">
+          <Dropdown
+            options={[15, 30, 45]}
+            optionPostFix="분"
+            onOptionClick={handleTimeClick}
+            buttonClassName="rounded-lg border border-aod_gutter bg-aod_white px-5 py-1 text-sm text-aod_black"
+            itemBoxClassName="border border-aod_gutter rounded-lg"
+            itemClassName="hover:opacity-80 bg-aod_fg text-sm text-aod_text py-1 odd:bg-aod_gutter"
+          />
+          <button className="rounded-lg bg-aod_accent px-5 py-1 text-sm text-aod_white hover:opacity-80">
             설정 완료
           </button>
         </div>
