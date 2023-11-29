@@ -45,7 +45,7 @@ export default function Dropdown<T>({
         </div>
       </div>
       <ol
-        className={`${itemBoxClassName} absolute z-10 flex w-full`}
+        className={`${itemBoxClassName} absolute overflow-hidden flex w-full`}
         style={{ display: isActive ? 'block' : 'none' }}>
         {options.map((option) => (
           <li
