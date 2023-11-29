@@ -1,13 +1,21 @@
 let isActive = false;
 
 chrome.action.setBadgeText({ text: 'off' });
+chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
 
 chrome.runtime.onMessage.addListener(function (req) {
-  isActive = req.data;
+  if (req.data === 'toggle') {
+    isActive = !isActive;
+  } else {
+    isActive = req.data;
+  }
+
   if (isActive) {
     chrome.action.setBadgeText({ text: 'on' });
+    chrome.action.setBadgeBackgroundColor({ color: '#528BFF' });
   } else {
     chrome.action.setBadgeText({ text: 'off' });
+    chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
   }
 });
 
