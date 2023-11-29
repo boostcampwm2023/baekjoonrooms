@@ -13,7 +13,7 @@ export default class Tag extends BaseEntity {
   id: number;
 
   // TODO?: enum으로 바꾸기
-  @Column()
+  @Column({ comment: '문제 태그의 한글 이름' })
   name: string;
 
   // 이 태그가 붙은 문제들
