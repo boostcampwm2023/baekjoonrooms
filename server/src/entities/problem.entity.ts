@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -12,6 +13,7 @@ import Submission from './submission.entity';
 import Tag from './tag.entity';
 
 @Entity()
+@Index(['bojProblemId'], { unique: true })
 export default class Problem extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,9 +23,6 @@ export default class Problem extends BaseEntity {
 
   @Column()
   title: string;
-
-  @Column()
-  url: string;
 
   // TODO?: enum으로 바꾸기
   @Column({ comment: 'solved.ac의 난이도, 정수로 표현됨' })
