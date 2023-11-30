@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
-export interface ScoreType {
-  players: PlayerScoreType[];
+export interface Score {
+  players: PlayerScore[];
 }
 
-export interface PlayerScoreType {
+export interface PlayerScore {
   name: string;
   score: number;
-  results: ResultType[];
+  results: ScoreResult[];
 }
 
-export enum ResultType {
+export enum ScoreResult {
   CORRECT = 'CORRECT',
   WRONG = 'WRONG',
   SOLVING = 'SOLVING',

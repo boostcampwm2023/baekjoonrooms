@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { UserType } from '../types/UserType';
+import { CreateUser } from '../types/CreateUserType';
 
 // const config = {
 //   baseUrl: import.meta.env.VITE_API_BASE_URL as string,
 // };
 
-export async function login(): Promise<UserType> {
+export async function login(): Promise<CreateUser> {
   // const response = await axios.post(`${config.baseUrl}/auth/login`, {});
   // mock data from /mocks/User.json
   const response = await axios.get('/mocks/User.json');
