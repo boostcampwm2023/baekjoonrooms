@@ -11,6 +11,7 @@ import { utilities, WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { SocketModule } from './socket/socket.module';
 import { RoomModule } from './room/room.module';
+import { ProblemModule } from './problem/problem.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { RoomModule } from './room/room.module';
     UserModule,
     SocketModule,
     RoomModule,
+    ProblemModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
