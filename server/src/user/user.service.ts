@@ -25,4 +25,8 @@ export class UserService {
       where: providerInfo,
     });
   }
+
+  async findUserById(id: number) {
+    return this.userRepository.findOneBy({ id });
+  }
 }
