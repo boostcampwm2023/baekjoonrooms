@@ -8,7 +8,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { ChatEvent, MessageInterface } from '../types/MessageInterface';
+import { chatEvent, MessageInterface } from '../types/MessageInterface';
 
 @WebSocketGateway({ cors: true })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -23,7 +23,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       timestamp: Date.now(),
       username: 'Baekjoonrooms',
       body: 'Welcome to Baekjoonrooms!',
-      chatEvent: ChatEvent.Message,
+      chatEvent: chatEvent.Message,
       color: 'text-red-400',
     };
 

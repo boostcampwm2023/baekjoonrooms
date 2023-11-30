@@ -1,4 +1,4 @@
-import { ChatEvent, MessageInterface } from '../types/Message';
+import { chatEvent, MessageInterface } from '../types/Message';
 
 // This just needs to be here so that these colors get bundled in the final distribution.
 // The userColor is actually assigned on the server.
@@ -29,7 +29,7 @@ export default function Message({
   user: string | undefined;
 }) {
   switch (message.chatEvent) {
-    case ChatEvent.Message:
+    case chatEvent.Message:
       return user === message.username ? (
         <li className="flex flex-row items-start justify-end gap-x-1">
           <span>
@@ -47,8 +47,8 @@ export default function Message({
           </span>
         </li>
       );
-    case ChatEvent.Join:
-    case ChatEvent.Leave:
+    case chatEvent.Join:
+    case chatEvent.Leave:
       return (
         <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
           <span>
@@ -63,7 +63,7 @@ export default function Message({
           </span>
         </li>
       );
-    case ChatEvent.Submit:
+    case chatEvent.Submit:
       return (
         <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
           <span>
@@ -78,7 +78,7 @@ export default function Message({
           </span>
         </li>
       );
-    case ChatEvent.Accepted:
+    case chatEvent.Accepted:
       return (
         <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
           <span>
@@ -93,7 +93,7 @@ export default function Message({
           </span>
         </li>
       );
-    case ChatEvent.Complete:
+    case chatEvent.Complete:
       return (
         <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
           <span>

@@ -2,7 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import { useEffect, useRef, useState } from 'react';
 
 import {
-  ChatEvent,
+  chatEvent,
   MessageInterface,
   RoomMessagesLocalStorage,
 } from '../types/Message';
@@ -43,7 +43,7 @@ export default function Chat({
       timestamp: Date.now(),
       username: user?.username || 'Anonymous',
       body: inputText,
-      chatEvent: ChatEvent.Message,
+      chatEvent: chatEvent.Message,
       color: userColor,
     };
 
