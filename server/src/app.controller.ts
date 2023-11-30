@@ -7,10 +7,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { SessionAuthGuard } from './auth/auth.guard';
 import { Request } from 'express';
 import { WINSTON_MODULE_NEST_PROVIDER, WinstonLogger } from 'nest-winston';
+import { SessionAuthGuard } from './auth/auth.guard';
 
+@UseGuards(SessionAuthGuard)
 @Controller()
 export class AppController {
   constructor(
@@ -27,9 +28,8 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @UseGuards(SessionAuthGuard)
   @Get('session')
   getSession(@Req() req: Request) {
-    return req.user;
+    return req.user ?? 'no session';
   }
 }
