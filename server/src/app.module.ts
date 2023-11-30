@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from './user/user.module';
 import { SocketModule } from './socket/socket.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { SocketModule } from './socket/socket.module';
     AuthModule,
     UserModule,
     SocketModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
