@@ -17,7 +17,7 @@ export default function Room() {
         <Problems isHost={isHost} />
         <ScoreboardButton />
         <Chat />
-        <StartButton />
+        {isHost && <StartButton />}
       </div>
     </div>
   );
