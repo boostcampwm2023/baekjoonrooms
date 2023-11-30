@@ -2,21 +2,18 @@ import { io, Socket } from 'socket.io-client';
 import { useEffect, useRef, useState } from 'react';
 
 import {
-  chatEvent,
+  ChatEvent,
   MessageInterface,
   RoomMessagesLocalStorage,
 } from '../types/Message';
 import { FaArrowRight } from 'react-icons/fa6';
 import Message from './Message';
 import { useAuthContext } from '../contexts/AuthContext';
+import { useParams } from 'react-router-dom';
 
-export default function Chat({
-  roomId,
-  userColor,
-}: {
-  roomId: string;
-  userColor: string;
-}) {
+// TODO: userColor -> 서버에서 설정
+export default function Chat() {
+  const roomId = useParams<{ roomId: string }>().roomId;
   const { user } = useAuthContext();
 
   const serverUrl = import.meta.env.VITE_BASE_URL;
@@ -43,8 +40,8 @@ export default function Chat({
       timestamp: Date.now(),
       username: user?.username || 'Anonymous',
       body: inputText,
-      chatEvent: chatEvent.Message,
-      color: userColor,
+      chatEvent: ChatEvent.Message,
+      color: 'text-aod_purple', // TODO: 서버에서 설정
     };
 
     socket.emit('chat-message', newChatMessage);
@@ -62,7 +59,7 @@ export default function Chat({
       const storedRoomMessages: RoomMessagesLocalStorage = JSON.parse(
         storedRoomMessagesString,
       );
-      if (storedRoomMessages && storedRoomMessages.roomId == roomId) {
+      if (storedRoomMessages) {
         setMessages(storedRoomMessages.messages);
       }
     }
@@ -74,7 +71,6 @@ export default function Chat({
         localStorage.setItem(
           'leetRoomsMessages',
           JSON.stringify({
-            roomId: roomId,
             messages: newMessages,
           }),
         );
@@ -82,15 +78,15 @@ export default function Chat({
       });
     });
 
-    socket.on('keep-alive', () => {
-      socket.emit('keep-alive', 'keep-alive-message-client');
-    });
+    // socket.on('keep-alive', () => {
+    //   socket.emit('keep-alive', 'keep-alive-message-client');
+    // });
 
     socketRef.current = socket;
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [roomId, serverUrl]);
 
   useEffect(() => {
     function autoScrollToLatestMessage() {
@@ -108,8 +104,8 @@ export default function Chat({
   }, [messages]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-end ">
-      <div className="border-transparent mx-2 grow overflow-auto border px-3 py-[10px]">
+    <div className="flex flex-1 flex-col justify-end overflow-auto bg-aod_rose">
+      <div className="border-transparent mx-2 grow overflow-auto border bg-aod_cyan px-3 py-[10px]">
         <ul ref={messagesRef} className="flex flex-col gap-y-1.5">
           {messages.map((message, index) => (
             <Message key={index} message={message} user={user?.username} />
