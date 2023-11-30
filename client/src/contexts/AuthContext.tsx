@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { UserType } from '../types/UserType';
+import { CreateUser } from '../types/CreateUserType';
 import axios from 'axios';
 
 interface AuthContextType {
-  user: UserType | null;
+  user: CreateUser | null;
 }
 
 interface AuthUpdateType {
   // TEMP TEMP TEMP TEMP TEMP TEMP TEMP TEMP
-  tmpLogin: (user: UserType) => void;
+  tmpLogin: (user: CreateUser) => void;
   onLogout: () => void;
 }
 
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
 
   // 새로고침하면 여기서 다시 user가 null이 되어, 로그인이 풀린다...
-  const [user, setUser] = useState<UserType | null>(null);
+  const [user, setUser] = useState<CreateUser | null>(null);
 
   const onLogout = () => {
     // TODO: waiting for server api
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     navigate('/');
   };
 
-  const tmpLogin = (user: UserType) => {
+  const tmpLogin = (user: CreateUser) => {
     setUser(user);
     navigate('/lobby');
   };

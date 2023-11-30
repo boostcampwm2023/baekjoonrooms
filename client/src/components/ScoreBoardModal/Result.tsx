@@ -1,17 +1,17 @@
 import { RxCheck, RxCross1, RxBorderSolid } from 'react-icons/rx';
 
-import { ResultType } from '../../types/ScoreType';
+import { ScoreResult } from '../../types/ScoreType';
 
 interface ResultProps {
-  result: ResultType;
+  result: ScoreResult;
 }
 
 export default function Result({ result }: ResultProps) {
   return (
     <div className="flex flex-1 flex-row justify-around">
-      {result === ResultType.CORRECT ? (
+      {result === ScoreResult.CORRECT ? (
         <RxCheck className="text-aod_green" strokeWidth={2} />
-      ) : result === ResultType.WRONG ? (
+      ) : result === ScoreResult.WRONG ? (
         <RxCross1 className="text-aod_red" strokeWidth={2} />
       ) : (
         <RxBorderSolid />

@@ -1,4 +1,4 @@
-import { ResultType, ScoreType } from '../../types/ScoreType';
+import { ScoreResult, Score } from '../../types/ScoreType';
 import mockScoresData from '../../../public/mocks/Scores.json';
 import ScoreBoard from './ScoreBoard';
 import { FaChartSimple, FaXmark } from 'react-icons/fa6';
@@ -10,11 +10,11 @@ interface ModalProps {
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const mockScores: ScoreType = {
+const mockScores: Score = {
   players: mockScoresData.players.map((player) => ({
     ...player,
     results: player.results.map(
-      (result) => ResultType[result as keyof typeof ResultType],
+      (result) => ScoreResult[result as keyof typeof ScoreResult],
     ),
   })),
 };

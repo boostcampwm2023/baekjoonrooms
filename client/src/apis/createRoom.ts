@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { RoomCreateResponseType } from '../types/RoomCreateResponseType';
+import { RoomCreateType } from '../types/RoomCreateType';
 
-export async function createRoom(): Promise<RoomCreateResponseType | undefined> {
+export async function createRoom(): Promise<RoomCreateType | undefined> {
   return await axios
     .post('http://api.baekjoonrooms.com/room', {
       userId: 1,

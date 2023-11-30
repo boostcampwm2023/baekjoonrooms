@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { createRoom } from '../../apis/createRoom';
 import { useState } from 'react';
-import { RoomCreateResponseType } from '../../types/RoomCreateResponseType';
+import { RoomCreateType } from '../../types/RoomCreateType';
 
 export default function RoomCreateButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,7 +9,7 @@ export default function RoomCreateButton() {
   const navigate = useNavigate();
   const onClick = async () => {
     setIsLoading(true);
-    const roomInfo: RoomCreateResponseType | undefined = await createRoom();
+    const roomInfo: RoomCreateType | undefined = await createRoom();
     if (roomInfo === undefined) {
       setTimeout(() => {
         console.log(roomInfo);
