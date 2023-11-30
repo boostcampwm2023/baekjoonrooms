@@ -27,7 +27,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       color: 'text-red-400',
     };
 
-    client.emit('chat-message', chatResponse);
+    this.server.emit('chat-message', chatResponse);
+
     console.log(`client ${client.id} joined RM1234 end`);
   }
 
