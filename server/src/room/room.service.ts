@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as crypto from 'crypto';
 import Room from 'src/entities/room.entity';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateRoomDto } from './dto/create.room.dto';
-import { UserService } from 'src/user/user.service';
-import * as crypto from 'crypto';
 
 @Injectable()
 export class RoomService {
