@@ -8,22 +8,23 @@ import {
 } from '../types/Message';
 import { FaArrowRight } from 'react-icons/fa6';
 import Message from './Message';
+import { useAuthContext } from '../contexts/AuthContext';
 
 export default function Chat({
-  username,
-  userColor,
   roomId,
+  userColor,
 }: {
-  username: string;
   roomId: string;
   userColor: string;
 }) {
+  const { user } = useAuthContext();
+
   const serverUrl = import.meta.env.VITE_BASE_URL;
 
-  let inputRef = useRef<HTMLInputElement>(null);
-  let messagesRef = useRef<HTMLUListElement>(null);
-  let [messages, setMessages] = useState<MessageInterface[]>([]);
-  let socketRef = useRef<Socket | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const messagesRef = useRef<HTMLUListElement>(null);
+  const [messages, setMessages] = useState<MessageInterface[]>([]);
+  const socketRef = useRef<Socket | null>(null);
 
   function handleSubmitMessage(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -40,15 +41,15 @@ export default function Chat({
     const inputText = inputRef.current.value.trim();
     const newChatMessage: MessageInterface = {
       timestamp: Date.now(),
-      username: username,
+      username: user?.username || 'Anonymous',
       body: inputText,
       chatEvent: ChatEvent.Message,
       color: userColor,
     };
 
-    socket.emit('message', newChatMessage, (response) => {
-      console.log('response from server', response);
-    });
+    console.log(newChatMessage);
+
+    socket.emit('message', newChatMessage);
 
     inputRef.current.value = '';
   }
@@ -72,7 +73,7 @@ export default function Chat({
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, newMessage];
 
-        // console.log('newMessages', newMessage);
+        console.log(newMessage);
 
         localStorage.setItem(
           'leetRoomsMessages',
@@ -111,13 +112,11 @@ export default function Chat({
   }, [messages]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-end bg-aod_green">
-      <div
-        // id="leetrooms-chat"
-        className="border-transparent mx-2 grow overflow-auto border px-3 py-[10px]">
+    <div className="flex h-full w-full flex-col justify-end ">
+      <div className="border-transparent mx-2 grow overflow-auto border px-3 py-[10px]">
         <ul ref={messagesRef} className="flex flex-col gap-y-1.5">
           {messages.map((message, index) => (
-            <Message key={index} message={message} />
+            <Message key={index} message={message} user={user?.username} />
           ))}
         </ul>
       </div>
@@ -126,8 +125,8 @@ export default function Chat({
           <input
             ref={inputRef}
             type="text"
-            name="chatbox"
-            id="chatbox"
+            name="chatBox"
+            id="chatBox"
             className="bg-lc-fg-light dark:bg-lc-fg w-full  outline-none"
             placeholder="Type a message..."
             spellCheck="false"

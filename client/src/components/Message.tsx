@@ -21,10 +21,22 @@ const colorChoices = [
   'text-rose-400',
 ];
 
-export default function Message({ message }: { message: MessageInterface }) {
+export default function Message({
+  message,
+  user,
+}: {
+  message: MessageInterface;
+  user: string | undefined;
+}) {
   switch (message.chatEvent) {
     case ChatEvent.Message:
-      return (
+      return user === message.username ? (
+        <li className="flex flex-row items-start justify-end gap-x-1">
+          <span>
+            <span className="chat-message">{`${message.body}`}</span>
+          </span>
+        </li>
+      ) : (
         <li className="flex flex-row items-start gap-x-1">
           <span>
             <span className={`${message.color} font-bold`}>
