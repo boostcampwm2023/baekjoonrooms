@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
@@ -7,6 +7,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from './user/user.module';
+import { utilities, WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 import { SocketModule } from './socket/socket.module';
 
 @Module({
@@ -29,11 +31,29 @@ import { SocketModule } from './socket/socket.module';
       synchronize: true, // production시 false로 변경
       namingStrategy: new SnakeNamingStrategy(),
     }),
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          level: 'debug',
+          format: winston.format.combine(
+            winston.format.errors({ stack: true }),
+            winston.format.timestamp(),
+            winston.format.splat(),
+            winston.format.ms(),
+            utilities.format.nestLike('BJRM', {
+              colors: true,
+              prettyPrint: true,
+            }),
+          ),
+        }),
+      ],
+    }),
+
     AuthModule,
     UserModule,
     SocketModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Logger],
 })
 export class AppModule {}
