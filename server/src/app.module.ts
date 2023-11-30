@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { utilities, WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { SocketModule } from './socket/socket.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { SocketModule } from './socket/socket.module';
     AuthModule,
     UserModule,
     SocketModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],

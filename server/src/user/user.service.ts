@@ -25,4 +25,11 @@ export class UserService {
       where: providerInfo,
     });
   }
+
+  async findUserWithRoomById(id: number) {
+    return this.userRepository.findOne({
+      where: { id },
+      relations: ['joinedRoom'],
+    });
+  }
 }
