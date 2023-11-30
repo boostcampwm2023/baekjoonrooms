@@ -48,4 +48,7 @@ export default class User extends BaseEntity {
 
   @OneToMany(() => Submission, (submission) => submission.user)
   submissions: Submission[];
+
+  @OneToMany(() => Room, (room) => room.host)
+  hostedRooms: Room[];
 }
