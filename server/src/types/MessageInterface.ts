@@ -6,11 +6,21 @@ export interface MessageInterface {
   color: string;
 }
 
-export enum ChatEvent {
-  Message = 'Message',
-  Join = 'Join',
-  Leave = 'Leave',
-  Submit = 'Submit',
-  Accepted = 'Accepted',
-  Complete = 'Complete',
-}
+// export enum ChatEvent {
+//   Message = 'Message',
+//   Join = 'Join',
+//   Leave = 'Leave',
+//   Submit = 'Submit',
+//   Accepted = 'Accepted',
+//   Complete = 'Complete',
+// }
+
+const chatEvent = {
+  Message: 'Message',
+  Join: 'Join',
+  Leave: 'Leave',
+  Submit: 'Submit',
+  Accepted: 'Accepted',
+  Complete: 'Complete',
+} as const;
+type ChatEvent = (typeof chatEvent)[keyof typeof chatEvent];
