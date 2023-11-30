@@ -1,17 +1,17 @@
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WinstonModule, utilities } from 'nest-winston';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import * as winston from 'winston';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { PassportModule } from '@nestjs/passport';
-import { UserModule } from './user/user.module';
-import { utilities, WinstonModule } from 'nest-winston';
-import * as winston from 'winston';
-import { SocketModule } from './socket/socket.module';
-import { RoomModule } from './room/room.module';
 import { ProblemModule } from './problem/problem.module';
+import { RoomModule } from './room/room.module';
+import { SocketModule } from './socket/socket.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
