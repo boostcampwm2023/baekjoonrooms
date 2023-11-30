@@ -8,6 +8,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
+  // TODO: USER가 없을 경우도 처리
   @Post()
   @ApiOperation({
     summary: '방 생성',
