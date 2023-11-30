@@ -16,8 +16,8 @@ export default function Room() {
         <RoomInfo />
         <Problems isHost={isHost} />
         <ScoreboardButton />
-        <Chat />
         <StartButton isHost={isHost} />
+        <Chat />
       </div>
     </div>
   );

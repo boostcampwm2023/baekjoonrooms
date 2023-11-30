@@ -14,7 +14,7 @@ export default function StartButton({ isHost }: { isHost: boolean }) {
     <div className="flex w-full justify-end">
       <button
         onClick={start}
-        className="flex h-[33px] w-[150px] items-center justify-center rounded-lg bg-aod_accent font-medium text-aod_white hover:opacity-80">
+        className="flex h-[33px] w-full items-center justify-center rounded-lg bg-aod_accent font-medium text-aod_white hover:opacity-80">
         {timer}
       </button>
     </div>
