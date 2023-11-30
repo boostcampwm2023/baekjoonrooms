@@ -18,6 +18,7 @@ export class RoomService {
     const user = await this.userService.findUserWithRoomById(
       createRoomDto.userId,
     );
+    if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
     if (user.joinedRoom)
       throw new BadRequestException('이미 방에 참가 중입니다.');
 
