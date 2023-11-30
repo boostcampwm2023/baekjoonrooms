@@ -33,7 +33,7 @@ export default function Message({
       return user === message.username ? (
         <li className="flex flex-row items-start justify-end gap-x-1">
           <span>
-            <span className="chat-message">{`${message.body}`}</span>
+            <span className="chat-message text-aod_white">{`${message.body}`}</span>
           </span>
         </li>
       ) : (
@@ -43,7 +43,7 @@ export default function Message({
               {message.username}
             </span>
             <span>:&nbsp;</span>
-            <span className="chat-message">{`${message.body}`}</span>
+            <span className="chat-message text-aod_white">{`${message.body}`}</span>
           </span>
         </li>
       );

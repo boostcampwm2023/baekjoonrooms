@@ -96,7 +96,7 @@ export default function Chat() {
 
       const latestMessage = messagesRef.current.lastElementChild;
       latestMessage?.scrollIntoView({
-        behavior: 'auto',
+        behavior: 'smooth',
       });
     }
 
@@ -104,23 +104,22 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className="flex flex-1 flex-col justify-end overflow-auto bg-aod_rose">
-      <div className="border-transparent mx-2 grow overflow-auto border bg-aod_cyan px-3 py-[10px]">
+    <div className="flex w-full flex-1 flex-col overflow-auto">
+      <div className="border-transparent mx-2 overflow-auto px-2 py-[10px]">
         <ul ref={messagesRef} className="flex flex-col gap-y-1.5">
           {messages.map((message, index) => (
             <Message key={index} message={message} user={user?.username} />
           ))}
         </ul>
       </div>
-      <div className="border-transparent bg-lc-fg-light focus-within:border-blue-500 hover:border-blue-500 dark:bg-lc-fg mx-2 mb-2.5 flex flex-row items-center justify-between gap-x-2 rounded-lg border py-[5px] pl-3 pr-2">
+      <div className="mx-2 mb-2.5 flex flex-row items-center justify-center gap-x-2 rounded-lg border bg-aod_white py-[5px] pl-3 pr-2">
         <form onSubmit={handleSubmitMessage} className="flex-grow">
           <input
             ref={inputRef}
             type="text"
             name="chatBox"
-            id="chatBox"
-            className="bg-lc-fg-light dark:bg-lc-fg w-full  outline-none"
-            placeholder="Type a message..."
+            className="w-full outline-none"
+            placeholder="메세지를 입력해주세요"
             spellCheck="false"
             autoComplete="off"
             autoCapitalize="off"
@@ -128,10 +127,9 @@ export default function Chat() {
           />
         </form>
 
-        <div
-          onClick={handleSubmitMessage}
-          className={` bg-lc-fg-light hover:bg-zinc-200 dark:bg-lc-fg dark:hover:bg-zinc-600 rounded-md p-2 transition-all`}></div>
-        <FaArrowRight />
+        <div onClick={handleSubmitMessage}>
+          <FaArrowRight />
+        </div>
       </div>
     </div>
   );
