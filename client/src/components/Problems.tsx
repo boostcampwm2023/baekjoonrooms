@@ -24,19 +24,18 @@ export default function Problems({ isHost }: { isHost: boolean }) {
   return (
     <>
       {isHost ? (
-        <div className="cursor-pointer" onClick={openModal}>
+        <div className="h-[120px] w-full cursor-pointer" onClick={openModal}>
           {problems.length === 0 ? (
             <div className="flex h-full w-full flex-col items-center justify-center">
-              <h1 className="text-2xl font-bold">문제를 추가해주세요!</h1>
-              <div className="text-white bg-aod_pink mt-4 rounded-lg px-4 py-2">
-                문제 추가
-              </div>
+              <h1 className="text-2xl font-bold text-aod_text">
+                문제를 추가해주세요!
+              </h1>
             </div>
           ) : (
-            <ul className="flex w-full flex-col">
+            <ul className="w-full flex-col">
               {problems.map((problem, index) => (
                 <div
-                  className="w-fit rounded-[21px] bg-aod_green/75 px-2.5 py-1 text-left text-xs"
+                  className="mt-1 w-fit rounded-[21px] bg-aod_green/75 px-2.5 py-1 text-left text-xs"
                   key={index}>
                   {problem.title}
                 </div>
@@ -45,7 +44,9 @@ export default function Problems({ isHost }: { isHost: boolean }) {
           )}
         </div>
       ) : (
-        <div>문제 출제중...</div>
+        <div className="flex h-[108px] w-full items-center justify-center text-aod_text">
+          문제 출제중...
+        </div>
       )}
       {isModalOpen && (
         <RoomSettingModal
