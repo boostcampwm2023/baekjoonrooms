@@ -47,10 +47,6 @@ export default function Chat({
       color: userColor,
     };
 
-    console.log(newChatMessage);
-
-    socket.emit('join-room', { roomCode: 'rm1234' });
-
     socket.emit('chat-message', newChatMessage);
 
     inputRef.current.value = '';
@@ -74,8 +70,6 @@ export default function Chat({
     socket.on('chat-message', (newMessage) => {
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, newMessage];
-
-        console.log(newMessage);
 
         localStorage.setItem(
           'leetRoomsMessages',
