@@ -49,7 +49,9 @@ export default function Chat({
 
     console.log(newChatMessage);
 
-    socket.emit('message', newChatMessage);
+    socket.emit('join-room', { roomCode: 'rm1234' });
+
+    socket.emit('chat-message', newChatMessage);
 
     inputRef.current.value = '';
   }
@@ -69,7 +71,7 @@ export default function Chat({
       }
     }
 
-    socket.on('message', (newMessage) => {
+    socket.on('chat-message', (newMessage) => {
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, newMessage];
 

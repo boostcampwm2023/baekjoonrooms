@@ -1,4 +1,5 @@
 import {
+  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -18,13 +19,18 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   private readonly server: Server;
 
-  handleConnection(client: Socket, ...args: any[]) {
+  handleConnection(@ConnectedSocket() client: Socket, ...args: any[]) {
     console.log(`client ${client.id} connected`);
-    client.emit('message', 'hello from server');
+    client.join('RM1234');
+    client.emit('chat-message', 'hello from server');
+    console.log(`client ${client.id} joined RM1234 end`);
   }
 
   @SubscribeMessage('join-room')
-  handleJoinRoom(client: Socket, @MessageBody() data: { roomCode: string }) {
+  handleJoinRoom(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { roomCode: string },
+  ) {
     const { roomCode } = data;
 
     console.log(
@@ -43,9 +49,12 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('chat-message')
-  handleMessage(client: Socket, @MessageBody() message: string) {
+  handleMessage(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() message: string,
+  ) {
     console.log(`handleMessage [start]: ${client.id} sent ${message}`);
-    const roomCode = 'rm1234';
+    const roomCode = 'RM1234';
     const chatResponse: ChatResponse = {
       speaker: client.id,
       message: message,
@@ -54,7 +63,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log(`handleMessage [end]: ${client.id} sent ${message}`);
   }
 
-  handleDisconnect(client: Socket) {
+  handleDisconnect(@ConnectedSocket() client: Socket) {
     console.log(`client ${client.id} disconnected`);
   }
 }
