@@ -2,6 +2,7 @@ import { Key, useEffect, useState } from 'react';
 import { FaAngleDown, FaAngleUp, FaCheck } from 'react-icons/fa6';
 
 export interface MultipleChoiceDropdownProps<T> {
+  name: string;
   options: Array<T>;
   onOptionClick: (option: T[]) => void;
   optionPostFix?: string;
@@ -13,6 +14,7 @@ export interface MultipleChoiceDropdownProps<T> {
 /**
  * Custom MultipleChoiceDropdown Component
  * @param {MultipleChoiceDropdownProps<T>} props
+ * @param {string} props.name name of dropdown
  * @param {Array<T>} props.options dropdown items with value
  * @param {Function} props.onOptionClick callback function when dropdown item is clicked
  * @param {string} props.optionPostFix postfix of dropdown item
@@ -24,6 +26,7 @@ export interface MultipleChoiceDropdownProps<T> {
  */
 
 export default function MultipleChoiceDropdown<T>({
+  name,
   options,
   onOptionClick,
   optionPostFix = '',
@@ -66,7 +69,7 @@ export default function MultipleChoiceDropdown<T>({
         }}
         className={`${buttonClassName} cursor-pointer`}>
         <div className="flex flex-row items-center gap-2">
-          <div>선택</div>
+          <div>{`${name}`}</div>
           <div className="w-4">
             {isActive ? <FaAngleUp /> : <FaAngleDown />}
           </div>

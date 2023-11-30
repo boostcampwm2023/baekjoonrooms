@@ -17,6 +17,7 @@ export default function RandomProblem() {
   return (
     <div className="flex flex-col items-center gap-2">
       <MultipleChoiceDropdown
+        name = {"태그"}
         options={['BFS', 'DFS', '에라토스테네스의 체', '구현','비트필드를 이용한 다이나믹 프로그래밍','커넥션 프로파일을 이용한 다이나믹 프로그래밍','A','B','C','D','E','F','G','H','I','J','K','L','M','N']}
         onOptionClick={onTagClick}
         buttonClassName="flex w-[232px] justify-center rounded-lg border border-aod_gutter bg-aod_white px-2 py-1 text-sm text-aod_black"
@@ -25,6 +26,7 @@ export default function RandomProblem() {
       />
       <div className="flex flex-row">
         <MultipleChoiceDropdown
+          name = {"난이도"}
           options={['Bronze', 'Silver', 'Gold', 'Platinum']}
           onOptionClick={onDifficultyClick}
           buttonClassName="flex w-[120px] justify-center rounded-lg border border-aod_gutter bg-aod_white px-2 py-1 text-sm text-aod_black"
