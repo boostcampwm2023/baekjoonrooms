@@ -9,7 +9,7 @@ export default function Problems({ isHost }: { isHost: boolean }) {
   return (
     <>
       {isHost && problems.length === 0 && (
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="flex w-full flex-col items-center justify-center">
           <h1 className="text-2xl font-bold">문제를 추가해주세요!</h1>
           <button
             className="text-white bg-aod_pink mt-4 rounded-lg px-4 py-2"
