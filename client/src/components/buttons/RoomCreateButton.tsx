@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { createRoom } from '../../apis/createRoom';
 import { useState } from 'react';
+import { RoomCreateResponseType } from '../../types/RoomCreateResponseType';
 
 export default function RoomCreateButton() {
   const [isLoading, setIsLoading] = useState(false);
@@ -8,17 +9,18 @@ export default function RoomCreateButton() {
   const navigate = useNavigate();
   const onClick = async () => {
     setIsLoading(true);
-    const roomId: string | undefined = await createRoom();
-    if (roomId === undefined) {
+    const roomInfo: RoomCreateResponseType | undefined = await createRoom();
+    if (roomInfo === undefined) {
       setTimeout(() => {
-        console.log(roomId);
+        console.log(roomInfo);
         alert('방 생성에 실패했습니다.');
         setIsLoading(false);
       }, 1000);
 
       return;
     }
-    navigate(`/room/${roomId}`, { state: { isHost: true, roomCode: roomId } });
+    const roomCode = roomInfo.code;
+    navigate(`/room/${roomCode}`, { state: { isHost: true, roomCode: roomCode } });
   };
 
   return (
