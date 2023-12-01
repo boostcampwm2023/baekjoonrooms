@@ -14,7 +14,7 @@ export default function Room() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-aod_fg">
       <div className="z-10 flex min-h-screen w-[388px] flex-col items-center gap-2 rounded-lg bg-aod_bg p-4 shadow-2xl">
-        <RoomInfo />
+        <RoomInfo roomCode={roomCode} />
         <Problems isHost={isHost} />
         <ScoreboardButton />
         <StartButton isHost={isHost} />
