@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   client:
@@ -7,7 +7,7 @@ services:
     build:
       context: ./client
     ports:
-      - '${CLIENT_PORT}:${CLIENT_PORT}'
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
     env_file:
       - ./client/.env
 
@@ -17,7 +17,7 @@ services:
     build:
       context: ./server
     ports:
-      - '${SERVER_PORT}:${SERVER_PORT}'
+      - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
       - mysql
     env_file:
@@ -30,7 +30,7 @@ services:
     container_name: mysql
     image: mysql
     ports:
-      - '${DB_PORT}:${DB_PORT}'
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - mysql_data:/var/lib/mysql
     env_file:
@@ -41,11 +41,14 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
     depends_on:
       - client
       - server
-      
+
 volumes:
   mysql_data:
