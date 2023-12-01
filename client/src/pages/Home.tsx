@@ -3,7 +3,7 @@ import { useAuthContext, useAuthUpdateContext } from '../contexts/AuthContext';
 import GithubLoginButton from '../components/buttons/GithubLoginButton';
 import { useEffect } from 'react';
 
-import { UserType } from '../types/UserType';
+import { CreateUser } from '../types/CreateUserType';
 
 export default function Home() {
   const { user } = useAuthContext();
@@ -11,7 +11,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const tempLogin = () => {
-    const tmpUser: UserType = {
+    const tmpUser: CreateUser = {
       provider: 'github',
       providerId: '123456789',
       username: 'temp',

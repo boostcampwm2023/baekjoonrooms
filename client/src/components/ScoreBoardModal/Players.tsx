@@ -1,8 +1,8 @@
-import { PlayerScoreType } from '../../types/ScoreType';
+import { PlayerScore } from '../../types/ScoreType';
 import Result from './Result';
 
 interface PlayersProps {
-  playerScore: PlayerScoreType;
+  playerScore: PlayerScore;
 }
 
 export default function Players({ playerScore }: PlayersProps) {

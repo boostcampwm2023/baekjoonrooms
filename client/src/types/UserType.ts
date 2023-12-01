@@ -1,6 +1,11 @@
-export interface UserType {
+export interface User {
+  id: number;
+  username: string;
   provider: string;
   providerId: string;
-  username: string;
   avatarUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+  joinedRoom: string;
 }
