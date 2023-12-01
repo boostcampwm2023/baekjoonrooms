@@ -4,17 +4,16 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import User from './user.entity';
-import Submission from './submission.entity';
 import Problem from './problem.entity';
+import Submission from './submission.entity';
+import User from './user.entity';
 
 @Entity()
 export default class Room extends BaseEntity {
@@ -40,8 +39,10 @@ export default class Room extends BaseEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
-  @OneToOne(() => User, { nullable: false })
-  @JoinColumn()
+  @ManyToOne(() => User, (user) => user.hostedRooms, {
+    cascade: true,
+    nullable: true,
+  })
   host: User;
 
   // 이 방에 참가한 사람들

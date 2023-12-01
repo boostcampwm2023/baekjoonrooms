@@ -35,6 +35,10 @@ services:
       - mysql_data:/var/lib/mysql
     env_file:
       - ./server/.env
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
 
   nginx:
     image: nginx:latest
