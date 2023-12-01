@@ -1,27 +1,51 @@
+import Dropdown from '../Dropdown';
+import MultipleChoiceDropdown from '../MultipleDropdown';
+
 export default function RandomProblem() {
+  const onCountClick = (option: number) => {
+    console.log(option);
+  };
+
+  const onDifficultyClick = (options: string[]) => {
+    console.log(options);
+  };
+
+  const onTagClick = (options: string[]) => {
+    console.log(options);
+  }
+
   return (
-    <form className="m-2 flex w-[250px] justify-between">
-      <select className="bg-aod_white rounded-lg px-1">
-        <option value="B5">B5</option>
-        <option value="S5">S5</option>
-        <option value="G5">G5</option>
-        <option value="P5">P5</option>
-        <option value="D5">D5</option>
-        <option value="R5">R5</option>
-      </select>
-      <select className="bg-aod_white rounded-lg px-1">
-        <option value="bfs,dfs">bfs,dfs</option>
-      </select>
-      <select className="bg-aod_white rounded-lg px-1">
-        <option value="1개">1개</option>
-        <option value="2개">2개</option>
-        <option value="3개">3개</option>
-        <option value="4개">4개</option>
-        <option value="5개">5개</option>
-      </select>
-      <button className="bg-aod_accent text-aod_white rounded-lg px-3 py-1 text-sm hover:bg-gray-600">
-        등록
-      </button>
-    </form>
+    <div className="flex flex-col items-center gap-2">
+      <MultipleChoiceDropdown
+        name = {"태그"}
+        options={['BFS', 'DFS', '에라토스테네스의 체', '구현','비트필드를 이용한 다이나믹 프로그래밍','커넥션 프로파일을 이용한 다이나믹 프로그래밍','A','B','C','D','E','F','G','H','I','J','K','L','M','N']}
+        onOptionClick={onTagClick}
+        buttonClassName="flex w-[232px] justify-center rounded-lg border border-aod_gutter bg-aod_white px-2 py-1 text-sm text-aod_black"
+        itemBoxClassName="rounded-lg border border-aod_gutter"
+        itemClassName="bg-aod_fg py-1 text-sm text-aod_text hover:bg-aod_gutter"
+      />
+      <div className="flex flex-row">
+        <MultipleChoiceDropdown
+          name = {"난이도"}
+          options={['Bronze', 'Silver', 'Gold', 'Platinum']}
+          onOptionClick={onDifficultyClick}
+          buttonClassName="flex w-[120px] justify-center rounded-lg border border-aod_gutter bg-aod_white px-2 py-1 text-sm text-aod_black"
+          itemBoxClassName="rounded-lg border border-aod_gutter"
+          itemClassName="bg-aod_fg py-1 text-sm text-aod_text hover:bg-aod_gutter"
+        />
+
+        <Dropdown
+          options={[1, 2, 3, 4]}
+          onOptionClick={onCountClick}
+          optionPostFix="개"
+          buttonClassName="rounded-lg border border-aod_gutter bg-aod_white px-2 py-1 text-sm text-aod_black"
+          itemBoxClassName="rounded-lg border border-aod_gutter"
+          itemClassName="hover:opacity-80 bg-aod_fg text-sm text-aod_text py-1 odd:bg-aod_gutter"
+        />
+        <button className="flex items-center justify-center rounded-lg bg-aod_accent px-3 py-1 text-sm text-aod_white hover:opacity-80 h-[30px]">
+          등록
+        </button>
+      </div>
+    </div>
   );
 }

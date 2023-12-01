@@ -1,8 +1,8 @@
-import { ScoreType } from '../../types/ScoreType';
+import { Score } from '../../types/ScoreType';
 import Players from './Players';
 
 interface ScoreBoardProps {
-  scores: ScoreType;
+  scores: Score;
 }
 
 export default function ScoreBoard({ scores }: ScoreBoardProps) {

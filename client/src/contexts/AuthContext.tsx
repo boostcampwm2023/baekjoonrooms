@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { UserType } from '../types/UserType';
+import { CreateUser } from '../types/CreateUserType';
 import axios from 'axios';
 
 interface AuthContextType {
-  user: UserType | null;
+  user: CreateUser | null;
 }
 
 interface AuthUpdateType {
@@ -13,16 +13,13 @@ interface AuthUpdateType {
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-// TODO: 서버의 세션 확인 api가 개발 되면 그때 localStorage로직을 변경
-
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
 
-  // 새로고침하면 여기서 다시 user가 null이 되어, 로그인이 풀린다...
-  const [user, setUser] = useState<UserType | null>(null);
+  const [user, setUser] = useState<CreateUser | null>(null);
 
   const onLogout = () => {
     // TODO: waiting for server api

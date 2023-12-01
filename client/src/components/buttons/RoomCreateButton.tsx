@@ -1,23 +1,39 @@
 import { useNavigate } from 'react-router-dom';
+import { createRoom } from '../../apis/createRoom';
+import { useState } from 'react';
+import { RoomCreateType } from '../../types/RoomCreateType';
 
 export default function RoomCreateButton() {
-  // TODO: 방 생성 api가 개발되면 그때 navigate로직을 변경
-
-  const getNewRoomId = async () => {
-    return 'q1w2e3';
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const onClick = async () => {
-    const roomId = await getNewRoomId();
-    navigate(`/room/${roomId}`, { state: { isHost: true } });
+    setIsLoading(true);
+    const roomInfo: RoomCreateType | undefined = await createRoom();
+    if (roomInfo === undefined) {
+      setTimeout(() => {
+        console.log(roomInfo);
+        alert('방 생성에 실패했습니다.');
+        setIsLoading(false);
+      }, 1000);
+
+      return;
+    }
+    const roomCode = roomInfo.code;
+    navigate(`/room/${roomCode}`, { state: { isHost: true, roomCode: roomCode } });
   };
 
   return (
-    <button
-      className="flex h-[33px] w-[150px] items-center justify-center rounded-lg bg-aod_accent font-medium text-aod_white hover:opacity-80"
-      onClick={onClick}>
-      Create room
-    </button>
+    <>
+      {isLoading ? (
+        <div>loading...</div>
+      ) : (
+        <button
+          className="flex h-[33px] w-[150px] items-center justify-center rounded-lg bg-aod_accent font-medium text-aod_white hover:opacity-80"
+          onClick={onClick}>
+          Create room
+        </button>
+      )}
+    </>
   );
 }
