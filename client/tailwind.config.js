@@ -2,6 +2,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Pretendard'],
+    },
     colors: {
       aod_fg: '#252931',
       aod_bg: '#282C34',
