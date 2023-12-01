@@ -53,12 +53,12 @@ export default function RoomSettingModal({
 
   return (
     <div
-      className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-aod_bg/80"
+      className="bg-bg/80 absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center"
       style={{ backdropFilter: 'blur(10px)' }}
       ref={modalOverlayRef}
       onClick={modalOutsideClick}>
-      <div className="z-100 relative flex h-[430px] w-[330px] flex-col items-center rounded-lg bg-aod_bg">
-        <div className="relative mb-2 mt-4 flex w-full justify-center gap-2 align-middle text-lg font-semibold text-aod_text">
+      <div className="z-100 bg-bg relative flex h-[430px] w-[330px] flex-col items-center rounded-lg">
+        <div className="text-text_default relative mb-2 mt-4 flex w-full justify-center gap-2 align-middle text-lg font-semibold">
           {isRandom ? <p>랜덤으로 출제</p> : <p>번호로 출제</p>}
           <div className="absolute right-8 top-1/2 flex -translate-y-1/2 transform gap-2">
             <button onClick={toggleType}>
@@ -93,12 +93,12 @@ export default function RoomSettingModal({
             options={[15, 30, 45]}
             optionPostFix="분"
             onOptionClick={handleTimeClick}
-            buttonClassName="rounded-lg border border-aod_gutter bg-aod_white px-5 py-1 text-sm text-aod_black"
-            itemBoxClassName="border border-aod_gutter rounded-lg"
-            itemClassName="hover:opacity-80 bg-aod_fg text-sm text-aod_text py-1 odd:bg-aod_gutter"
+            buttonClassName="rounded-lg border border-gutter bg-default_white px-5 py-1 text-sm text-default_black"
+            itemBoxClassName="border border-gutter rounded-lg"
+            itemClassName="hover:opacity-80 bg-fg text-sm text-text_default py-1 odd:bg-gutter"
           />
           <button
-            className="rounded-lg bg-aod_accent px-5 py-1 text-sm text-aod_white hover:opacity-80"
+            className="bg-accent text-default_white rounded-lg px-5 py-1 text-sm hover:opacity-80"
             onClick={settingComplete}>
             설정 완료
           </button>

@@ -10,9 +10,9 @@ export default function Result({ result }: ResultProps) {
   return (
     <div className="flex flex-1 flex-row justify-around">
       {result === ScoreResult.CORRECT ? (
-        <RxCheck className="text-aod_green" strokeWidth={2} />
+        <RxCheck className="text-green" strokeWidth={2} />
       ) : result === ScoreResult.WRONG ? (
-        <RxCross1 className="text-aod_red" strokeWidth={2} />
+        <RxCross1 className="text-red" strokeWidth={2} />
       ) : (
         <RxBorderSolid />
       )}

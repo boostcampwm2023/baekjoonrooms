@@ -23,7 +23,7 @@ export default function MockLogin() {
     <div className="flex gap-2">
       <button
         id="1"
-        className="my-2 flex items-center gap-2 rounded-lg bg-aod_black px-4 py-2.5 text-sm text-aod_text hover:hover:bg-opacity-50"
+        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '1' });
         }}>
@@ -31,7 +31,7 @@ export default function MockLogin() {
       </button>
       <button
         id="2"
-        className="my-2 flex items-center gap-2 rounded-lg bg-aod_black px-4 py-2.5 text-sm text-aod_text hover:hover:bg-opacity-50"
+        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '2' });
         }}>
@@ -39,7 +39,7 @@ export default function MockLogin() {
       </button>
       <button
         id="3"
-        className="my-2 flex items-center gap-2 rounded-lg bg-aod_black px-4 py-2.5 text-sm text-aod_text hover:hover:bg-opacity-50"
+        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '3' });
         }}>
@@ -47,7 +47,7 @@ export default function MockLogin() {
       </button>
       <button
         id="4"
-        className="my-2 flex items-center gap-2 rounded-lg bg-aod_black px-4 py-2.5 text-sm text-aod_text hover:hover:bg-opacity-50"
+        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '4' });
         }}>
