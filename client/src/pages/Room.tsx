@@ -11,8 +11,8 @@ export default function Room() {
   const isHost = location.state?.isHost;
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-aod_fg">
-      <div className="z-10 flex min-h-screen w-[600px] min-w-[400px] flex-col items-center gap-2 rounded-lg bg-aod_bg p-4 shadow-2xl">
+    <div className="flex min-h-screen items-center justify-center bg-aod_fg">
+      <div className="z-10 flex min-h-screen w-[388px] flex-col items-center gap-2 rounded-lg bg-aod_bg p-4 shadow-2xl">
         <RoomInfo />
         <Problems isHost={isHost} />
         <ScoreboardButton />
