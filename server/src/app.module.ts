@@ -33,23 +33,23 @@ import { UserModule } from './user/user.module';
       synchronize: true, // production시 false로 변경
       namingStrategy: new SnakeNamingStrategy(),
     }),
-    WinstonModule.forRoot({
-      transports: [
-        new winston.transports.Console({
-          level: 'debug',
-          format: winston.format.combine(
-            winston.format.errors({ stack: true }),
-            winston.format.timestamp(),
-            winston.format.splat(),
-            winston.format.ms(),
-            utilities.format.nestLike('BJRM', {
-              colors: true,
-              prettyPrint: true,
-            }),
-          ),
-        }),
-      ],
-    }),
+    // WinstonModule.forRoot({
+    //   transports: [
+    //     new winston.transports.Console({
+    //       level: 'debug',
+    //       format: winston.format.combine(
+    //         winston.format.errors({ stack: true }),
+    //         winston.format.timestamp(),
+    //         winston.format.splat(),
+    //         winston.format.ms(),
+    //         utilities.format.nestLike('BJRM', {
+    //           colors: true,
+    //           prettyPrint: true,
+    //         }),
+    //       ),
+    //     }),
+    //   ],
+    // }),
 
     AuthModule,
     UserModule,
