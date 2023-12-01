@@ -35,7 +35,7 @@ export class AuthController {
    */
   @Post('mock')
   @UseGuards(MockAuthGuard)
-  async mockLogin(@Req() req: Request) {
+  async mockLogin() {
     this.logger.debug('MockAuthGuard passed!');
     return 'good!';
   }
