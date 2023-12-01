@@ -45,10 +45,12 @@ export class MockStrategy extends PassportStrategy(StrategyLocal) {
     this.logger.debug('MockStrategy.constructor');
   }
 
-  async validate(username, password) {
-    this.logger.debug('[start] MockStrategy.validate', username);
+  async validate(username: string, password: string) {
+    this.logger.debug(
+      'Test whether (username, password) exists in the mock database...',
+    );
+
     const user = this.authService.validateMockUsers(username, password);
-    this.logger.debug('[end] MockStrategy.validate', user);
     return user;
   }
 }

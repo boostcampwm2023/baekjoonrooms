@@ -1,5 +1,10 @@
 import { AuthGuard } from '@nestjs/passport';
-import { CanActivate, ExecutionContext, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  CanActivate,
+  ExecutionContext,
+  Logger,
+} from '@nestjs/common';
 
 export class GithubAuthGuard extends AuthGuard('github') {
   private readonly logger = new Logger(GithubAuthGuard.name);
@@ -15,7 +20,8 @@ export class GithubAuthGuard extends AuthGuard('github') {
     const request = context.switchToHttp().getRequest();
     const isAuthenticated = request.isAuthenticated();
     if (isAuthenticated) {
-      return true;
+      this.logger.error(`Already logged in via session!`);
+      return false;
     }
 
     this.logger.debug('isAuthenticated is ', isAuthenticated);
@@ -31,9 +37,6 @@ export class GithubAuthGuard extends AuthGuard('github') {
   }
 }
 
-/**
- * always return true
- */
 export class MockAuthGuard extends AuthGuard('local') {
   private readonly logger = new Logger(MockAuthGuard.name);
 
@@ -41,18 +44,26 @@ export class MockAuthGuard extends AuthGuard('local') {
     this.logger.debug('[start] MockAuthGuard canActivate');
     const request = context.switchToHttp().getRequest();
     const isAuthenticated = request.isAuthenticated();
-    this.logger.debug('request.isAuthenticated() is ', isAuthenticated);
+
     if (isAuthenticated) {
-      return true;
+      this.logger.error('Already logged in via session!');
+      throw new BadRequestException('Already logged in!');
+    } else {
+      this.logger.debug(
+        'No record in session. Now we are logging in... with mock strategy',
+      );
     }
 
     const result = (await super.canActivate(context)) as boolean;
-    this.logger.debug('super.canActivate result is ', result);
+
     if (result) {
+      this.logger.debug(`Now we ask passport to record this session...`);
       await super.logIn(request);
+      this.logger.debug(`Session recording successful!`);
+    } else {
+      this.logger.fatal(`login failed!`);
     }
-    this.logger.debug('[end] MockAuthGuard canActivate');
-    return true;
+    return result;
   }
 }
 
@@ -66,12 +77,10 @@ export class SessionAuthGuard implements CanActivate {
   private readonly logger = new Logger(SessionAuthGuard.name);
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    this.logger.debug('[start] SessionAuthGuard canActivate');
+    this.logger.debug('start canActivate');
     const request = context.switchToHttp().getRequest();
-    this.logger.debug(
-      'request.isAuthenticated() is ',
-      request.isAuthenticated(),
-    );
+    const isAuthenticated = request.isAuthenticated();
+    this.logger.debug(`isAuthenticated is ${isAuthenticated}`);
     return request.isAuthenticated();
   }
 }
