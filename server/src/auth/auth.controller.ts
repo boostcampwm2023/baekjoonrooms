@@ -24,20 +24,17 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(GithubAuthGuard)
-  async authCallback(@Req() req: Request) {
+  async authCallback(@Req() req: Request, @Res() res: Response) {
     this.logger.debug('authCallback...');
-    return "You've been authenticated.";
+    res.redirect(`${process.env.CLIENT_URL}/home`);
   }
 
-  /**
-   * Always login successfully.
-   * /auth/mock/1 makes the user with id 1 logged in.
-   */
   @Post('mock')
   @UseGuards(MockAuthGuard)
   async mockLogin() {
     this.logger.debug('MockAuthGuard passed!');
-    return 'good!';
+    // res.redirect(`${process.env.CLIENT_URL}/home`);
+    return 'mock user login successful!';
   }
 
   @Get('logout')
