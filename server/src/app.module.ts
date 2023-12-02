@@ -12,6 +12,7 @@ import { ProblemModule } from './problem/problem.module';
 import { RoomModule } from './room/room.module';
 import { SocketModule } from './socket/socket.module';
 import { UserModule } from './user/user.module';
+import { ShortLoggerService } from './short-logger/short-logger.service';
 
 @Module({
   imports: [
@@ -33,24 +34,6 @@ import { UserModule } from './user/user.module';
       synchronize: true, // production시 false로 변경
       namingStrategy: new SnakeNamingStrategy(),
     }),
-    // WinstonModule.forRoot({
-    //   transports: [
-    //     new winston.transports.Console({
-    //       level: 'debug',
-    //       format: winston.format.combine(
-    //         winston.format.errors({ stack: true }),
-    //         winston.format.timestamp(),
-    //         winston.format.splat(),
-    //         winston.format.ms(),
-    //         utilities.format.nestLike('BJRM', {
-    //           colors: true,
-    //           prettyPrint: true,
-    //         }),
-    //       ),
-    //     }),
-    //   ],
-    // }),
-
     AuthModule,
     UserModule,
     SocketModule,
@@ -58,6 +41,6 @@ import { UserModule } from './user/user.module';
     ProblemModule,
   ],
   controllers: [AppController],
-  providers: [AppService, Logger],
+  providers: [AppService, Logger, ShortLoggerService],
 })
 export class AppModule {}

@@ -6,6 +6,7 @@ import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
+import { ShortLoggerService } from './short-logger/short-logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,6 +18,8 @@ async function bootstrap() {
     },
   });
   // app.enableCors();
+
+  app.useLogger(new ShortLoggerService());
 
   morganSetup(app);
 
@@ -72,13 +75,13 @@ function morganSetup(app) {
       hour: 'numeric',
       minute: '2-digit',
       second: '2-digit',
-      hour12: true,
+      hour12: false,
     });
   });
 
   app.use(
     morgan(
-      '-->>> [:formatted-date] :remote-addr :remote-user ":method :url HTTP/:http-version"',
+      '\n-->>> [:formatted-date] :remote-addr :remote-user ":method :url HTTP/:http-version"',
       {
         immediate: true,
       },
