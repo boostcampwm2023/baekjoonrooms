@@ -2,9 +2,8 @@ import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { WinstonModule, utilities } from 'nest-winston';
+
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import * as winston from 'winston';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
