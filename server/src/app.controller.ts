@@ -22,6 +22,6 @@ export class AppController {
 
   @Get('session')
   getSession(@Req() req: Request) {
-    return req.user ?? 'no session';
+    return req.user;
   }
 }
