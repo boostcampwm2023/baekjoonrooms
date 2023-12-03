@@ -15,7 +15,7 @@ export default function ProblemList({
   };
 
   return (
-    <div className="m-2 flex h-[250px] w-[250px] flex-col items-center rounded-lg border-2 border-aod_gutter p-4">
+    <div className="border-gutter m-2 flex h-[250px] w-[250px] flex-col items-center rounded-lg border-2 p-4">
       {problemList.map((problem, index) => (
         <div className="flex w-full justify-between" key={index}>
           <div className="w-[150px] rounded-lg font-semibold">

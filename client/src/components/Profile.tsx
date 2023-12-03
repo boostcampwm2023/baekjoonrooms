@@ -11,7 +11,9 @@ export default function Profile() {
         src={user!.avatarUrl}
         alt="프로필 이미지"
       />
-      <p className="text-lg font-semibold text-aod_text">{user!.username}</p>
+      <p className="text-text_default text-lg font-semibold">
+        {user!.username}
+      </p>
     </div>
   );
 }

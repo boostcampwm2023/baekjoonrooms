@@ -30,20 +30,22 @@ export default function ScoreBoardModal({
 }: ModalProps) {
   return (
     <div
-      className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-aod_bg/80"
+      className="bg-bg/80 absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center"
       style={{ backdropFilter: 'blur(10px)' }}
       ref={modalOverlayRef}
       onClick={modalOutsideClick}>
-      <div className="relative flex h-[430px] w-[330px] flex-col items-center rounded-2xl border-[0.5px] border-aod_gutter bg-aod_bg">
+      <div className="bg-bg border-gutter relative flex h-[430px] w-[330px] flex-col items-center rounded-2xl border-[0.5px]">
         <button className="absolute right-4 top-4" onClick={closeModal}>
           <FaXmark style={iconStyle} />
         </button>
-        <div className="flex w-full flex-col items-center gap-y-[2px] border-b-[0.5px] border-aod_gutter px-5 py-3">
+        <div className="border-gutter flex w-full flex-col items-center gap-y-[2px] border-b-[0.5px] px-5 py-3">
           <div className="flex flex-row items-baseline gap-2">
             <FaChartSimple />
-            <div className="text-lg font-medium text-aod_text">Scoreboard</div>
+            <div className="text-text_default text-lg font-medium">
+              Scoreboard
+            </div>
           </div>
-          <div className="text-xs text-aod_text">3 online</div>
+          <div className="text-text_default text-xs">3 online</div>
         </div>
         <ScoreBoard scores={mockScores}></ScoreBoard>
       </div>

@@ -40,12 +40,12 @@ export default function SelectProblem({
       className="m-2 flex w-[250px] justify-between"
       onSubmit={registerProblem}>
       <input
-        className="rounded-lg bg-aod_white px-2"
+        className="bg-default_white rounded-lg px-2"
         placeholder="문제를 입력하시오"
         value={problem.title}
         onChange={onChangeInput}
       />
-      <button className="rounded-lg bg-aod_accent px-3 py-1 text-sm text-aod_white hover:opacity-80">
+      <button className="bg-accent text-default_white rounded-lg px-3 py-1 text-sm hover:opacity-80">
         등록
       </button>
     </form>

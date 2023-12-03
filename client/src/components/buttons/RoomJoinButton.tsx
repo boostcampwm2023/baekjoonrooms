@@ -21,13 +21,13 @@ export default function RoomJoinButton() {
   return (
     <form className="flex items-center justify-between gap-2">
       <input
-        className="rounded-lg bg-aod_white px-2 py-1"
+        className="bg-default_white rounded-lg px-2 py-1"
         placeholder="Room code"
         value={roomCode}
         onChange={(e) => setRoomCode(e.target.value)}
       />
       <button
-        className="h-[33px] w-[60px] items-center justify-center rounded-lg bg-aod_accent font-medium text-aod_white hover:opacity-80"
+        className="bg-accent text-default_white h-[33px] w-[60px] items-center justify-center rounded-lg font-medium hover:opacity-80"
         onClick={onClick}>
         Join
       </button>
