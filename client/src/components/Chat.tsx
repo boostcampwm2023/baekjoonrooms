@@ -41,7 +41,7 @@ export default function Chat() {
       username: user?.username || 'Anonymous',
       body: inputText,
       chatEvent: ChatEvent.Message,
-      color: 'text-aod_purple', // TODO: 서버에서 설정
+      color: 'text-purple', // TODO: 서버에서 설정
     };
 
     socket.emit('chat-message', newChatMessage);
@@ -112,7 +112,7 @@ export default function Chat() {
           ))}
         </ul>
       </div>
-      <div className="mx-2 mb-2.5 flex flex-row items-center justify-center gap-x-2 rounded-lg border bg-aod_white py-[5px] pl-3 pr-2">
+      <div className="bg-default_white mx-2 mb-2.5 flex flex-row items-center justify-center gap-x-2 rounded-lg border py-[5px] pl-3 pr-2">
         <form onSubmit={handleSubmitMessage} className="flex-grow">
           <input
             ref={inputRef}

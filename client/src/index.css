@@ -1,3 +1,90 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* atom-one-dark */
+:root {
+  --color--fg: #252931;
+  --color--bg: #282c34;
+  --color--gutter: #1d2025;
+  --color--guide: #cccccc;
+  --color--text: #abb2bf;
+  --color--accent: #528bff;
+  --color--cyan: #56b6c2;
+  --color--blue: #61afef;
+  --color--purple: #c678dd;
+  --color--green: #98c379;
+  --color--rose: #e06c75;
+  --color--orange: #d19a66;
+  --color--red: #be5046;
+  --color--gold: #e5c07b;
+}
+
+:root[data-theme='atom-one-dark'] {
+  --color--fg: #252931;
+  --color--bg: #282c34;
+  --color--gutter: #1d2025;
+  --color--guide: #cccccc;
+  --color--text: #abb2bf;
+  --color--accent: #528bff;
+  --color--cyan: #56b6c2;
+  --color--blue: #61afef;
+  --color--purple: #c678dd;
+  --color--green: #98c379;
+  --color--rose: #e06c75;
+  --color--orange: #d19a66;
+  --color--red: #be5046;
+  --color--gold: #e5c07b;
+}
+
+:root[data-theme='atom-one-light'] {
+  --color--fg: #383a42;
+  --color--bg: #fafafa;
+  --color--gutter: #a1a1a1;
+  --color--guide: #cfd0d1;
+  --color--text: #383a42;
+  --color--accent: #528bff;
+  --color--cyan: #56b6c2;
+  --color--blue: #61afef;
+  --color--purple: #c678dd;
+  --color--green: #98c379;
+  --color--rose: #e06c75;
+  --color--orange: #d19a66;
+  --color--red: #be5046;
+  --color--gold: #e5c07b;
+}
+
+/* 아래 두개는 copilot이 적어준거임 신뢰 ㄴㄴ */
+:root[data-theme='github-dark'] {
+  --color--fg: #c9d1d9;
+  --color--bg: #0d1117;
+  --color--gutter: #161b22;
+  --color--guide: #21262d;
+  --color--text: #8b949e;
+  --color--accent: #58a6ff;
+  --color--cyan: #79c0ff;
+  --color--blue: #58a6ff;
+  --color--purple: #bc8cff;
+  --color--green: #56d364;
+  --color--rose: #ff7b72;
+  --color--orange: #ffab70;
+  --color--red: #ff7b72;
+  --color--gold: #ffd76d;
+}
+
+:root[data-theme='github-light'] {
+  --color--fg: #24292e;
+  --color--bg: #ffffff;
+  --color--gutter: #f6f8fa;
+  --color--guide: #d1d5da;
+  --color--text: #24292e;
+  --color--accent: #0366d6;
+  --color--cyan: #79c0ff;
+  --color--blue: #0366d6;
+  --color--purple: #6f42c1;
+  --color--green: #28a745;
+  --color--rose: #d73a49;
+  --color--orange: #e36209;
+  --color--red: #cb2431;
+  --color--gold: #ffd33d;
+}

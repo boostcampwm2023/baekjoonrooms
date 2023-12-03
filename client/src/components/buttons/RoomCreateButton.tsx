@@ -20,7 +20,9 @@ export default function RoomCreateButton() {
       return;
     }
     const roomCode = roomInfo.code;
-    navigate(`/room/${roomCode}`, { state: { isHost: true, roomCode: roomCode } });
+    navigate(`/room/${roomCode}`, {
+      state: { isHost: true, roomCode: roomCode },
+    });
   };
 
   return (
@@ -29,7 +31,7 @@ export default function RoomCreateButton() {
         <div>loading...</div>
       ) : (
         <button
-          className="flex h-[33px] w-[150px] items-center justify-center rounded-lg bg-aod_accent font-medium text-aod_white hover:opacity-80"
+          className="bg-accent text-default_white flex h-[33px] w-[150px] items-center justify-center rounded-lg font-medium hover:opacity-80"
           onClick={onClick}>
           Create room
         </button>

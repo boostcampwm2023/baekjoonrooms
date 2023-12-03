@@ -6,18 +6,22 @@ import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
+import { ShortLoggerService } from './short-logger/short-logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: 'http://localhost:5173',
-      methods: 'GET ,HEAD, PUT, PATCH, POST, DELETE',
+      origin: process.env.CLIENT_URL,
+      methods: 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
       allowedHeaders: 'Content-Type, Accept',
       credentials: true,
     },
   });
+  // app.enableCors();
 
-  app.use(morgan('dev'));
+  app.useLogger(new ShortLoggerService());
+
+  morganSetup(app);
 
   app.use(cookieParser());
 
@@ -56,3 +60,39 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+function morganSetup(app) {
+  morgan.token('status-message', (req, res) => {
+    return res.statusMessage;
+  });
+
+  morgan.token('formatted-date', () => {
+    const date = new Date();
+    return date.toLocaleString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+  });
+
+  app.use(
+    morgan(
+      '\n-->>> [:formatted-date] :remote-addr :remote-user ":method :url HTTP/:http-version"',
+      {
+        immediate: true,
+      },
+    ),
+  );
+  app.use(
+    morgan(
+      '<<<-- [:formatted-date] :status :status-message :response-time :res[content-length]',
+      {
+        immediate: false,
+      },
+    ),
+  );
+}

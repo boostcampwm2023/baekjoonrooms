@@ -5,7 +5,7 @@ export default function LogoutButton() {
 
   return (
     <button
-      className="text-aod_text_alt  bg-aod_gutter m-4 rounded-lg p-2.5 px-5 text-sm hover:bg-gray-600"
+      className="text-guide  hover:bg-gray-600 bg-gutter m-4 rounded-lg p-2.5 px-5 text-sm"
       onClick={onLogout}>
       Log out
     </button>

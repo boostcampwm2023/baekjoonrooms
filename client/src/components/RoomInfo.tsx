@@ -15,7 +15,7 @@ export default function RoomInfo({ roomCode }: { roomCode: string }) {
   return (
     <>
       <div className="flex w-full items-center justify-between">
-        <div className="flex flex-row items-center rounded-lg text-aod_text">
+        <div className="text-text_default flex flex-row items-center rounded-lg">
           <div className="pr-3 text-xl font-bold">{roomCode}</div>
           <button onClick={copyToClipboard}>
             <FaRegCopy />
@@ -23,7 +23,7 @@ export default function RoomInfo({ roomCode }: { roomCode: string }) {
         </div>
         <ExitButton />
       </div>
-      <ToastContainer toastClassName={'bg-aod_fg text-aod_text'} />
+      <ToastContainer toastClassName={'bg-fg text-text_default'} />
     </>
   );
 }

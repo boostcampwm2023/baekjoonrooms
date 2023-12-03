@@ -8,7 +8,7 @@ export default function GithubLoginButton() {
 
   return (
     <button
-      className="hover:bg-gray-600 my-2 flex items-center gap-2 rounded-lg bg-aod_black px-4 py-2.5 text-sm text-aod_text"
+      className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:bg-opacity-50"
       onClick={login}>
       <FaGithub size="1rem" />
       Login with GitHub
