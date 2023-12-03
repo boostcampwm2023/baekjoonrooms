@@ -62,7 +62,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={contextValue}>
-      {children}
+      <div className="relative">{children}</div>
     </ThemeContext.Provider>
   );
 };

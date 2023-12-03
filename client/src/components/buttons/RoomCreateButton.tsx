@@ -31,7 +31,7 @@ export default function RoomCreateButton() {
         <div>loading...</div>
       ) : (
         <button
-          className="bg-accent text-default_white flex h-[33px] w-[150px] items-center justify-center rounded-lg font-medium hover:opacity-80"
+          className="flex h-[33px] w-[150px] items-center justify-center rounded-lg bg-accent font-medium text-default_white hover:opacity-80"
           onClick={onClick}>
           Create room
         </button>
