@@ -57,8 +57,8 @@ export default function RoomSettingModal({
       style={{ backdropFilter: 'blur(10px)' }}
       ref={modalOverlayRef}
       onClick={modalOutsideClick}>
-      <div className="z-100 bg-bg relative flex h-[430px] w-[330px] flex-col items-center rounded-lg">
-        <div className="text-text_default relative mb-2 mt-4 flex w-full justify-center gap-2 align-middle text-lg font-semibold">
+      <div className="z-100 relative flex h-[430px] w-[330px] flex-col items-center rounded-lg bg-bg">
+        <div className="relative mb-2 mt-4 flex w-full justify-center gap-2 align-middle text-lg font-semibold text-text_default">
           {isRandom ? <p>랜덤으로 출제</p> : <p>번호로 출제</p>}
           <div className="absolute right-8 top-1/2 flex -translate-y-1/2 transform gap-2">
             <button onClick={toggleType}>
@@ -98,7 +98,7 @@ export default function RoomSettingModal({
             itemClassName="hover:opacity-80 bg-fg text-sm text-text_default py-1 odd:bg-gutter"
           />
           <button
-            className="bg-accent text-default_white rounded-lg px-5 py-1 text-sm hover:opacity-80"
+            className="rounded-lg bg-accent px-5 py-1 text-sm text-default_white hover:opacity-80"
             onClick={settingComplete}>
             설정 완료
           </button>

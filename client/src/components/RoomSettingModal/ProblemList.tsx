@@ -21,16 +21,16 @@ export default function ProblemList({
   };
 
   return (
-    <div className="border-gutter m-2 flex h-[250px] w-[250px] flex-col items-center rounded-lg border-2 p-4">
+    <div className="m-2 flex h-[250px] w-[250px] flex-col items-center rounded-lg border-2 border-gutter p-4">
       {problemList.map((problem, index) => (
         <div
           className="mt-1 flex h-[24px] w-[214px] justify-between"
           key={index}>
-          <div className="max-w-[174px] overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[21px] bg-aod_green/20 px-2.5 py-1 text-left text-xs text-aod_green">
+          <div className="bg-green/20 max-w-[174px] overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[21px] px-2.5 py-1 text-left text-xs text-green">
             {problem.title}
           </div>
           <button
-            className="text-aod_text"
+            className="text-text_default"
             onClick={() => {
               deleteProblem(index);
             }}>
