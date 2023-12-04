@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import axios from 'axios';
+import { joinRoom } from '../../apis/joinRoom';
 
 export default function RoomJoinButton() {
   const [roomCode, setRoomCode] = useState<string>('');
 
-  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
   const navigate = useNavigate();
 
   const onClick = async (
@@ -21,13 +21,7 @@ export default function RoomJoinButton() {
     }
 
     try {
-      await axios.post(
-        `${VITE_BASE_URL}/room/${roomCode}`,
-        {},
-        {
-          withCredentials: true,
-        },
-      );
+      await joinRoom(roomCode);
 
       navigate(`/room/${roomCode}`, {
         state: { roomCode: roomCode, isHost: false },
@@ -40,7 +34,7 @@ export default function RoomJoinButton() {
         setRoomCode('');
       } else {
         console.error(err);
-        console.trace(err);
+        throw err;
       }
     }
   };
