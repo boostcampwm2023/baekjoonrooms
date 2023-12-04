@@ -53,7 +53,7 @@ export default function Problems({ isHost }: { isHost: boolean }) {
               ))}
               <div className="absolute top-3 right-3 cursor-pointer"
               onClick={openModal}>
-                <FaCog size={32} color="white"/>
+                <FaCog size={32} color={`gray`}/>
               </div>
             </div>
           )}
