@@ -1,6 +1,6 @@
-import { Controller, Logger, Post, Req } from '@nestjs/common';
+import { Controller, Logger, Param, Post, Req } from '@nestjs/common';
 import { RoomService } from './room.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import User from '../entities/user.entity';
 
@@ -24,5 +24,12 @@ export class RoomController {
     const user: User = req.user as User;
     this.logger.debug(`user creating room: ${user}`);
     return await this.roomService.createRoom(user);
+  }
+
+  @Post(':code')
+  async joinRoom(@Param('code') code: string, @Req() req: Request) {
+    const user: User = req.user as User;
+    this.logger.debug(`user joining room: ${user} with code ${code}`);
+    return await this.roomService.addUserToRoom(user, code);
   }
 }

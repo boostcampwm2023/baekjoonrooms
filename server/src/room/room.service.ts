@@ -26,7 +26,7 @@ export class RoomService {
     });
     this.logger.debug('user from db:', util.inspect(user));
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
-    if (user.joinedRooms)
+    if (user.joinedRooms && user.joinedRooms.length > 0)
       throw new BadRequestException('이미 방에 참가 중입니다.');
 
     const roomCode = await this.createRoomCode(user.username);
@@ -41,5 +41,25 @@ export class RoomService {
     const hashSource = `${username}${currentTime}`;
     const hash = crypto.createHash('sha256').update(hashSource).digest('hex');
     return hash.substring(0, 6).toUpperCase();
+  }
+
+  async addUserToRoom(userSession: User, roomCode: string) {
+    const { provider, providerId } = userSession;
+    const user: User = await this.userService.findUserByProviderInfo({
+      provider,
+      providerId,
+    });
+    const room = await this.roomRepository.findOne({
+      where: { code: roomCode },
+    });
+
+    if (!room) throw new BadRequestException('존재하지 않는 방입니다.');
+
+    if (room.users.find((user) => user.id === userSession.id))
+      throw new BadRequestException('이미 참가한 방입니다.');
+
+    room.users.push(user);
+
+    return room.save();
   }
 }
