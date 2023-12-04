@@ -5,7 +5,6 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -45,8 +44,7 @@ export default class User extends BaseEntity {
     cascade: true,
     nullable: true,
   })
-  @JoinTable()
-  joinedRoom: Room;
+  joinedRooms: Room[];
 
   @OneToMany(() => Submission, (submission) => submission.user)
   submissions: Submission[];

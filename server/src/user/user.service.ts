@@ -29,7 +29,7 @@ export class UserService {
   async findUserWithRoomById(id: number) {
     return this.userRepository.findOne({
       where: { id },
-      relations: ['joinedRoom'],
+      relations: ['joinedRooms'],
     });
   }
 }

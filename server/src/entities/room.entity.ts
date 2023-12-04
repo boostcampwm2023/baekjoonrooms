@@ -47,7 +47,7 @@ export default class Room extends BaseEntity {
   host: User;
 
   // 이 방에 참가한 사람들
-  @ManyToMany(() => User, (user) => user.joinedRoom)
+  @ManyToMany(() => User, (user) => user.joinedRooms)
   @JoinTable()
   users: User[];
 

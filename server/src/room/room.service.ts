@@ -19,7 +19,7 @@ export class RoomService {
       createRoomDto.userId,
     );
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
-    if (user.joinedRoom)
+    if (user.joinedRooms.length > 0)
       throw new BadRequestException('이미 방에 참가 중입니다.');
 
     const roomCode = await this.createRoomCode(user.username);
