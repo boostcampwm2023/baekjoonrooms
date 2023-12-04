@@ -2,8 +2,10 @@ import axios from 'axios';
 import { RoomCreateType } from '../types/RoomCreateType';
 
 export async function createRoom(): Promise<RoomCreateType | undefined> {
+  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
+
   return await axios
-    .post('http://api.baekjoonrooms.com/room', {
+    .post(`${VITE_BASE_URL}/room`, {
       userId: 1,
     })
     .then((response) => {
