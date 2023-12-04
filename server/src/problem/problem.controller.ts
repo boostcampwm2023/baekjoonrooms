@@ -1,7 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { RandomProblemDto } from './dto/random.problem.dto';
 import { SearchProblemDto } from './dto/search.problem.dto';
 import { ProblemService } from './problem.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('problem')
 @ApiTags('problem')
@@ -16,5 +17,10 @@ export class ProblemController {
   })
   async searchProblem(@Query() searchProblemDto: SearchProblemDto) {
     return this.problemService.searchProblem(searchProblemDto);
+  }
+
+  @Get('random')
+  async randomProblem(@Query() randomProblemDto: RandomProblemDto) {
+    return this.problemService.getRandomProblem(randomProblemDto);
   }
 }
