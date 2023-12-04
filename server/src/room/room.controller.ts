@@ -32,4 +32,11 @@ export class RoomController {
     this.logger.debug(`user joining room: ${user} with code ${code}`);
     return await this.roomService.addUserToRoom(user, code);
   }
+
+  @Post('exit')
+  async exitRoom(@Req() req: Request) {
+    const user: User = req.user as User;
+    this.logger.debug(`user ${user} exiting room`);
+    return await this.roomService.exitRoom(user);
+  }
 }
