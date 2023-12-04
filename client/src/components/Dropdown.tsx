@@ -1,4 +1,4 @@
-import { Key, useState } from 'react';
+import { Key, useEffect, useRef, useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 
 export interface DropdownProps<T> {
@@ -32,8 +32,29 @@ export default function Dropdown<T>({
 }: DropdownProps<T>): JSX.Element {
   const [isActive, setIsActive] = useState(false);
   const [selected, setIsSelected] = useState<T>(options[0]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const dropdwonOutsiedClick = (event: MouseEvent) => {
+    const targetElement = document.elementFromPoint(
+      event.clientX,
+      event.clientY,
+    );
+
+    if (dropdownRef.current && !dropdownRef.current.contains(targetElement)) {
+      setIsActive(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', dropdwonOutsiedClick);
+
+    return () => {
+      document.removeEventListener('click', dropdwonOutsiedClick);
+    };
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <div
         onClick={() => {
           setIsActive(!isActive);
@@ -45,7 +66,7 @@ export default function Dropdown<T>({
         </div>
       </div>
       <ol
-        className={`${itemBoxClassName} absolute overflow-hidden flex w-full`}
+        className={`${itemBoxClassName} absolute flex w-full overflow-hidden`}
         style={{ display: isActive ? 'block' : 'none' }}>
         {options.map((option) => (
           <li
@@ -55,7 +76,7 @@ export default function Dropdown<T>({
               setIsActive(!isActive);
               onOptionClick(option);
             }}
-            className={`${itemClassName} flex justify-center cursor-pointer`}>
+            className={`${itemClassName} flex cursor-pointer justify-center`}>
             {option + optionPostFix}
           </li>
         ))}

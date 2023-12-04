@@ -3,7 +3,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeProvider';
-import ThemeComponent from './components/ThemedComponent';
+import ThemeComponent from './components/temp/ThemedComponent';
 
 const queryClient = new QueryClient();
 

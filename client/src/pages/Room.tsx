@@ -12,8 +12,8 @@ export default function Room() {
   const roomCode = location.state?.roomCode;
 
   return (
-    <div className="bg-fg flex min-h-screen items-center justify-center">
-      <div className="bg-bg z-10 flex min-h-screen w-[388px] flex-col items-center gap-2 rounded-lg p-4 shadow-2xl">
+    <div className="flex items-center justify-center bg-fg">
+      <div className="flex max-h-screen w-full flex-col items-center gap-2 rounded-lg bg-bg p-4 shadow-2xl md:w-[70%] lg:w-[50%]">
         <RoomInfo roomCode={roomCode} />
         <Problems isHost={isHost} />
         <ScoreboardButton />

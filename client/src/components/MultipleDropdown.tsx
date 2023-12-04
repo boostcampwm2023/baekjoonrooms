@@ -1,4 +1,4 @@
-import { Key, useEffect, useState } from 'react';
+import { Key, useEffect, useRef, useState } from 'react';
 import { FaAngleDown, FaAngleUp, FaCheck } from 'react-icons/fa6';
 
 export interface MultipleChoiceDropdownProps<T> {
@@ -36,6 +36,7 @@ export default function MultipleChoiceDropdown<T>({
 }: MultipleChoiceDropdownProps<T>): JSX.Element {
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState<T[]>([]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleOptionClick = (option: T) => {
     setSelected((prevSelected) => {
@@ -53,6 +54,25 @@ export default function MultipleChoiceDropdown<T>({
     });
   };
 
+  const dropdwonOutsiedClick = (event: MouseEvent) => {
+    const targetElement = document.elementFromPoint(
+      event.clientX,
+      event.clientY,
+    );
+
+    if (dropdownRef.current && !dropdownRef.current.contains(targetElement)) {
+      setIsActive(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', dropdwonOutsiedClick);
+
+    return () => {
+      document.removeEventListener('click', dropdwonOutsiedClick);
+    };
+  }, []);
+
   // Wrap onOptionClick with useEffect to prevent exhaustive-deps - https://github.com/facebook/react/issues/14920
   useEffect(() => {
     const callback = () => {
@@ -62,7 +82,7 @@ export default function MultipleChoiceDropdown<T>({
   }, [onOptionClick, selected]);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <div
         onClick={() => {
           setIsActive(!isActive);
@@ -76,17 +96,17 @@ export default function MultipleChoiceDropdown<T>({
         </div>
       </div>
       <ol
-        className={`${itemBoxClassName} absolute z-10 flex w-full overflow-auto max-h-[320px]`}
+        className={`${itemBoxClassName} absolute z-10 flex max-h-[320px] w-full overflow-auto`}
         style={{ display: isActive ? 'block' : 'none' }}>
         {options.map((option) => (
           <li
             key={option as Key}
             onClick={() => handleOptionClick(option)}
-            className={`${itemClassName} flex cursor-pointer justify-between items-center`}>
+            className={`${itemClassName} flex cursor-pointer items-center justify-between`}>
             <div className={`w-4 p-1`}>
-              <FaCheck color={selected.includes(option) ? "green" : "gray"} />
+              <FaCheck color={selected.includes(option) ? 'green' : 'gray'} />
             </div>
-            <div className="flex-grow text-center px-1 overflow-hidden overflow-ellipsis whitespace-nowrap hover:whitespace-normal">
+            <div className="flex-grow overflow-hidden overflow-ellipsis whitespace-nowrap px-1 text-center hover:whitespace-normal">
               {option + optionPostFix}
             </div>
           </li>
