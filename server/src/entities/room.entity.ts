@@ -41,12 +41,14 @@ export default class Room extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.hostedRooms, {
     cascade: true,
+
     nullable: true,
   })
   host: User;
 
   // 이 방에 참가한 사람들
-  @OneToMany(() => User, (user) => user.joinedRoom)
+  @ManyToMany(() => User, (user) => user.joinedRoom)
+  @JoinTable()
   users: User[];
 
   @OneToMany(() => Submission, (submission) => submission.room)

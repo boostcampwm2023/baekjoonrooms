@@ -5,7 +5,8 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  ManyToOne,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -40,10 +41,11 @@ export default class User extends BaseEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt: Date;
 
-  @ManyToOne(() => Room, (room) => room.users, {
+  @ManyToMany(() => Room, (room) => room.users, {
     cascade: true,
     nullable: true,
   })
+  @JoinTable()
   joinedRoom: Room;
 
   @OneToMany(() => Submission, (submission) => submission.user)
