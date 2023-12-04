@@ -1,13 +1,7 @@
 import axios from 'axios';
+import { ProblemResponse } from '../types/Problem';
 
-export interface Problem {
-  bojProblemId: number;
-  id: number;
-  level: number;
-  title: string;
-}
-
-export async function searchProblem(searchKeyword: string): Promise<Problem[]> {
+export async function searchProblem(searchKeyword: string): Promise<ProblemResponse[]> {
   const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
 
   if(!searchKeyword) return Promise.resolve([]);
