@@ -26,7 +26,7 @@ export class RoomService {
     if (user.joinedRooms.length > 0)
       throw new BadRequestException('이미 방에 참가 중입니다.');
 
-    // 방 코드 생성 -> 방 생성 -> host를 참여자로 추가, -> 방 반환
+    // 방 코드 생성 -> 방 생성 -> host를 참여자로 추가 -> 방 반환
     const roomCode = await this.createRoomCode(user.username);
     const room = await this.roomRepository
       .create({
