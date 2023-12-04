@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import Room from 'src/entities/room.entity';
@@ -20,7 +25,7 @@ export class RoomService {
   async createRoom(userSession: User) {
     const { provider, providerId } = userSession;
 
-    const user: User = await this.userService.findUserByProviderInfo({
+    const user = await this.userService.findUserByProviderInfo({
       provider,
       providerId,
     });
@@ -28,6 +33,8 @@ export class RoomService {
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
     if (user.joinedRooms && user.joinedRooms.length > 0)
       throw new BadRequestException('이미 방에 참가 중입니다.');
+    if (user.username == null)
+      throw new BadRequestException('username이 없습니다.');
 
     const roomCode = await this.createRoomCode(user.username);
 
@@ -45,10 +52,13 @@ export class RoomService {
 
   async addUserToRoom(userSession: User, roomCode: string) {
     const { provider, providerId } = userSession;
-    const user: User = await this.userService.findUserByProviderInfo({
+    const user = await this.userService.findUserByProviderInfo({
       provider,
       providerId,
     });
+
+    if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
+
     const room = await this.roomRepository.findOne({
       where: { code: roomCode },
     });
@@ -72,5 +82,33 @@ export class RoomService {
     }
 
     return room.save();
+  }
+
+  async exitRoom(userSession: User) {
+    const { provider, providerId } = userSession;
+
+    const user = await this.userService.findUserByProviderInfo({
+      provider,
+      providerId,
+    });
+
+    if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
+
+    if (!user.joinedRooms || user.joinedRooms.length === 0)
+      throw new BadRequestException('참가 중인 방이 없습니다.');
+
+    if (user.joinedRooms.length > 1)
+      throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
+
+    const room = user.joinedRooms[0];
+    user.joinedRooms = [];
+
+    if (!room.users) {
+      throw new InternalServerErrorException('방에 참가한 유저가 없습니다.');
+    }
+    room.users.filter((user) => user.id !== userSession.id);
+
+    await Promise.all([user.save(), room.save()]);
+    return;
   }
 }
