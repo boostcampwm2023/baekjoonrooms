@@ -1,11 +1,14 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { CreateRoomDto } from './dto/create.room.dto';
+import { Controller, Logger, Post, Req } from '@nestjs/common';
 import { RoomService } from './room.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import User from '../entities/user.entity';
 
 @Controller('room')
 @ApiTags('room')
 export class RoomController {
+  private readonly logger = new Logger(RoomController.name);
+
   constructor(private readonly roomService: RoomService) {}
 
   // TODO: USER가 없을 경우도 처리
@@ -17,7 +20,9 @@ export class RoomController {
   @ApiOperation({
     summary: '방 생성',
   })
-  async createRoom(@Body() createRoomDto: CreateRoomDto) {
-    return await this.roomService.createRoom(createRoomDto);
+  async createRoom(@Req() req: Request) {
+    const user: User = req.user as User;
+    this.logger.debug(`user creating room: ${user}`);
+    return await this.roomService.createRoom(user);
   }
 }
