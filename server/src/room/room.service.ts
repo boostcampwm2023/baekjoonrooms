@@ -53,12 +53,23 @@ export class RoomService {
       where: { code: roomCode },
     });
 
-    if (!room) throw new BadRequestException('존재하지 않는 방입니다.');
+    if (!room) {
+      this.logger.debug(`room with ${roomCode} does not exist!`);
+      throw new BadRequestException('존재하지 않는 방입니다.');
+    }
 
-    if (room.users.find((user) => user.id === userSession.id))
+    if (
+      room.users?.find(
+        (user) => user.providerId === providerId && user.provider === provider,
+      )
+    )
       throw new BadRequestException('이미 참가한 방입니다.');
 
-    room.users.push(user);
+    if (room.users) {
+      room.users.push(user);
+    } else {
+      room.users = [user];
+    }
 
     return room.save();
   }
