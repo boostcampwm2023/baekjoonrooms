@@ -3,28 +3,24 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
+  Index,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Room from './room.entity';
 import User from './user.entity';
 
 @Entity()
+@Index(['room', 'user'], { unique: true })
 export default class RoomUser extends BaseEntity {
-  @PrimaryColumn()
-  roomId: number;
-
-  @PrimaryColumn()
-  userId: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @ManyToOne(() => Room, (room) => room.joinedUsers)
-  @JoinColumn({ name: 'room_id', referencedColumnName: 'id' })
   room: Room;
 
   @ManyToOne(() => User, (user) => user.joinedRooms)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
   @CreateDateColumn({ type: 'timestamp' })
