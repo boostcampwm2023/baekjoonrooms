@@ -9,7 +9,7 @@ export class AuthService {
 
   constructor(private userService: UserService) {}
 
-  async validateMockUsers(username: string, password: string): Promise<User> {
+  async validateMockUser(username: string, password: string): Promise<User> {
     const mockProviderInfo: ProviderInfo = {
       provider: username,
       providerId: password,
@@ -17,10 +17,9 @@ export class AuthService {
     const user =
       await this.userService.findUserByProviderInfo(mockProviderInfo);
 
-    if (user) {
-      this.logger.debug(`Mock user ${username} found!`);
-    } else {
+    if (user == null) {
       this.logger.debug(`Mock user ${username} not found!`);
+      throw new Error('Mock user not found');
     }
     return user;
   }

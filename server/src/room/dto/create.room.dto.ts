@@ -8,5 +8,5 @@ export class CreateRoomDto {
   })
   @IsNumber()
   @IsNotEmpty()
-  userId: number;
+  userId?: number;
 }

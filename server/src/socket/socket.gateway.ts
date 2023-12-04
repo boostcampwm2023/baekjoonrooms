@@ -21,7 +21,7 @@ import { Logger } from '@nestjs/common';
 })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  private readonly server: Server;
+  private readonly server?: Server;
 
   private readonly logger = new Logger(SocketGateway.name);
 
@@ -40,6 +40,10 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.logger.debug(
       `<--- server sent ${util.inspect(message.body)} to room RM1234`,
     );
+    if (this.server == null) {
+      this.logger.error('server is null!');
+      return;
+    }
     this.server.to('RM1234').emit('chat-message', message);
   }
 
@@ -50,6 +54,11 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('piesocket-test')
   piesocketTest(@MessageBody() body) {
     this.logger.debug(`piesocket sent ${util.inspect(body)}`);
+
+    if (this.server == null) {
+      this.logger.error('server is null!');
+      return;
+    }
     this.server
       .to('RM1234')
       .emit('piesocket-test', `${util.inspect(body)} from server!`);
