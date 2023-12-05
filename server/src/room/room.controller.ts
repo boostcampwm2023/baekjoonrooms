@@ -25,7 +25,7 @@ export class RoomController {
     this.logger.debug(`user ${user.username} creating room...`);
     const room = await this.roomService.createRoom(user);
     this.logger.debug(`room: ${room.code} successfully created!!`);
-    return room;
+    return { roomCode: room.code };
   }
 
   @Post('join')
