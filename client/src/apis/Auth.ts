@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { CreateUser } from '../types/CreateUserType';
 
-// const config = {
-//   baseUrl: import.meta.env.VITE_API_BASE_URL as string,
-// };
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
 
-export async function login(): Promise<CreateUser> {
-  // const response = await axios.post(`${config.baseUrl}/auth/login`, {});
-  // mock data from /mocks/User.json
-  const response = await axios.get('/mocks/User.json');
+export async function getSession(): Promise<CreateUser> {
+  const response = await axios.get(`${VITE_BASE_URL}/session`, {
+    withCredentials: true,
+  });
+
   return response.data;
+}
+
+export async function logout() {
+  axios.get(`${VITE_BASE_URL}/auth/logout`, { withCredentials: true });
 }
