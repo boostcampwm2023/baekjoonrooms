@@ -8,7 +8,7 @@ export default function MockLogin() {
     };
     const response = await mockLoginApi(mockUser);
     console.log(response);
-    if (response.status === 201) {
+    if (response?.status === 201) {
       console.log(response.data);
       // AuthProvider의 useEffect가 실행되지 않아서 새로고침을 해줘야 함
       // 원래라면 AuthProvider에 따로 메서드를 만들어줘야하는게 맞는데 mock이라서 그냥 새로고침으로 대체

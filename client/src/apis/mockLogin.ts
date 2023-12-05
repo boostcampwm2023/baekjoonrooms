@@ -6,5 +6,9 @@ type mockUser = {
 };
 
 export async function mockLoginApi(mockUser: mockUser) {
-  return await apiClient.post('/auth/mock', mockUser);
+  try {
+    return await apiClient.post('/auth/mock', mockUser);
+  } catch (error) {
+    console.log(error);
+  }
 }
