@@ -30,9 +30,9 @@ export default function RoomSettingModal({
 }: RoomSettingModalProps) {
   const [problem, setProblem] = useState<ProblemType>({
     title: '',
-    boj_problem_id: '',
+    boj_problem_id: undefined,
     url: '',
-    level: '',
+    level: undefined,
     tag: [],
   });
   const [problemList, setProblemList] = useState<ProblemType[]>(problems);
