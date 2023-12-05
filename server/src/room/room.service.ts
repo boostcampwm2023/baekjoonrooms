@@ -48,8 +48,8 @@ export class RoomService {
         host: user,
       })
       .save();
+    await this.roomUserService.createOrRestoreRoomUser({ room, user });
 
-    await this.roomUserService.createRoomUser({ room, user });
     return room;
   }
 
@@ -83,7 +83,7 @@ export class RoomService {
     )
       throw new BadRequestException('이미 참가한 방입니다.');
 
-    return await this.roomUserService.createRoomUser({ room, user });
+    return await this.roomUserService.createOrRestoreRoomUser({ room, user });
   }
 
   async exitRoom(userSession: User) {
