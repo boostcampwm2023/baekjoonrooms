@@ -13,29 +13,29 @@ import User from './user.entity';
 @Entity()
 export default class Submission extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   // TODO?: enum으로 바꾸기
   @Column()
-  status: string;
+  status?: string;
 
   // TODO?: enum으로 바꾸기
   @Column({ comment: '제출한 코드의 프로그래밍 언어' })
-  language: string;
+  language?: string;
 
   @Column({ type: 'text', comment: '제출한 코드' })
-  code: string;
+  code?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
-  submittedAt: Date;
+  submittedAt?: Date;
 
   // 제출한 사람(submitter)
   @ManyToOne(() => User, (user) => user.submissions, { cascade: true })
-  user: User;
+  user?: User;
 
   @ManyToOne(() => Room, (room) => room.submissions, { cascade: true })
-  room: Room;
+  room?: Room;
 
   @ManyToOne(() => Problem, (problem) => problem.submissions, { cascade: true })
-  problem: Problem;
+  problem?: Problem;
 }

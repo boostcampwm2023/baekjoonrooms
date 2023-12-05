@@ -6,13 +6,7 @@ import { SessionAuthGuard } from './auth/auth.guard';
 @UseGuards(SessionAuthGuard)
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    // @Inject(WINSTON_MODULE_NEST_PROVIDER)
-    // private readonly logger: Logger,
-  ) {
-    // (logger as unknown as WinstonLogger).setContext(AppController.name);
-  }
+  constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {

@@ -15,20 +15,20 @@ import User from './user.entity';
 @Index(['room', 'user'], { unique: true })
 export default class RoomUser extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @ManyToOne(() => Room, (room) => room.joinedUsers)
-  room: Room;
+  room?: Room;
 
   @ManyToOne(() => User, (user) => user.joinedRooms)
-  user: User;
+  user?: User;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp', nullable: true })
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
-  deletedAt: Date;
+  deletedAt?: Date;
 }
