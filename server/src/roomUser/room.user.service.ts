@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import RoomUser from 'src/entities/roomUser.entity';
-import { CreateRoomUserInput } from 'src/types/roomUser';
+import { RoomUserInput } from 'src/types/roomUser';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -11,8 +11,8 @@ export class RoomUserService {
     private readonly roomUserRepository: Repository<RoomUser>,
   ) {}
 
-  async createOrRestoreRoomUser(createRoomUserInput: CreateRoomUserInput) {
-    const { room, user } = createRoomUserInput;
+  async createOrRestoreRoomUser(roomUserInput: RoomUserInput) {
+    const { room, user } = roomUserInput;
     const roomUser = await this.roomUserRepository.findOne({
       withDeleted: true,
       where: {
@@ -23,6 +23,6 @@ export class RoomUserService {
 
     return roomUser
       ? this.roomUserRepository.recover(roomUser)
-      : this.roomUserRepository.create(createRoomUserInput).save();
+      : this.roomUserRepository.create(roomUserInput).save();
   }
 }
