@@ -5,3 +5,6 @@ node_modules/
 .husky/pre-commit
 .husky/pre-push
 /server/utils
+
+
+*.sql
