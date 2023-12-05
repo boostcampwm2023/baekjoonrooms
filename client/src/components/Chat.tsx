@@ -45,8 +45,8 @@ export default function Chat({
   }
 
   return (
-    <div className="flex w-full flex-1 flex-col overflow-auto">
-      <div className="border-transparent mx-2 overflow-auto px-2 py-[10px]">
+    <div className="flex w-full flex-1 flex-col overflow-hidden">
+      <div className="mx-2 flex-1 overflow-auto px-2 py-2">
         <ul ref={messagesRef} className="flex flex-col gap-y-1.5">
           {messages.map((message, index) => (
             <Message key={index} message={message} user={user?.username} />

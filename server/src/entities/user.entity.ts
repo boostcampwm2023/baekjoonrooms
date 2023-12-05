@@ -5,12 +5,12 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import Room from './room.entity';
+import RoomUser from './roomUser.entity';
 import Submission from './submission.entity';
 
 @Entity()
@@ -40,11 +40,8 @@ export default class User extends BaseEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt?: Date;
 
-  @ManyToMany(() => Room, (room) => room.users, {
-    cascade: true,
-    nullable: true,
-  })
-  joinedRooms?: Room[];
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.user)
+  joinedRooms?: RoomUser[];
 
   @OneToMany(() => Submission, (submission) => submission.user)
   submissions?: Submission[];

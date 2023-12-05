@@ -42,7 +42,7 @@ export class UserService {
     });
   }
 
-  async findUserWithRoomById(id: number) {
+  async findUserWithActiveRoomById(id: number) {
     return this.userRepository.findOne({
       where: { id },
       relations: ['joinedRooms'],
