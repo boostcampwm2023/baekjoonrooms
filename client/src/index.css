@@ -19,6 +19,12 @@
     --color--orange: 209 154 102;
     --color--red: 190 80 70;
     --color--gold: 229 192 123;
+    --color--level-bronze: 162 90 31;
+    --color--level-silver: 73 95 119;
+    --color--level-gold: 225 158 55;
+    --color--level-platinum: 110 223 172;
+    --color--level-diamond: 80 178 246;
+    --color--level-ruby: 234 51 101;
   }
 
   :root[data-theme='atom-one-dark'] {
@@ -36,6 +42,12 @@
     --color--orange: 209 154 102;
     --color--red: 190 80 70;
     --color--gold: 229 192 123;
+    --color--level-bronze: 162 90 31;
+    --color--level-silver: 93 115 139;
+    --color--level-gold: 225 158 55;
+    --color--level-platinum: 110 223 172;
+    --color--level-diamond: 80 178 246;
+    --color--level-ruby: 234 51 101;
   }
 
   :root[data-theme='atom-one-light'] {
@@ -53,6 +65,12 @@
     --color--orange: 209 154 102;
     --color--red: 190 80 70;
     --color--gold: 229 192 123;
+    --color--level-bronze: 160 110 60;
+    --color--level-silver: 150 160 170;
+    --color--level-gold: 220 200 110;
+    --color--level-platinum: 140 210 170;
+    --color--level-diamond: 115 180 220;
+    --color--level-ruby: 225 100 110;
   }
 
   /* 아래 두개는 copilot이 적어준거임 신뢰 ㄴㄴ */
@@ -71,6 +89,12 @@
     --color--orange: 255 171 112;
     --color--red: 255 123 114;
     --color--gold: 255 215 109;
+    --color-level-bronze: 183 97 57;
+    --color-level-silver: 137 147 157;
+    --color-level-gold: 205 165 70;
+    --color-level-platinum: 115 185 160;
+    --color-level-diamond: 95 160 215;
+    --color-level-ruby: 215 85 95;
   }
 
   :root[data-theme='github-light'] {
@@ -88,5 +112,11 @@
     --color--orange: 227 98 9;
     --color--red: 203 36 49;
     --color--gold: 255 211 61;
+    --color-level-bronze: 195 125 75;
+    --color-level-silver: 180 190 200;
+    --color-level-gold: 235 200 120;
+    --color-level-platinum: 140 200 170;
+    --color-level-diamond: 145 210 245;
+    --color-level-ruby: 245 120 130;
   }
 }

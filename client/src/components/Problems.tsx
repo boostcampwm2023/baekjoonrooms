@@ -4,6 +4,7 @@ import { FaPencil } from 'react-icons/fa6';
 import { ProblemType } from '../types/ProblemType';
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
 import { useTheme } from '../contexts/ThemeProvider';
+import { getProblemButtonColor } from '../util/getProblemButtonColor';
 
 export default function Problems({ isHost }: { isHost: boolean }) {
   const [problems, setProblems] = useState<ProblemType[]>([]);
@@ -48,7 +49,11 @@ export default function Problems({ isHost }: { isHost: boolean }) {
               {problems.map((problem, index) => (
                 <div className="mt-1 flex h-[24px]" key={index}>
                   <div
-                    className="h-[24px] max-w-[368px] cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[21px] bg-green/20 px-2.5 py-1 text-left text-xs text-green"
+                    className={`h-[24px] max-w-[368px] cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[21px] bg-${getProblemButtonColor(
+                      problem.level,
+                    )}/20 px-2.5 py-1 text-left text-xs text-${getProblemButtonColor(
+                      problem.level,
+                    )}`}
                     onClick={goSolveProblem(problem.boj_problem_id!)}>
                     {problem.boj_problem_id}. {problem.title}
                   </div>
