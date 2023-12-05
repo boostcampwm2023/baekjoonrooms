@@ -49,13 +49,18 @@ export default function Problems({ isHost }: { isHost: boolean }) {
               {problems.map((problem, index) => (
                 <div className="mt-1 flex h-[24px]" key={index}>
                   <div
-                    className={`h-[24px] max-w-[368px] cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[21px] bg-${getProblemButtonColor(
-                      problem.level,
-                    )}/20 px-2.5 py-1 text-left text-xs text-${getProblemButtonColor(
+                    className={`flex h-[24px] max-w-[368px] cursor-pointer items-center justify-center gap-2  rounded-[21px] px-2.5 py-1 text-left text-xs ${getProblemButtonColor(
                       problem.level,
                     )}`}
                     onClick={goSolveProblem(problem.boj_problem_id!)}>
-                    {problem.boj_problem_id}. {problem.title}
+                    <img
+                      className="h-[12px] w-[12px]"
+                      src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
+                      alt={`${problem.level}`}
+                    />
+                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {problem.boj_problem_id}. {problem.title}
+                    </p>
                   </div>
                 </div>
               ))}

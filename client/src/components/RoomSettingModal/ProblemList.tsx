@@ -33,13 +33,18 @@ export default function ProblemList({
           className="mt-1 flex h-[24px] w-[214px] justify-between"
           key={index}>
           <div
-            className={`max-w-[174px] cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap rounded-[21px] bg-${getProblemButtonColor(
-              problem.level,
-            )}/20 px-2.5 py-1 text-left text-xs text-${getProblemButtonColor(
+            className={`flex max-w-[174px] cursor-pointer items-center justify-center gap-2 rounded-[21px] px-2.5 py-1 text-left text-xs ${getProblemButtonColor(
               problem.level,
             )}`}
             onClick={goSolveProblem(problem.boj_problem_id!)}>
-            {problem.boj_problem_id}. {problem.title}
+            <img
+              className="h-[12px] w-[12px]"
+              src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
+              alt={`${problem.level}`}
+            />
+            <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+              {problem.boj_problem_id}. {problem.title}
+            </p>
           </div>
           <button
             className="text-text_default"
