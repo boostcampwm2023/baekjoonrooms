@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Problem from 'src/entities/problem.entity';
-import { ILike, Raw, Repository } from 'typeorm';
+import { ILike, In, Raw, Repository } from 'typeorm';
+import { RandomProblemDto } from './dto/random.problem.dto';
 import { SearchProblemDto } from './dto/search.problem.dto';
 
 @Injectable()
@@ -26,5 +27,23 @@ export class ProblemService {
         { title: ILike(`${searchKeyword}%`) },
       ],
     });
+  }
+
+  async getRandomProblem(randomProblemDto: RandomProblemDto) {
+    const { tagIds, levels, count } = randomProblemDto;
+
+    // TODO: tagIds, levels가 비어있을 경우 처리
+    const problems = await this.problemRepository.find({
+      where: {
+        level: In(levels),
+        tags: {
+          id: In(tagIds),
+        },
+      },
+      relations: { tags: true },
+    });
+
+    const shuffledProblems = problems.sort(() => 0.5 - Math.random());
+    return shuffledProblems.slice(0, count);
   }
 }
