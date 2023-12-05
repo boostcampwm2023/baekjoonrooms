@@ -13,7 +13,7 @@ export async function searchProblem(searchKeyword: string): Promise<ProblemRespo
       },
     })
     .then((res) => {
-      return res.data || [];
+      return res.data;
     })
     .catch((err) => {
       console.log(err);

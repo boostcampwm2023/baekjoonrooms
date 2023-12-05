@@ -37,13 +37,10 @@ export default function RoomSettingModal({
   });
   const [problemList, setProblemList] = useState<ProblemType[]>(problems);
   const [isRandom, setIsRandom] = useState<boolean>(false);
+  const [time, setTime] = useState<number>(15);
 
   const toggleType = () => {
     setIsRandom(!isRandom);
-  };
-
-  const handleTimeClick = (option: number) => {
-    console.log(option);
   };
 
   const settingComplete = () => {
@@ -92,7 +89,8 @@ export default function RoomSettingModal({
           <Dropdown
             options={[15, 30, 45]}
             optionPostFix="분"
-            onOptionClick={handleTimeClick}
+            selected={time}
+            setSelected={setTime}
             buttonClassName="rounded-lg border border-gutter bg-default_white px-5 py-1 text-sm text-default_black"
             itemBoxClassName="border border-gutter rounded-lg"
             itemClassName="hover:opacity-80 bg-fg text-sm text-text_default py-1 odd:bg-gutter"

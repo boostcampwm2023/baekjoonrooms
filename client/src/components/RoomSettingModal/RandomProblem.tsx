@@ -1,37 +1,44 @@
+import { useState } from 'react';
+
+import { constTags } from '../../../public/tags'
 import Dropdown from '../Dropdown';
 import MultipleChoiceDropdown from '../MultipleDropdown';
+import { randomProblem } from '../../apis/randomProblems';
+import { Tag } from '../../types/Tag';
+import { Difficulty, difficultyMapping } from '../../types/Difficulty';
 
-export interface Tag{
-  id: number;
-  name: string;
-}
 
 export default function RandomProblem() {
-  const onCountClick = (option: number) => {
-    console.log(option);
-  };
+  const [count, setCount] = useState(1);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [difficulty, setDifficulty] = useState<Difficulty[]>([]);
 
-  const onDifficultyClick = (options: string[]) => {
-    console.log(options);
-  };
-
-  const onTagClick = (options: Tag[]) => {
-    console.log(options);
-  };
-
-  const tags: Tag[] = [
-    {id:1, name: '0-1 너비 우선 탐색'},
-    {id:2, name: '2-sat'},
-    {id:3, name: '3차원 기하학'},
+  const constDifficulties: Difficulty[] = [
+    { id: 1, name: 'Bronze' },
+    { id: 2, name: 'Silver' },
+    { id: 3, name: 'Gold' },
+    { id: 4, name: 'Platinum' },
+    { id: 5, name: 'Diamond' },
+    { id: 6, name: 'Ruby' },
   ];
+
+  const requestRandomProblem = async () => {
+    const tagIds = tags.map((tag) => tag.id);
+    const difficultyIds = difficulty
+      .map((diff) => diff.id)
+      .flatMap((id) => difficultyMapping[id]);
+    const res = await randomProblem(tagIds, difficultyIds, count);
+    console.log(res);
+  };
 
   return (
     <div className="flex flex-col items-center gap-2">
       <MultipleChoiceDropdown
         name={'태그'}
-        options={tags}
-        displayNames={tags.map((tag) => tag.name)}
-        onOptionClick={onTagClick}
+        options={constTags}
+        displayNames={constTags.map((tag) => tag.name)}
+        selected={tags}
+        setSelected={setTags}
         buttonClassName="flex w-[232px] justify-center rounded-lg border border-gutter bg-default_white px-2 py-1 text-sm text-default_black"
         itemBoxClassName="rounded-lg border border-gutter"
         itemClassName="bg-fg py-1 text-sm text-text_default hover:bg-gutter"
@@ -39,22 +46,26 @@ export default function RandomProblem() {
       <div className="flex flex-row">
         <MultipleChoiceDropdown
           name={'난이도'}
-          options={['Bronze', 'Silver', 'Gold', 'Platinum']}
-          onOptionClick={onDifficultyClick}
+          options={constDifficulties}
+          displayNames={constDifficulties.map((diff) => diff.name)}
+          selected={difficulty}
+          setSelected={setDifficulty}
           buttonClassName="flex w-[120px] justify-center rounded-lg border border-gutter bg-default_white px-2 py-1 text-sm text-default_black"
           itemBoxClassName="rounded-lg border border-gutter"
           itemClassName="bg-fg py-1 text-sm text-text_default hover:bg-gutter"
         />
-
         <Dropdown
           options={[1, 2, 3, 4]}
-          onOptionClick={onCountClick}
           optionPostFix="개"
+          selected={count}
+          setSelected={setCount}
           buttonClassName="rounded-lg border border-gutter bg-default_white px-2 py-1 text-sm text-default_black"
           itemBoxClassName="rounded-lg border border-gutter"
           itemClassName="hover:opacity-80 bg-fg text-sm text-text_default py-1 odd:bg-gutter"
         />
-        <button className="bg-accent text-default_white flex h-[30px] items-center justify-center rounded-lg px-3 py-1 text-sm hover:opacity-80">
+        <button
+          className="flex h-[30px] items-center justify-center rounded-lg bg-accent px-3 py-1 text-sm text-default_white hover:opacity-80"
+          onClick={requestRandomProblem}>
           등록
         </button>
       </div>
