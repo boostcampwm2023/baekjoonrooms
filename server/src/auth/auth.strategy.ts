@@ -37,8 +37,6 @@ export class GithubStrategy extends PassportStrategy(StrategyGithub, 'github') {
       avatarUrl: _json!.avatar_url!,
     };
 
-    this.userService.findUserByProviderInfo({ provider, providerId: id });
-
     return this.userService.createOrUpdateUser(user);
   }
 }
