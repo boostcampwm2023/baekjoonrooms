@@ -1,13 +1,16 @@
 import { useState, useRef } from 'react';
-import { FaCog } from 'react-icons/fa';
+import { FaPencil } from 'react-icons/fa6';
 
 import { ProblemType } from '../types/ProblemType';
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
+import { useTheme } from '../contexts/ThemeProvider';
 
 export default function Problems({ isHost }: { isHost: boolean }) {
   const [problems, setProblems] = useState<ProblemType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOverlayRef = useRef<HTMLDivElement>(null);
+
+  const { theme } = useTheme();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -37,7 +40,7 @@ export default function Problems({ isHost }: { isHost: boolean }) {
               className="flex h-full w-full cursor-pointer items-center justify-center"
               onClick={openModal}>
               <h1 className="text-2xl font-bold text-text_default">
-                문제를 추가해주세요!
+                연필 버튼을 눌러 문제를 추가해주세요!
               </h1>
             </div>
           ) : (
@@ -51,15 +54,19 @@ export default function Problems({ isHost }: { isHost: boolean }) {
                   </div>
                 </div>
               ))}
-              <div className="absolute top-3 right-3 cursor-pointer"
-              onClick={openModal}>
-                <FaCog size={32} color={`gray`}/>
-              </div>
             </div>
           )}
+          <div
+            className="absolute right-3 top-3 cursor-pointer"
+            onClick={openModal}>
+            <FaPencil
+              size={32}
+              color={`${theme.includes('dark') ? 'white' : 'black'}`}
+            />
+          </div>
         </div>
       ) : (
-        <div className="flex h-[108px] w-full items-center justify-center text-text_default" >
+        <div className="flex h-[108px] w-full items-center justify-center text-text_default">
           문제 출제중...
         </div>
       )}
