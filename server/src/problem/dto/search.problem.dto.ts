@@ -8,5 +8,5 @@ export class SearchProblemDto {
   })
   @IsString()
   @IsNotEmpty()
-  searchKeyword: string;
+  searchKeyword?: string;
 }

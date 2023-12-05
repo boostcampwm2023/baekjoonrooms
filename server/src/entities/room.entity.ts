@@ -19,41 +19,44 @@ import User from './user.entity';
 @Entity()
 export default class Room extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  code: string;
+  code?: string;
 
   @Column({
     type: 'timestamp',
     nullable: true,
     comment: '방 내 대회 만료 시간',
   })
-  endAt: Date;
+  endAt?: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp', nullable: true })
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @ManyToOne(() => User, (user) => user.hostedRooms, {
     cascade: true,
+
     nullable: true,
   })
-  host: User;
+  host?: User;
 
-  @OneToMany(() => RoomUser, (roomUser) => roomUser.room)
-  joinedUsers: RoomUser[];
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.room, {
+    cascade: ['remove'],
+  })
+  joinedUsers?: RoomUser[];
 
   @OneToMany(() => Submission, (submission) => submission.room)
-  submissions: Submission[];
+  submissions?: Submission[];
 
   // 이 방에서 출제된 문제들
   @ManyToMany(() => Problem, (problem) => problem.rooms)
   @JoinTable()
-  problems: Problem[];
+  problems?: Problem[];
 }

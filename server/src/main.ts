@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as session from 'express-session';
@@ -7,6 +7,7 @@ import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
 import { ShortLoggerService } from './short-logger/short-logger.service';
+import { ExceptionsFilter } from './exceptions/exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,7 +18,6 @@ async function bootstrap() {
       credentials: true,
     },
   });
-  // app.enableCors();
 
   app.useLogger(new ShortLoggerService());
 
@@ -38,6 +38,9 @@ async function bootstrap() {
 
   app.use(passport.initialize());
   app.use(passport.session());
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new ExceptionsFilter(httpAdapter));
 
   app.useGlobalPipes(
     new ValidationPipe({

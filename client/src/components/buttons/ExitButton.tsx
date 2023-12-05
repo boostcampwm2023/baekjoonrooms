@@ -1,16 +1,23 @@
 import { RxExit } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
+import { exitRoom } from '../../apis/exitRoom';
 
 export default function ExitButton() {
   const navigate = useNavigate();
 
   const exit = () => {
-    navigate(`/lobby`);
+    try {
+      exitRoom();
+      navigate(`/lobby`);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   };
   return (
     <button
       id="room-exit-button"
-      className="bg-accent text-default_white flex flex-row items-center gap-x-2 rounded-lg px-2.5 py-1 hover:opacity-80"
+      className="flex flex-row items-center gap-x-2 rounded-lg bg-accent px-2.5 py-1 text-default_white hover:opacity-80"
       onClick={exit}>
       <RxExit
         style={{
