@@ -1,5 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { CreateUser } from '../types/CreateUserType';
 import axios from 'axios';
 
@@ -11,12 +17,16 @@ interface AuthUpdateType {
   onLogout: () => void;
 }
 
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
-export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<CreateUser | null>(null);
