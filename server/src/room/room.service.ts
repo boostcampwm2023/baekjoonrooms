@@ -79,16 +79,15 @@ export class RoomService {
     }
 
     if (
-      room.users?.find(
-        (user) => user.providerId === providerId && user.provider === provider,
-      )
+      room.joinedUsers &&
+      room.joinedUsers.find((joinedUser) => joinedUser.id === user.id)
     )
       throw new BadRequestException('이미 참가한 방입니다.');
 
-    if (room.users) {
-      room.users.push(user);
+    if (room.joinedUsers) {
+      room.joinedUsers.push(user);
     } else {
-      room.users = [user];
+      room.joinedUsers = [user];
     }
 
     return room.save();
@@ -122,12 +121,12 @@ export class RoomService {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
 
-    if (!room.users) {
+    if (!room.joinedUsers) {
       throw new InternalServerErrorException('방에 참가한 유저가 없습니다.');
     }
 
     // room and user delete each other
-    room.users.filter((user) => user.id !== userSession.id);
+    room.joinedUsers.filter((user) => user.id !== userSession.id);
     user.joinedRooms = [];
 
     await Promise.all([user.save(), room.save()]);
