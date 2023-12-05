@@ -40,7 +40,9 @@ export default class User extends BaseEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt?: Date;
 
-  @OneToMany(() => RoomUser, (roomUser) => roomUser.user)
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.user, {
+    cascade: ['remove'],
+  })
   joinedRooms?: RoomUser[];
 
   @OneToMany(() => Submission, (submission) => submission.user)

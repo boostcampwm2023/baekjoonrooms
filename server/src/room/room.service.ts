@@ -96,7 +96,7 @@ export class RoomService {
   async exitRoom(userSession: User) {
     const { provider, providerId } = userSession;
 
-    const user = await this.userService.findUserByProviderInfo({
+    const user = await this.userService.findUserByProviderInfoWithRooms({
       provider,
       providerId,
     });
@@ -111,24 +111,7 @@ export class RoomService {
     if (user.joinedRooms.length > 1)
       throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
 
-    const roomId = user.joinedRooms[0].id;
-    const room = await this.roomRepository.findOne({
-      where: { id: roomId },
-      relations: ['users'],
-    });
-
-    if (!room) {
-      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
-    }
-
-    if (!room.joinedUsers) {
-      throw new InternalServerErrorException('방에 참가한 유저가 없습니다.');
-    }
-
-    // room and user delete each other
-    room.joinedUsers.filter((user) => user.id !== userSession.id);
-    user.joinedRooms = [];
-
-    await Promise.all([user.save(), room.save()]);
+    const roomUser = user.joinedRooms[0];
+    await roomUser.softRemove();
   }
 }
