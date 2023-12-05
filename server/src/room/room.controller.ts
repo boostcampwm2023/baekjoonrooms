@@ -1,4 +1,4 @@
-import { Controller, Logger, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Logger, Post, Req } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -22,21 +22,24 @@ export class RoomController {
   })
   async createRoom(@Req() req: Request) {
     const user: User = req.user as User;
-    this.logger.debug(`user creating room: ${user}`);
-    return await this.roomService.createRoom(user);
+    this.logger.debug(`user ${user.username} creating room...`);
+    const room = await this.roomService.createRoom(user);
+    this.logger.debug(`room: ${room.code} successfully created!!`);
+    return room;
   }
 
-  @Post(':code')
-  async joinRoom(@Param('code') code: string, @Req() req: Request) {
+  @Post('join')
+  async joinRoom(@Req() req: Request, @Body() body: { code: string }) {
     const user: User = req.user as User;
-    this.logger.debug(`user joining room: ${user} with code ${code}`);
+    const { code } = body;
+    this.logger.debug(`user: ${user.username} joining room: ${code}`);
     return await this.roomService.addUserToRoom(user, code);
   }
 
   @Post('exit')
   async exitRoom(@Req() req: Request) {
     const user: User = req.user as User;
-    this.logger.debug(`user ${user} exiting room`);
+    this.logger.debug(`user ${user.username} exiting room...`);
     return await this.roomService.exitRoom(user);
   }
 }

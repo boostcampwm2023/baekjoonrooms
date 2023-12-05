@@ -94,21 +94,32 @@ export class RoomService {
 
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
+    this.logger.debug('user from db:', util.inspect(user));
+
     if (!user.joinedRooms || user.joinedRooms.length === 0)
       throw new BadRequestException('참가 중인 방이 없습니다.');
 
     if (user.joinedRooms.length > 1)
       throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
 
-    const room = user.joinedRooms[0];
-    user.joinedRooms = [];
+    const roomId = user.joinedRooms[0].id;
+    const room = await this.roomRepository.findOne({
+      where: { id: roomId },
+      relations: ['users'],
+    });
+
+    if (!room) {
+      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
+    }
 
     if (!room.users) {
       throw new InternalServerErrorException('방에 참가한 유저가 없습니다.');
     }
+
+    // room and user delete each other
     room.users.filter((user) => user.id !== userSession.id);
+    user.joinedRooms = [];
 
     await Promise.all([user.save(), room.save()]);
-    return;
   }
 }
