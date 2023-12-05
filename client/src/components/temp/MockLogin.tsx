@@ -1,16 +1,13 @@
-import axios from 'axios';
+import { mockLoginApi } from '../../apis/mockLogin';
 
 export default function MockLogin() {
-  const baseURL = import.meta.env.VITE_BASE_URL;
-
   async function mockLogin({ id }: { id: string }) {
     const mockUser = {
       username: `mock${id}`,
       password: `mock${id}`,
     };
-    const response = await axios.post(`${baseURL}/auth/mock`, mockUser, {
-      withCredentials: true,
-    });
+    const response = await mockLoginApi(mockUser);
+    console.log(response);
     if (response.status === 201) {
       console.log(response.data);
       // AuthProvider의 useEffect가 실행되지 않아서 새로고침을 해줘야 함
@@ -23,7 +20,7 @@ export default function MockLogin() {
     <div className="flex gap-2">
       <button
         id="1"
-        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
+        className="my-2 flex items-center gap-2 rounded-lg bg-default_black px-4 py-2.5 text-sm text-text_default hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '1' });
         }}>
@@ -31,7 +28,7 @@ export default function MockLogin() {
       </button>
       <button
         id="2"
-        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
+        className="my-2 flex items-center gap-2 rounded-lg bg-default_black px-4 py-2.5 text-sm text-text_default hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '2' });
         }}>
@@ -39,7 +36,7 @@ export default function MockLogin() {
       </button>
       <button
         id="3"
-        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
+        className="my-2 flex items-center gap-2 rounded-lg bg-default_black px-4 py-2.5 text-sm text-text_default hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '3' });
         }}>
@@ -47,7 +44,7 @@ export default function MockLogin() {
       </button>
       <button
         id="4"
-        className="text-text_default bg-default_black my-2 flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm hover:hover:bg-opacity-50"
+        className="my-2 flex items-center gap-2 rounded-lg bg-default_black px-4 py-2.5 text-sm text-text_default hover:hover:bg-opacity-50"
         onClick={() => {
           mockLogin({ id: '4' });
         }}>

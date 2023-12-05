@@ -7,7 +7,8 @@ import {
   useState,
 } from 'react';
 import { CreateUser } from '../types/CreateUserType';
-import axios from 'axios';
+import { logout } from '../apis/logout';
+import { getSession } from '../apis/getSession';
 
 interface AuthContextType {
   user: CreateUser | null;
@@ -21,8 +22,6 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const baseURL = import.meta.env.VITE_BASE_URL;
-
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
@@ -33,22 +32,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const onLogout = () => {
     // TODO: waiting for server api
-    axios.get(`${baseURL}/auth/logout`, { withCredentials: true });
+    logout();
     setUser(null);
     navigate('/');
   };
 
   useEffect(() => {
-    async function getSession() {
-      const response = await axios.get(`${baseURL}/session`, {
-        withCredentials: true,
-      });
-      return response;
-    }
-
-    getSession().then((session) => {
-      if (session) {
-        setUser(session.data);
+    getSession().then((data) => {
+      if (data) {
+        setUser(data);
       } else {
         setUser(null);
       }
