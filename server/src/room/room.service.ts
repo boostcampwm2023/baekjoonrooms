@@ -41,10 +41,10 @@ export class RoomService {
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
 
-    const roomCode = await this.createRoomCode(user.username);
+    const code = await this.createRoomCode(user.username);
     const room = await this.roomRepository
       .create({
-        code: roomCode,
+        code,
         host: user,
       })
       .save();
@@ -62,17 +62,16 @@ export class RoomService {
 
   async addUserToRoom(userSession: User, roomCode: string) {
     const { provider, providerId } = userSession;
+
     const user = await this.userService.findUserByProviderInfo({
       provider,
       providerId,
     });
-
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
     const room = await this.roomRepository.findOne({
       where: { code: roomCode },
     });
-
     if (!room) {
       this.logger.debug(`room with ${roomCode} does not exist!`);
       throw new BadRequestException('존재하지 않는 방입니다.');
@@ -84,13 +83,7 @@ export class RoomService {
     )
       throw new BadRequestException('이미 참가한 방입니다.');
 
-    if (room.joinedUsers) {
-      room.joinedUsers.push(user);
-    } else {
-      room.joinedUsers = [user];
-    }
-
-    return room.save();
+    return await this.roomUserService.createRoomUser({ room, user });
   }
 
   async exitRoom(userSession: User) {
@@ -100,7 +93,6 @@ export class RoomService {
       provider,
       providerId,
     });
-
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
     this.logger.debug('user from db:', util.inspect(user));
