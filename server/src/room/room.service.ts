@@ -104,6 +104,6 @@ export class RoomService {
       throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
 
     const roomUser = user.joinedRooms[0];
-    await roomUser.softRemove();
+    return await roomUser.softRemove();
   }
 }
