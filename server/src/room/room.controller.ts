@@ -11,7 +11,6 @@ export class RoomController {
 
   constructor(private readonly roomService: RoomService) {}
 
-  // TODO: USER가 없을 경우도 처리
   @ApiResponse({
     status: 400,
     description: '이미 참가하고 있는 방이 있는데 방 생성을 시도한 경우',

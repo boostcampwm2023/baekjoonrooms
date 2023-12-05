@@ -7,12 +7,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import Room from 'src/entities/room.entity';
+import User from 'src/entities/user.entity';
 import { RoomUserService } from 'src/roomUser/room.user.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import User from 'src/entities/user.entity';
 import * as util from 'util';
-import RoomUser from '../entities/roomUser.entity';
 
 @Injectable()
 export class RoomService {
@@ -37,27 +36,20 @@ export class RoomService {
     if (!user) {
       throw new InternalServerErrorException('유저를 찾을 수 없습니다.');
     }
-
     if (user.joinedRooms && user.joinedRooms.length > 0)
       throw new BadRequestException('이미 방에 참가 중입니다.');
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
 
     const roomCode = await this.createRoomCode(user.username);
+    const room = await this.roomRepository
+      .create({
+        code: roomCode,
+        host: user,
+      })
+      .save();
 
-    const room = this.roomRepository.create({
-      code: roomCode,
-      host: user,
-    });
-
-    const roomUser = new RoomUser();
-
-    user.joinedRooms = [roomUser];
-    room.joinedUsers = [roomUser];
-    roomUser.room = room;
-    roomUser.user = user;
-
-    await Promise.all([room.save(), roomUser.save(), user.save()]);
+    await this.roomUserService.createRoomUser({ room, user });
     return room;
   }
 
