@@ -12,6 +12,7 @@ import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import User from 'src/entities/user.entity';
 import * as util from 'util';
+import RoomUser from '../entities/roomUser.entity';
 
 @Injectable()
 export class RoomService {
@@ -28,28 +29,35 @@ export class RoomService {
   async createRoom(userSession: User) {
     const { provider, providerId } = userSession;
 
-    const user = await this.userService.findUserByProviderInfo({
+    const user = await this.userService.findUserByProviderInfoWithRooms({
       provider,
       providerId,
     });
-    this.logger.debug('user from db:', util.inspect(user));
-    if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
+
+    if (!user) {
+      throw new InternalServerErrorException('유저를 찾을 수 없습니다.');
+    }
+
     if (user.joinedRooms && user.joinedRooms.length > 0)
       throw new BadRequestException('이미 방에 참가 중입니다.');
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
 
-    // 방 코드 생성 -> 방 생성 -> host를 참여자로 추가 -> 방 반환
     const roomCode = await this.createRoomCode(user.username);
-    const room = await this.roomRepository
-      .create({
-        code: roomCode,
-        host: user,
-        joinedUsers: [user],
-      })
-      .save();
-    await this.roomUserService.createRoomUser({ room, user });
 
+    const room = this.roomRepository.create({
+      code: roomCode,
+      host: user,
+    });
+
+    const roomUser = new RoomUser();
+
+    user.joinedRooms = [roomUser];
+    room.joinedUsers = [roomUser];
+    roomUser.room = room;
+    roomUser.user = user;
+
+    await Promise.all([room.save(), roomUser.save(), user.save()]);
     return room;
   }
 
