@@ -1,7 +1,9 @@
-import axios from 'axios';
-
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
+import { apiClient } from './apiClient';
 
 export async function exitRoom() {
-  await axios.post(`${VITE_BASE_URL}/room/exit`, {}, { withCredentials: true });
+  try {
+    await apiClient.post('/room/exit');
+  } catch (error) {
+    console.log(error);
+  }
 }

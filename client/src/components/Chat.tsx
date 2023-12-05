@@ -36,7 +36,7 @@ export default function Chat({
       username: user?.username || 'Anonymous',
       body: inputText,
       chatEvent: ChatEvent.Message,
-      color: 'text-purple', // TODO: 서버에서 설정
+      color: 'text-purple', // TODO: 클라에서 랜덤 설정
     };
 
     socket.emit('chat-message', newChatMessage);

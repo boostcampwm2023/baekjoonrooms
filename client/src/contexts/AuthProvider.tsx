@@ -31,7 +31,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<CreateUser | null>(null);
 
   const onLogout = () => {
-    // TODO: waiting for server api
     logout();
     setUser(null);
     navigate('/');
@@ -41,10 +40,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     getSession().then((data) => {
       if (data) {
         setUser(data);
-      } else {
-        setUser(null);
       }
-    })();
+    });
   }, []);
 
   return (

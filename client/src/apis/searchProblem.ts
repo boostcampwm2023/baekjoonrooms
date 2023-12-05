@@ -1,22 +1,21 @@
-import axios from 'axios';
 import { ProblemResponse } from '../types/Problem';
 
-export async function searchProblem(searchKeyword: string): Promise<ProblemResponse[]> {
-  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
+import { apiClient } from './apiClient';
 
-  if(!searchKeyword) return Promise.resolve([]);
+export async function searchProblem(
+  searchKeyword: string,
+): Promise<ProblemResponse[]> {
+  if (!searchKeyword) return Promise.resolve([]);
 
-  return await axios
-    .get(`${VITE_BASE_URL}/problem`, {
+  try {
+    const { data } = await apiClient.get('/problem', {
       params: {
         searchKeyword,
       },
-    })
-    .then((res) => {
-      return res.data || [];
-    })
-    .catch((err) => {
-      console.log(err);
-      return [];
     });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
