@@ -72,7 +72,10 @@ export default function RoomSettingModal({
         </div>
 
         {isRandom ? (
-          <RandomProblem />
+          <RandomProblem 
+            problemList={problemList}
+            setProblemList={setProblemList}
+          />
         ) : (
           <SelectProblem
             problem={problem}

@@ -1,14 +1,22 @@
 import { useState } from 'react';
 
-import { constTags } from '../../../public/tags'
+import { constTags } from '../../../public/tags';
 import Dropdown from '../Dropdown';
 import MultipleChoiceDropdown from '../MultipleDropdown';
 import { randomProblem } from '../../apis/randomProblems';
 import { Tag } from '../../types/Tag';
 import { Difficulty, difficultyMapping } from '../../types/Difficulty';
+import { ProblemType } from '../../types/ProblemType';
 
+interface RandomProblemProps {
+  problemList: ProblemType[];
+  setProblemList: React.Dispatch<React.SetStateAction<ProblemType[]>>;
+}
 
-export default function RandomProblem() {
+export default function RandomProblem({
+  problemList,
+  setProblemList,
+}: RandomProblemProps) {
   const [count, setCount] = useState(1);
   const [tags, setTags] = useState<Tag[]>([]);
   const [difficulty, setDifficulty] = useState<Difficulty[]>([]);
@@ -28,7 +36,16 @@ export default function RandomProblem() {
       .map((diff) => diff.id)
       .flatMap((id) => difficultyMapping[id]);
     const res = await randomProblem(tagIds, difficultyIds, count);
-    console.log(res);
+
+    const newProblems = res.map((problem) => ({
+      title: problem.title,
+      boj_problem_id: problem.bojProblemId,
+      url: `https://www.acmicpc.net/problem/${problem.bojProblemId}`,
+      level: problem.level,
+      tag: problem.tags.map((tag) => tag.name),
+    }));
+
+    setProblemList([...problemList, ...newProblems]);
   };
 
   return (
