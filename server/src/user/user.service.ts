@@ -33,12 +33,16 @@ export class UserService {
     }
   }
 
+  async findUserByProviderInfoWithRooms(providerInfo: ProviderInfo) {
+    return this.userRepository.findOne({
+      where: providerInfo,
+      relations: ['joinedRooms'],
+    });
+  }
+
   async findUserByProviderInfo(providerInfo: ProviderInfo) {
     return this.userRepository.findOne({
       where: providerInfo,
-      relations: {
-        joinedRooms: true,
-      },
     });
   }
 
