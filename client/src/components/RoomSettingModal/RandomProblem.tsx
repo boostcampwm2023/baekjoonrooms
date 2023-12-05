@@ -1,6 +1,11 @@
 import Dropdown from '../Dropdown';
 import MultipleChoiceDropdown from '../MultipleDropdown';
 
+export interface Tag{
+  id: number;
+  name: string;
+}
+
 export default function RandomProblem() {
   const onCountClick = (option: number) => {
     console.log(option);
@@ -10,36 +15,22 @@ export default function RandomProblem() {
     console.log(options);
   };
 
-  const onTagClick = (options: string[]) => {
+  const onTagClick = (options: Tag[]) => {
     console.log(options);
   };
+
+  const tags: Tag[] = [
+    {id:1, name: '0-1 너비 우선 탐색'},
+    {id:2, name: '2-sat'},
+    {id:3, name: '3차원 기하학'},
+  ];
 
   return (
     <div className="flex flex-col items-center gap-2">
       <MultipleChoiceDropdown
         name={'태그'}
-        options={[
-          'BFS',
-          'DFS',
-          '에라토스테네스의 체',
-          '구현',
-          '비트필드를 이용한 다이나믹 프로그래밍',
-          '커넥션 프로파일을 이용한 다이나믹 프로그래밍',
-          'A',
-          'B',
-          'C',
-          'D',
-          'E',
-          'F',
-          'G',
-          'H',
-          'I',
-          'J',
-          'K',
-          'L',
-          'M',
-          'N',
-        ]}
+        options={tags}
+        displayNames={tags.map((tag) => tag.name)}
         onOptionClick={onTagClick}
         buttonClassName="flex w-[232px] justify-center rounded-lg border border-gutter bg-default_white px-2 py-1 text-sm text-default_black"
         itemBoxClassName="rounded-lg border border-gutter"

@@ -4,6 +4,7 @@ import { FaAngleDown, FaAngleUp, FaCheck } from 'react-icons/fa6';
 export interface MultipleChoiceDropdownProps<T> {
   name: string;
   options: Array<T>;
+  displayNames?: string[];
   onOptionClick: (option: T[]) => void;
   optionPostFix?: string;
   buttonClassName?: string;
@@ -16,6 +17,7 @@ export interface MultipleChoiceDropdownProps<T> {
  * @param {MultipleChoiceDropdownProps<T>} props
  * @param {string} props.name name of dropdown
  * @param {Array<T>} props.options dropdown items with value
+ * @param {string[]} props.displayNames displayname of dropdown
  * @param {Function} props.onOptionClick callback function when dropdown item is clicked
  * @param {string} props.optionPostFix postfix of dropdown item
  * @param {string} props.buttonClassName className of dropdown button for tailwindcss
@@ -28,6 +30,7 @@ export interface MultipleChoiceDropdownProps<T> {
 export default function MultipleChoiceDropdown<T>({
   name,
   options,
+  displayNames = undefined,
   onOptionClick,
   optionPostFix = '',
   buttonClassName = '',
@@ -46,15 +49,11 @@ export default function MultipleChoiceDropdown<T>({
       } else {
         newSelected = [...prevSelected, option];
       }
-
-      // Sort the selected options in the order they appear in the options array
-      newSelected.sort((a, b) => options.indexOf(a) - options.indexOf(b));
-
       return newSelected;
     });
   };
 
-  const dropdwonOutsiedClick = (event: MouseEvent) => {
+  const dropdownOutsideClick = (event: MouseEvent) => {
     const targetElement = document.elementFromPoint(
       event.clientX,
       event.clientY,
@@ -66,10 +65,10 @@ export default function MultipleChoiceDropdown<T>({
   };
 
   useEffect(() => {
-    document.addEventListener('click', dropdwonOutsiedClick);
+    document.addEventListener('click', dropdownOutsideClick);
 
     return () => {
-      document.removeEventListener('click', dropdwonOutsiedClick);
+      document.removeEventListener('click', dropdownOutsideClick);
     };
   }, []);
 
@@ -98,16 +97,20 @@ export default function MultipleChoiceDropdown<T>({
       <ol
         className={`${itemBoxClassName} absolute z-10 flex max-h-[320px] w-full overflow-auto`}
         style={{ display: isActive ? 'block' : 'none' }}>
-        {options.map((option) => (
+        {options.map((option, index) => (
           <li
-            key={option as Key}
+            key={
+              (displayNames === undefined ? option : displayNames[index]) as Key
+            }
             onClick={() => handleOptionClick(option)}
             className={`${itemClassName} flex cursor-pointer items-center justify-between`}>
             <div className={`w-4 p-1`}>
               <FaCheck color={selected.includes(option) ? 'green' : 'gray'} />
             </div>
             <div className="flex-grow overflow-hidden overflow-ellipsis whitespace-nowrap px-1 text-center hover:whitespace-normal">
-              {option + optionPostFix}
+              {displayNames === undefined
+                ? option + optionPostFix
+                : displayNames[index] + optionPostFix}
             </div>
           </li>
         ))}
