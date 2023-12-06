@@ -109,7 +109,12 @@ export class RoomService {
 
   async findRoomParticipating(user: User) {
     const roomUser = await this.roomUserService.findRoomUserByUser(user);
-    if (!roomUser) throw new BadRequestException('참가 중인 방이 없습니다.');
+    if (!roomUser) {
+      this.logger.warn(
+        `user ${user.username} is not participating in any room!`,
+      );
+      return null;
+    }
     return this.roomRepository.findOne({
       where: {
         joinedUsers: { id: roomUser.id },
