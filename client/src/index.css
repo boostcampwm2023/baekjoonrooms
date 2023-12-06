@@ -102,7 +102,7 @@
   }
 
   :root[data-theme='github-light'] {
-    --color--fg: 36 41 46;
+    --color--fg: 247 248 250;
     --color--bg: 255 255 255;
     --color--bg-secondary: 240 240 240;
     --color--gutter: 206 208 210;
