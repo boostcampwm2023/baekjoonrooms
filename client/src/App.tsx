@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthProvider';
 import { ThemeProvider } from './contexts/ThemeProvider';
 import ThemeComponent from './components/temp/ThemedComponent';
 

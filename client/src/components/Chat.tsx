@@ -8,7 +8,7 @@ import {
 } from '../types/Message';
 import { FaArrowRight } from 'react-icons/fa6';
 import Message from './Message';
-import { useAuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthProvider';
 import { useParams } from 'react-router-dom';
 
 // TODO: userColor -> 서버에서 설정
