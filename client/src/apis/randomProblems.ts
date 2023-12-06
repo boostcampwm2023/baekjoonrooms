@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { apiClient } from './apiClient';
 import { ProblemResponse } from '../types/Problem';
 
 export async function randomProblem(
@@ -9,14 +9,14 @@ export async function randomProblem(
   const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
   const tagIdsQuery = tagIds.join(',');
   const levelIdsQuery = levels.join(',');
-  return await axios
+  try {
+    const {data} = await apiClient
     .get(
       `${VITE_BASE_URL}/problem/random?tagIds=${tagIdsQuery}&levels=${levelIdsQuery}&count=${count}`,
-    )
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      throw new Error(err);
-    });
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('문제를 불러오는데 실패했습니다.');
+  }
 }

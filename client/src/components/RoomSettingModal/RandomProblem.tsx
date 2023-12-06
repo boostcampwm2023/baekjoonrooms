@@ -35,17 +35,20 @@ export default function RandomProblem({
     const difficultyIds = difficulty
       .map((diff) => diff.id)
       .flatMap((id) => difficultyMapping[id]);
-    const res = await randomProblem(tagIds, difficultyIds, count);
+    try {
+      const res = await randomProblem(tagIds, difficultyIds, count);
+      const newProblems = res.map((problem) => ({
+        title: problem.title,
+        boj_problem_id: problem.bojProblemId,
+        url: `https://www.acmicpc.net/problem/${problem.bojProblemId}`,
+        level: problem.level,
+        tag: problem.tags.map((tag) => tag.name),
+      }));
 
-    const newProblems = res.map((problem) => ({
-      title: problem.title,
-      boj_problem_id: problem.bojProblemId,
-      url: `https://www.acmicpc.net/problem/${problem.bojProblemId}`,
-      level: problem.level,
-      tag: problem.tags.map((tag) => tag.name),
-    }));
-
-    setProblemList([...problemList, ...newProblems]);
+      setProblemList([...problemList, ...newProblems]);
+    } catch (error) {
+      alert('문제를 가져오는데 실패했습니다.');
+    }
   };
 
   return (
