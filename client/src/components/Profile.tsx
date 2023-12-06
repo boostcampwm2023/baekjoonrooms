@@ -2,7 +2,13 @@ import { useAuthContext } from '../contexts/AuthContext';
 
 export default function Profile() {
   const { user } = useAuthContext();
-
+  const userInfo = { provider: user?.provider, provierId: user?.providerId };
+  if (
+    !localStorage.getItem('userInfo') ||
+    localStorage.getItem('userInfo') !== JSON.stringify(userInfo)
+  ) {
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  }
   // TODO: AuthContext쪽 UserType 재정의
   return (
     <div className="mb-6 flex items-center justify-center gap-3">
@@ -11,7 +17,7 @@ export default function Profile() {
         src={user!.avatarUrl}
         alt="프로필 이미지"
       />
-      <p className="text-text_default text-lg font-semibold">
+      <p className="text-lg font-semibold text-text_default">
         {user!.username}
       </p>
     </div>

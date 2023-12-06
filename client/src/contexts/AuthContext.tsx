@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     // TODO: waiting for server api
     axios.get(`${baseURL}/auth/logout`, { withCredentials: true });
     setUser(null);
+    localStorage.removeItem('userInfo');
     navigate('/');
   };
 
