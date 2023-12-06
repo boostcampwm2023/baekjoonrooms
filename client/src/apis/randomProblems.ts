@@ -6,13 +6,12 @@ export async function randomProblem(
   levels: number[],
   count: number,
 ): Promise<ProblemResponse[]> {
-  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
   const tagIdsQuery = tagIds.join(',');
   const levelIdsQuery = levels.join(',');
   try {
     const {data} = await apiClient
     .get(
-      `${VITE_BASE_URL}/problem/random?tagIds=${tagIdsQuery}&levels=${levelIdsQuery}&count=${count}`,
+      `/problem/random?tagIds=${tagIdsQuery}&levels=${levelIdsQuery}&count=${count}`,
     );
     return data;
   } catch (error) {
