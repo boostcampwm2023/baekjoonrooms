@@ -31,6 +31,10 @@ export default function RandomProblem({
   ];
 
   const requestRandomProblem = async () => {
+    if(tags.length === 0 || difficulty.length === 0) {
+      alert('태그와 난이도를 선택해주세요.');
+      return;
+    }
     const tagIds = tags.map((tag) => tag.id);
     const difficultyIds = difficulty
       .map((diff) => diff.id)
