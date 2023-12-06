@@ -56,5 +56,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-export const useAuthContext = () => useContext(AuthContext);
-export const useAuthUpdateContext = () => useContext(AuthUpdateContext);
+export const useAuthContext = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuthContext must be used within a AuthProvider');
+  }
+  return context;
+};
+
+export const useAuthUpdateContext = (): AuthUpdateType => {
+  const context = useContext(AuthUpdateContext);
+  if (!context) {
+    throw new Error('useAuthUpdateContext must be used within a AuthProvider');
+  }
+  return context;
+};
