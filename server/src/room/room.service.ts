@@ -7,12 +7,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import Room from 'src/entities/room.entity';
+import User from 'src/entities/user.entity';
 import { RoomUserService } from 'src/roomUser/room.user.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import User from 'src/entities/user.entity';
 import * as util from 'util';
-import RoomUser from '../entities/roomUser.entity';
 
 @Injectable()
 export class RoomService {
@@ -37,27 +36,20 @@ export class RoomService {
     if (!user) {
       throw new InternalServerErrorException('유저를 찾을 수 없습니다.');
     }
-
     if (user.joinedRooms && user.joinedRooms.length > 0)
       throw new BadRequestException('이미 방에 참가 중입니다.');
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
 
-    const roomCode = await this.createRoomCode(user.username);
+    const code = await this.createRoomCode(user.username);
+    const room = await this.roomRepository
+      .create({
+        code,
+        host: user,
+      })
+      .save();
+    await this.roomUserService.createOrRestoreRoomUser({ room, user });
 
-    const room = this.roomRepository.create({
-      code: roomCode,
-      host: user,
-    });
-
-    const roomUser = new RoomUser();
-
-    user.joinedRooms = [roomUser];
-    room.joinedUsers = [roomUser];
-    roomUser.room = room;
-    roomUser.user = user;
-
-    await Promise.all([room.save(), roomUser.save(), user.save()]);
     return room;
   }
 
@@ -70,17 +62,16 @@ export class RoomService {
 
   async addUserToRoom(userSession: User, roomCode: string) {
     const { provider, providerId } = userSession;
+
     const user = await this.userService.findUserByProviderInfo({
       provider,
       providerId,
     });
-
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
     const room = await this.roomRepository.findOne({
       where: { code: roomCode },
     });
-
     if (!room) {
       this.logger.debug(`room with ${roomCode} does not exist!`);
       throw new BadRequestException('존재하지 않는 방입니다.');
@@ -92,13 +83,7 @@ export class RoomService {
     )
       throw new BadRequestException('이미 참가한 방입니다.');
 
-    if (room.joinedUsers) {
-      room.joinedUsers.push(user);
-    } else {
-      room.joinedUsers = [user];
-    }
-
-    return room.save();
+    return await this.roomUserService.createOrRestoreRoomUser({ room, user });
   }
 
   async exitRoom(userSession: User) {
@@ -108,7 +93,6 @@ export class RoomService {
       provider,
       providerId,
     });
-
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
     this.logger.debug('user from db:', util.inspect(user));
@@ -120,6 +104,6 @@ export class RoomService {
       throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
 
     const roomUser = user.joinedRooms[0];
-    await roomUser.softRemove();
+    return await roomUser.softRemove();
   }
 }
