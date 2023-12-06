@@ -1,7 +1,7 @@
 import { FaArrowRight } from 'react-icons/fa6';
 import Message from './Message';
+import { useAuthContext } from '../contexts/AuthProvider';
 import { ChatEvent, MessageInterface } from '../types/Message';
-import { useAuthContext } from '../contexts/AuthContext';
 import { Socket } from 'socket.io-client';
 
 // TODO: userColor -> 서버에서 설정
@@ -36,7 +36,7 @@ export default function Chat({
       username: user?.username || 'Anonymous',
       body: inputText,
       chatEvent: ChatEvent.Message,
-      color: 'text-purple', // TODO: 서버에서 설정
+      color: 'text-purple', // TODO: 클라에서 랜덤 설정
     };
 
     socket.emit('chat-message', newChatMessage);

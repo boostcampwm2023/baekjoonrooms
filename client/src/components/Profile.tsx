@@ -1,4 +1,4 @@
-import { useAuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from '../contexts/AuthProvider';
 
 export default function Profile() {
   const { user } = useAuthContext();
@@ -11,7 +11,7 @@ export default function Profile() {
         src={user!.avatarUrl}
         alt="프로필 이미지"
       />
-      <p className="text-text_default text-lg font-semibold">
+      <p className="text-lg font-semibold text-text_default">
         {user!.username}
       </p>
     </div>
