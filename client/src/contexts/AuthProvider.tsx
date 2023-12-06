@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
 import {
   ReactNode,
   createContext,
@@ -28,30 +28,27 @@ const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { removeItem } = useLocalStorage();
 
-  const [chk, setChk] = useState<UserSession | null>(null);
   const [user, setUser] = useState<UserSession | null>(null);
 
   const onLogout = async () => {
     await logout();
-    setUser(null);
+    // setUser(null);
     removeItem('userInfo');
     navigate('/');
   };
 
-  // getSession().then((data) => {
-  //   if (data && data !== chk) {
-  //     setChk(data);
-  //   }
-  // });
   useEffect(() => {
     getSession().then((data) => {
       if (data) {
         setUser(data);
+      } else {
+        setUser(null);
       }
     });
-  }, []);
+  }, [location.pathname]);
 
   return (
     <AuthContext.Provider value={{ user }}>
