@@ -20,16 +20,25 @@ export class UserService {
     return this.userRepository.create(createUserDto).save();
   }
 
-  async findUserByProviderInfo(providerInfo: ProviderInfo) {
+  async createOrUpdateUser(createUserDto: CreateUserDto) {
+    const { provider, providerId } = createUserDto;
+    const user = await this.findUserByProviderInfo({ provider, providerId });
+
+    return user
+      ? this.userRepository.save({ ...user, ...createUserDto })
+      : this.userRepository.create(createUserDto).save();
+  }
+
+  async findUserByProviderInfoWithRooms(providerInfo: ProviderInfo) {
     return this.userRepository.findOne({
       where: providerInfo,
+      relations: ['joinedRooms'],
     });
   }
 
-  async findUserWithActiveRoomById(id: number) {
+  async findUserByProviderInfo(providerInfo: ProviderInfo) {
     return this.userRepository.findOne({
-      where: { id, joinedRooms: { deletedAt: null } },
-      relations: { joinedRooms: true },
+      where: providerInfo,
     });
   }
 }

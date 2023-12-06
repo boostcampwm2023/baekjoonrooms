@@ -8,7 +8,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  username: string;
+  username!: string;
 
   @ApiProperty({
     example: 'github',
@@ -16,7 +16,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  provider: string;
+  provider!: string;
 
   @ApiProperty({
     example: '12341234',
@@ -24,7 +24,7 @@ export class CreateUserDto {
   })
   @IsString()
   @IsNotEmpty()
-  providerId: string;
+  providerId!: string;
 
   @ApiProperty({
     example: 'https://avatars.githubusercontent.com/u/71765155?v=4',
@@ -32,5 +32,5 @@ export class CreateUserDto {
   })
   @IsString()
   @IsOptional()
-  avatarUrl: string;
+  avatarUrl!: string;
 }

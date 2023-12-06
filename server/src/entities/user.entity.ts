@@ -17,35 +17,37 @@ import Submission from './submission.entity';
 @Index(['provider', 'providerId'], { unique: true })
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ comment: 'OAuth provider string id' })
-  username: string;
+  username?: string;
 
   @Column({ comment: 'OAuth provider' })
-  provider: string;
+  provider!: string;
 
   @Column({ comment: 'OAuth provider id' })
-  providerId: string;
+  providerId!: string;
 
   @Column({ comment: 'github 프로필 이미지 url', nullable: true })
-  avatarUrl: string;
+  avatarUrl?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamp', nullable: true })
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
-  deletedAt: Date;
+  deletedAt?: Date;
 
-  @OneToMany(() => RoomUser, (roomUser) => roomUser.user)
-  joinedRooms: RoomUser[];
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.user, {
+    cascade: ['remove'],
+  })
+  joinedRooms?: RoomUser[];
 
   @OneToMany(() => Submission, (submission) => submission.user)
-  submissions: Submission[];
+  submissions?: Submission[];
 
   @OneToMany(() => Room, (room) => room.host)
-  hostedRooms: Room[];
+  hostedRooms?: Room[];
 }

@@ -9,20 +9,24 @@ export default function RoomCreateButton() {
   const navigate = useNavigate();
   const onClick = async () => {
     setIsLoading(true);
-    const roomInfo: RoomCreateType | undefined = await createRoom();
-    if (roomInfo === undefined) {
-      setTimeout(() => {
-        console.log(roomInfo);
-        alert('방 생성에 실패했습니다.');
+    try {
+      const roomInfo: RoomCreateType | undefined = await createRoom();
+      if (roomInfo === undefined) {
+        // setTimeout(() => {
+        //   alert('방 생성에 실패했습니다.');
+        //
+        // }, 1000);
         setIsLoading(false);
-      }, 1000);
-
-      return;
+        return;
+      }
+      const roomCode = roomInfo.code;
+      navigate(`/room/${roomCode}`, {
+        state: { isHost: true, roomCode: roomCode },
+      });
+    } catch (err) {
+      console.error(err);
+      throw err;
     }
-    const roomCode = roomInfo.code;
-    navigate(`/room/${roomCode}`, {
-      state: { isHost: true, roomCode: roomCode },
-    });
   };
 
   return (

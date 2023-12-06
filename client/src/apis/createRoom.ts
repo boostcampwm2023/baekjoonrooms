@@ -1,17 +1,16 @@
-import axios from 'axios';
+import { AxiosError } from 'axios';
 import { RoomCreateType } from '../types/RoomCreateType';
+import { apiClient } from './apiClient';
 
 export async function createRoom(): Promise<RoomCreateType | undefined> {
-  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL as string;
-
-  return await axios
-    .post(`${VITE_BASE_URL}/room`, {
-      userId: 1,
-    })
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  try {
+    const { data } = await apiClient.post('/room', {});
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      // TODO: 이거 session로직 수정되면 여기도 고쳐야 됨
+      // 세션에서 현재 유저가 방에 참가중인지, 어떤 방에 참가중인지 정보를 받아 올 수 있어야 함
+      alert(error.response!.data.message);
+    }
+  }
 }

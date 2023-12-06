@@ -1,27 +1,23 @@
-import { io, Socket } from 'socket.io-client';
-import { useEffect, useRef, useState } from 'react';
-
-import {
-  ChatEvent,
-  MessageInterface,
-  RoomMessagesLocalStorage,
-} from '../types/Message';
 import { FaArrowRight } from 'react-icons/fa6';
 import Message from './Message';
 import { useAuthContext } from '../contexts/AuthProvider';
-import { useParams } from 'react-router-dom';
+
+import { ChatEvent, MessageInterface } from '../types/Message';
+import { Socket } from 'socket.io-client';
 
 // TODO: userColor -> 서버에서 설정
-export default function Chat() {
-  const roomId = useParams<{ roomId: string }>().roomId;
+export default function Chat({
+  messages,
+  inputRef,
+  messagesRef,
+  socketRef,
+}: {
+  messages: MessageInterface[];
+  inputRef: React.RefObject<HTMLInputElement>;
+  messagesRef: React.RefObject<HTMLUListElement>;
+  socketRef: React.MutableRefObject<Socket | null>;
+}) {
   const { user } = useAuthContext();
-
-  const serverUrl = import.meta.env.VITE_BASE_URL;
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  const messagesRef = useRef<HTMLUListElement>(null);
-  const [messages, setMessages] = useState<MessageInterface[]>([]);
-  const socketRef = useRef<Socket | null>(null);
 
   function handleSubmitMessage(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -41,67 +37,13 @@ export default function Chat() {
       username: user?.username || 'Anonymous',
       body: inputText,
       chatEvent: ChatEvent.Message,
-      color: 'text-purple', // TODO: 서버에서 설정
+      color: 'text-purple', // TODO: 클라에서 랜덤 설정
     };
 
     socket.emit('chat-message', newChatMessage);
 
     inputRef.current.value = '';
   }
-
-  useEffect(() => {
-    const socket: Socket = io(serverUrl, {
-      transports: ['websocket', 'polling'],
-    });
-
-    const storedRoomMessagesString = localStorage.getItem('leetRoomsMessages');
-    if (storedRoomMessagesString) {
-      const storedRoomMessages: RoomMessagesLocalStorage = JSON.parse(
-        storedRoomMessagesString,
-      );
-      if (storedRoomMessages) {
-        setMessages(storedRoomMessages.messages);
-      }
-    }
-
-    socket.on('chat-message', (newMessage) => {
-      setMessages((prevMessages) => {
-        const newMessages = [...prevMessages, newMessage];
-
-        localStorage.setItem(
-          'leetRoomsMessages',
-          JSON.stringify({
-            messages: newMessages,
-          }),
-        );
-        return newMessages;
-      });
-    });
-
-    // socket.on('keep-alive', () => {
-    //   socket.emit('keep-alive', 'keep-alive-message-client');
-    // });
-
-    socketRef.current = socket;
-    return () => {
-      socket.disconnect();
-    };
-  }, [roomId, serverUrl]);
-
-  useEffect(() => {
-    function autoScrollToLatestMessage() {
-      if (!messagesRef.current) {
-        return;
-      }
-
-      const latestMessage = messagesRef.current.lastElementChild;
-      latestMessage?.scrollIntoView({
-        behavior: 'smooth',
-      });
-    }
-
-    autoScrollToLatestMessage();
-  }, [messages]);
 
   return (
     <div className="flex w-full flex-1 flex-col overflow-hidden">

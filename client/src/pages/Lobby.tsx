@@ -2,11 +2,9 @@ import LogoutButton from '../components/buttons/LogoutButton';
 import Profile from '../components/Profile';
 import RoomAccessPanel from '../components/RoomAccessPanel';
 
-// import axios from 'axios';
-
 export default function Lobby() {
   return (
-    <div className="bg-bg min-h-screen">
+    <div className="min-h-screen bg-bg">
       <div className="flex w-full justify-end">
         <LogoutButton />
       </div>

@@ -3,15 +3,19 @@ import { Strategy as StrategyLocal } from 'passport-local';
 import { ConfigService } from '@nestjs/config';
 import { Strategy as StrategyGithub } from 'passport-github2';
 import { Injectable, Logger } from '@nestjs/common';
-import User from '../entities/user.entity';
 import { GitHubProfile } from '../types/authProfiles';
 import { AuthService } from './auth.service';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/dto/create.user.dto';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(StrategyGithub, 'github') {
   private readonly logger = new Logger(GithubStrategy.name);
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly userService: UserService,
+  ) {
     super({
       clientID: configService.get<string>('GITHUB_CLIENT_ID'),
       clientSecret: configService.get<string>('GITHUB_CLIENT_SECRET'),
@@ -20,16 +24,20 @@ export class GithubStrategy extends PassportStrategy(StrategyGithub, 'github') {
     });
   }
 
-  validate(accessToken: string, refreshToken: string, profile: GitHubProfile) {
+  async validate(
+    accessToken: string,
+    refreshToken: string,
+    profile: GitHubProfile,
+  ) {
     const { username, provider, id, _json } = profile;
-    const user: Partial<User> = {
+    const user: CreateUserDto = {
       provider,
       providerId: id,
       username,
-      avatarUrl: _json.avatar_url,
+      avatarUrl: _json!.avatar_url!,
     };
-    this.logger.debug('OAuth passed! Validating (upserting) user...', user);
-    return user;
+
+    return this.userService.createOrUpdateUser(user);
   }
 }
 
@@ -50,7 +58,6 @@ export class MockStrategy extends PassportStrategy(StrategyLocal) {
       'Test whether (username, password) exists in the mock database...',
     );
 
-    const user = this.authService.validateMockUsers(username, password);
-    return user;
+    return this.authService.validateMockUser(username, password);
   }
 }
