@@ -4,7 +4,7 @@
   "description": "Multiplayer rooms for BOJ",
   "version": "0.1",
   "permissions": ["webRequest"],
-  "host_permissions": ["https://www.acmicpc.net/submit/*"],
+  "host_permissions": ["https://www.acmicpc.net/submit/*", "https://api.baekjoonrooms.com/*"],
   "background": {
     "service_worker": "background.js"
   },
