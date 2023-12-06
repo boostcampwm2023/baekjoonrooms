@@ -13,12 +13,13 @@ type Theme =
   | 'atom-one-light'
   | 'github-dark'
   | 'github-light';
+
 type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 
 interface ThemeProviderProps {
   children: ReactNode;
@@ -27,17 +28,15 @@ interface ThemeProviderProps {
 const localStorageKey = 'theme';
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  // Retrieve theme from localStorage or use 'default' as the default value
   const storedTheme = localStorage.getItem(localStorageKey) as Theme | null;
   const [theme, setTheme] = useState<Theme>(storedTheme || 'atom-one-dark');
 
   useEffect(() => {
-    // Update data-theme attribute when the theme changes
     document.documentElement.setAttribute('data-theme', theme);
-    // Save the theme to localStorage
     localStorage.setItem(localStorageKey, theme);
   }, [theme]);
 
+  // TODO: change setting function
   const toggleTheme = () => {
     setTheme((prevTheme) => {
       switch (prevTheme) {

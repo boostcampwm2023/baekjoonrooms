@@ -1,7 +1,14 @@
 import { useNavigate } from 'react-router-dom';
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { CreateUser } from '../types/CreateUserType';
-import { getSession, logout } from '../apis/Auth';
+import { logout } from '../apis/logout';
+import { getSession } from '../apis/getSession';
 
 interface AuthContextType {
   user: CreateUser | null;
@@ -11,39 +18,30 @@ interface AuthUpdateType {
   onLogout: () => void;
 }
 
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
-export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<CreateUser | null>(null);
 
   const onLogout = () => {
-    try {
-      logout();
-      setUser(null);
-      navigate('/');
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    logout();
+    setUser(null);
+    navigate('/');
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        const user = await getSession();
-
-        if (user) {
-          setUser(user);
-        } else {
-          setUser(null);
-        }
-      } catch (error) {
-        console.error(error);
+    getSession().then((data) => {
+      if (data) {
+        setUser(data);
       }
-    })();
+    });
   }, []);
 
   return (

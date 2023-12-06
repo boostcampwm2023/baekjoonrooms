@@ -1,8 +1,8 @@
 import { apiClient } from './apiClient';
 
-export async function exitRoom() {
+export async function logout() {
   try {
-    await apiClient.post('/room/exit');
+    await apiClient.get('/auth/logout');
   } catch (error) {
     console.log(error);
   }
