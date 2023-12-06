@@ -26,12 +26,12 @@ chrome.webRequest.onHeadersReceived.addListener(
     if (isActive) {
       if (details.method === 'POST') {
         const submitURL = details.responseHeaders.filter((item) => item.name === 'location')[0].value;
-        fetch('https://api.baekjoonrooms.com/extension', {
+        fetch('https://api.baekjoonrooms.com/submission', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: { userInfo, submitURL },
+          body: { submitURL, provider: userInfo.provider, providerId: userInfo.providerId },
         });
       }
     }

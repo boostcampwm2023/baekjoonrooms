@@ -2,7 +2,7 @@ import { useAuthContext } from '../contexts/AuthContext';
 
 export default function Profile() {
   const { user } = useAuthContext();
-  const userInfo = { provider: user?.provider, provierId: user?.providerId };
+  const userInfo = { provider: user?.provider, providerId: user?.providerId };
   if (
     !localStorage.getItem('userInfo') ||
     localStorage.getItem('userInfo') !== JSON.stringify(userInfo)
