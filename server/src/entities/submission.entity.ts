@@ -16,7 +16,7 @@ export default class Submission extends BaseEntity {
   id!: number;
 
   @Column()
-  status?: typeof Status;
+  status?: Status;
 
   // TODO?: enum으로 바꾸기
   @Column({ comment: '제출한 코드의 프로그래밍 언어', nullable: true })
