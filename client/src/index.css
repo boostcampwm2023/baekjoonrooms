@@ -7,6 +7,7 @@
   :root {
     --color--fg: 37 41 49;
     --color--bg: 40 44 52;
+    --color--bg-secondary: 65 69 77;
     --color--gutter: 29 32 37;
     --color--guide: 204 204 204;
     --color--text: 171 178 191;
@@ -30,6 +31,7 @@
   :root[data-theme='atom-one-dark'] {
     --color--fg: 37 41 49;
     --color--bg: 40 44 52;
+    --color--bg-secondary: 65 69 77;
     --color--gutter: 29 32 37;
     --color--guide: 204 204 204;
     --color--text: 171 178 191;
@@ -53,6 +55,7 @@
   :root[data-theme='atom-one-light'] {
     --color--fg: 56 58 66;
     --color--bg: 250 250 250;
+    --color--bg-secondary: 235 235 235;
     --color--gutter: 161 161 161;
     --color--guide: 207 208 209;
     --color--text: 56 58 66;
@@ -75,11 +78,12 @@
 
   /* 아래 두개는 copilot이 적어준거임 신뢰 ㄴㄴ */
   :root[data-theme='github-dark'] {
-    --color--fg: 201 209 217;
+    --color--fg: 139 148 158;
     --color--bg: 13 17 23;
-    --color--gutter: 22 27 34;
-    --color--guide: 33 38 45;
-    --color--text: 139 148 158;
+    --color--bg-secondary: 33 38 45;
+    --color--gutter: 33 38 45;
+    --color--guide: 149 157 165;
+    --color--text: 204 204 204;
     --color--accent: 88 166 255;
     --color--cyan: 121 192 255;
     --color--blue: 88 166 255;
@@ -100,7 +104,8 @@
   :root[data-theme='github-light'] {
     --color--fg: 36 41 46;
     --color--bg: 255 255 255;
-    --color--gutter: 246 248 250;
+    --color--bg-secondary: 240 240 240;
+    --color--gutter: 206 208 210;
     --color--guide: 209 213 218;
     --color--text: 36 41 46;
     --color--accent: 3 102 214;
