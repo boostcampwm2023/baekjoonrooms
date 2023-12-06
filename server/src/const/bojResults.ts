@@ -7,7 +7,6 @@ export const BojResults = {
 } as const;
 
 export enum Status {
-  PENDING = 'PENDING',
   ACCPETED = 'ACCPETED',
   WRONG = 'WRONG',
 }
