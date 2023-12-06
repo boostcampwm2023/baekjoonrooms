@@ -7,6 +7,6 @@ export const BojResults = {
 } as const;
 
 export enum Status {
-  ACCPETED = 'ACCPETED',
+  ACCEPTED = 'ACCEPTED',
   WRONG = 'WRONG',
 }
