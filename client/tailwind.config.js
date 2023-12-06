@@ -28,6 +28,7 @@ export default {
       level_platinum: 'rgb(var(--color--level-platinum) / <alpha-value>)',
       level_diamond: 'rgb(var(--color--level-diamond) / <alpha-value>)',
       level_ruby: 'rgb(var(--color--level-ruby) / <alpha-value>)',
+      transparent: 'transparent',
     },
     extend: {},
   },

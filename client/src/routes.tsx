@@ -6,6 +6,7 @@ import Home from './pages/Home.tsx';
 import NotFound from './pages/NotFound.tsx';
 import Lobby from './pages/Lobby.tsx';
 import Room from './pages/Room.tsx';
+import Landing from './pages/Landing.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -14,11 +15,11 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
-        index: true,
         path: '/',
-        element: <Home />,
+        element: <Landing />,
       },
       {
+        index: true,
         path: '/home',
         element: <Home />,
       },
