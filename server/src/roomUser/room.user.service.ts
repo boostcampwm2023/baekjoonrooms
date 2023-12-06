@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import RoomUser from 'src/entities/roomUser.entity';
+import User from 'src/entities/user.entity';
 import { RoomUserInput } from 'src/types/roomUser';
 import { Repository } from 'typeorm';
 
@@ -24,5 +25,12 @@ export class RoomUserService {
     return roomUser
       ? this.roomUserRepository.recover(roomUser)
       : this.roomUserRepository.create(roomUserInput).save();
+  }
+
+  async findRoomUserByUserWithRoom(user: User) {
+    return this.roomUserRepository.findOne({
+      where: { user: { id: user.id } },
+      relations: ['room'],
+    });
   }
 }
