@@ -106,4 +106,14 @@ export class RoomService {
     const roomUser = user.joinedRooms[0];
     return await roomUser.softRemove();
   }
+
+  async findRoomParticipating(user: User) {
+    const roomUser = await this.roomUserService.findRoomUserByUser(user);
+    if (!roomUser) throw new BadRequestException('참가 중인 방이 없습니다.');
+    return this.roomRepository.findOne({
+      where: {
+        joinedUsers: { id: roomUser.id },
+      },
+    });
+  }
 }
