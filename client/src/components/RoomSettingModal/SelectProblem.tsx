@@ -28,14 +28,12 @@ export default function SelectProblem({
   };
 
   const handleOptionClick = (option: ProblemResponse) => {
-    console.log(option);
     const newProblem: ProblemType = {
       title: option.title,
       boj_problem_id: option.bojProblemId,
       url: `https://www.acmicpc.net/problem/${option.bojProblemId}}`,
       level: option.level,
-      // TODO: implement tag
-      tag: [],
+      tag: option.tags.map((tag) => tag.name),
     };
     setProblemList([...problemList, newProblem]);
     setSearchInput('');
