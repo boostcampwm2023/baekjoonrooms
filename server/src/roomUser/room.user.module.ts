@@ -7,6 +7,6 @@ import { RoomUserService } from './room.user.service';
   imports: [TypeOrmModule.forFeature([RoomUser])],
   controllers: [],
   providers: [RoomUserService],
-  exports: [RoomUserService],
+  exports: [RoomUserService, TypeOrmModule],
 })
 export class RoomUserModule {}
