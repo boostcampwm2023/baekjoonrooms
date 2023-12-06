@@ -80,7 +80,7 @@ export default function MultipleChoiceDropdown<T extends Identifiable>({
         }}
         className={`${buttonClassName} cursor-pointer`}>
         <div className="flex flex-row items-center gap-2">
-          <div>{`${name}`}</div>
+          {(selected.length > 0)? `${selected.length}개 선택됨` : `${name}`}
           <div className="w-4">
             {isActive ? <FaAngleUp /> : <FaAngleDown />}
           </div>
