@@ -1,7 +1,17 @@
 import { useAuthContext } from '../contexts/AuthProvider';
+import { useLocalStorage } from '../contexts/LocalStorageProvider';
 
 export default function Profile() {
   const { user } = useAuthContext();
+  const { getItem, setItem } = useLocalStorage();
+  const userInfo = { provider: user?.provider, providerId: user?.providerId };
+
+  if (
+    !getItem('userInfo') ||
+    getItem('userInfo') !== JSON.stringify(userInfo)
+  ) {
+    setItem('userInfo', JSON.stringify(userInfo));
+  }
 
   // TODO: AuthContext쪽 UserType 재정의
   return (

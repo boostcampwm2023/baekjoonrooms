@@ -9,6 +9,7 @@ import {
 import { CreateUser } from '../types/CreateUserType';
 import { logout } from '../apis/logout';
 import { getSession } from '../apis/getSession';
+import { useLocalStorage } from './LocalStorageProvider';
 
 interface AuthContextType {
   user: CreateUser | null;
@@ -27,12 +28,14 @@ const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
+  const { removeItem } = useLocalStorage();
 
   const [user, setUser] = useState<CreateUser | null>(null);
 
   const onLogout = () => {
     logout();
     setUser(null);
+    removeItem('userInfo');
     navigate('/');
   };
 
@@ -53,5 +56,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-export const useAuthContext = () => useContext(AuthContext);
-export const useAuthUpdateContext = () => useContext(AuthUpdateContext);
+export const useAuthContext = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuthContext must be used within a AuthProvider');
+  }
+  return context;
+};
+
+export const useAuthUpdateContext = (): AuthUpdateType => {
+  const context = useContext(AuthUpdateContext);
+  if (!context) {
+    throw new Error('useAuthUpdateContext must be used within a AuthProvider');
+  }
+  return context;
+};
