@@ -6,13 +6,13 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { CreateUser } from '../types/CreateUserType';
+import { UserSession } from '../types/UserSessionType';
 import { logout } from '../apis/logout';
 import { getSession } from '../apis/getSession';
 import { useLocalStorage } from './LocalStorageProvider';
 
 interface AuthContextType {
-  user: CreateUser | null;
+  user: UserSession | null;
 }
 
 interface AuthUpdateType {
@@ -30,15 +30,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
   const { removeItem } = useLocalStorage();
 
-  const [user, setUser] = useState<CreateUser | null>(null);
+  const [chk, setChk] = useState<UserSession | null>(null);
+  const [user, setUser] = useState<UserSession | null>(null);
 
-  const onLogout = () => {
-    logout();
+  const onLogout = async () => {
+    await logout();
     setUser(null);
     removeItem('userInfo');
     navigate('/');
   };
 
+  // getSession().then((data) => {
+  //   if (data && data !== chk) {
+  //     setChk(data);
+  //   }
+  // });
   useEffect(() => {
     getSession().then((data) => {
       if (data) {
