@@ -4,4 +4,10 @@ export const BojResults = {
   partiallyAccepteds: ['pa', 'pac'],
   wrongs: ['pe', 'tle', 'mle', 'ole', 'wa', 're', 'rte', 'ce'],
   others: ['rejudge-wait', 'no-judge', 'co', 'del'],
-};
+} as const;
+
+export const Status = {
+  PENDING: 'PENDING',
+  ACCPETED: 'ACCPETED',
+  WRONG: 'WRONG',
+} as const;
