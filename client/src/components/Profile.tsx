@@ -1,8 +1,8 @@
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useState } from 'react';
 import { FaCircleUser } from 'react-icons/fa6';
 
-import { useAuthContext } from '../contexts/AuthProvider';
 import { useLocalStorage } from '../contexts/LocalStorageProvider';
-import { useState } from 'react';
 
 export default function Profile() {
   const { user } = useAuthContext();

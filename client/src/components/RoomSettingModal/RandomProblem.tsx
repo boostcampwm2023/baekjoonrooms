@@ -48,7 +48,6 @@ export default function RandomProblem({
         level: problem.level,
         tag: problem.tags.map((tag:Tag) => tag.name),
       }));
-      // max 4 problems
       if (problemList.length + newProblems.length > 4) {
         alert('문제는 최대 4개까지만 등록할 수 있습니다.');
         return;

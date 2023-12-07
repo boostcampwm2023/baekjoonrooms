@@ -3,7 +3,7 @@ import mockScoresData from '../../../public/mocks/Scores.json';
 import ScoreBoard from './ScoreBoard';
 import { FaChartSimple, FaXmark } from 'react-icons/fa6';
 import { RefObject } from 'react';
-import { useTheme } from '../../contexts/ThemeProvider';
+import { useTheme } from '../../hooks/useTheme';
 
 interface ModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;

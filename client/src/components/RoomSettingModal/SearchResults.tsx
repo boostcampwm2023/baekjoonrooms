@@ -22,20 +22,24 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
     staleTime: Infinity,
   });
 
-  if (isPending) return <div>loading...</div>;
-
-  if (isError) return <div>error</div>;
+  if (isError) {
+    return;
+  }
 
   return (
     <div className="bg-white absolute mt-10 max-h-[250px] w-full overflow-auto rounded bg-default_white">
-      {results.slice(0, 100).map((result:ProblemResponse) => (
-        <div
-          key={result.bojProblemId}
-          className="hover:bg-gray-200 cursor-pointer p-2"
-          onClick={() => onResultClick(result)}>
-          {result.bojProblemId}. {result.title}
-        </div>
-      ))}
+      {isPending ? (
+        <div className="text-center">loading...</div>
+      ) : (
+        results.slice(0, 100).map((result: ProblemResponse) => (
+          <div
+            key={result.bojProblemId}
+            className="hover:bg-gray-200 cursor-pointer p-2"
+            onClick={() => onResultClick(result)}>
+            {result.bojProblemId}. {result.title}
+          </div>
+        ))
+      )}
     </div>
   );
 };

@@ -8,7 +8,7 @@ export async function getSession(): Promise<UserSession | undefined> {
     return data;
   } catch (error) {
     if (error instanceof AxiosError && error.response?.status === 403) {
-      console.log('Login required');
+      // console.log('Login required');
     }
   }
 }

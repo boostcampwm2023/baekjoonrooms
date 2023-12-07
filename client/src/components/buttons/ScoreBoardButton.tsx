@@ -21,7 +21,7 @@ export default function ScoreboardButton() {
   return (
     <>
       <button
-        className="bg-accent text-default_white flex w-full flex-row items-center justify-center rounded-lg px-3 py-2 hover:opacity-80"
+        className="flex w-full flex-row items-center justify-center rounded-lg bg-accent px-3 py-2 text-default_white hover:opacity-80"
         onClick={openModal}>
         <FaChartSimple />
         <div className="pl-2 font-medium">Scoreboard</div>

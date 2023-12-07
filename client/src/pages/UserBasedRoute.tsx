@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthContext } from '../contexts/AuthProvider';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function UserBasedRoute({
   children,
