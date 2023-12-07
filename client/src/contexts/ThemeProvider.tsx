@@ -8,6 +8,8 @@ import React, {
   useEffect,
 } from 'react';
 
+import { useLocalStorage } from '../contexts/LocalStorageProvider';
+
 type Theme =
   | 'atom-one-dark'
   | 'atom-one-light'
@@ -28,13 +30,16 @@ interface ThemeProviderProps {
 const localStorageKey = 'theme';
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const storedTheme = localStorage.getItem(localStorageKey) as Theme | null;
+  const { getItem, setItem } = useLocalStorage();
+
+  const storedTheme = getItem(localStorageKey) as Theme | null;
+
   const [theme, setTheme] = useState<Theme>(storedTheme || 'atom-one-dark');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(localStorageKey, theme);
-  }, [theme]);
+    setItem(localStorageKey, theme);
+  }, [setItem, theme]);
 
   // TODO: change setting function
   const toggleTheme = () => {
