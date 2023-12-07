@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import LogoutButton from '../components/buttons/LogoutButton';
 import Profile from '../components/Profile';
 import RoomAccessPanel from '../components/RoomAccessPanel';
-import GlobalSettingModal from '../components/GlobalSettingModal';
+import ThemeSettingModal from '../components/ThemeSettingModal';
 import ThemeSettingButton from '../components/buttons/ThemeSettingButton';
 
 export default function Lobby() {
@@ -34,7 +34,7 @@ export default function Lobby() {
         <RoomAccessPanel />
       </div>
       {isModalOpen && (
-        <GlobalSettingModal
+        <ThemeSettingModal
           modalOverlayRef={modalOverlayRef}
           closeModal={closeModal}
           modalOutsideClick={modalOutsideClick}

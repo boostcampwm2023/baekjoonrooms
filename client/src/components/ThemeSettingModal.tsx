@@ -13,17 +13,17 @@ import { MessageInterface, ChatEvent } from '../types/Message';
 import { useTheme } from '../hooks/useTheme';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-interface GlobalSettingModalProps {
+interface ThemeSettingModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;
   closeModal: () => void;
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export default function GlobalSettingModal({
+export default function ThemeSettingModal({
   modalOverlayRef,
   closeModal,
   modalOutsideClick,
-}: GlobalSettingModalProps) {
+}: ThemeSettingModalProps) {
   const { theme, toggleTheme } = useTheme();
 
   const { user } = useAuthContext();
