@@ -34,8 +34,6 @@ export class LocalSerializer extends PassportSerializer {
       throw new BadRequestException('User not found!');
     }
 
-    // TODO: change userSession to user later. 20231206
-    // e.g.: return done(null, user);
-    return done(null, userSession);
+    return await done(null, user);
   }
 }
