@@ -50,7 +50,7 @@ export class RoomService {
   }
 
   async joinRoom(user: User, roomCode: string) {
-    const joinedRooms = await user.joinedRooms;
+    const joinedRooms = this.findJoinedRooms(user);
 
     if (joinedRooms != null) {
       throw new BadRequestException('이미 참가한 방이 있습니다.');
@@ -104,30 +104,14 @@ export class RoomService {
     }
   }
 
-  async findRoomParticipating(user: User) {
-    const roomUser = await this.roomUserService.findRoomUserByUser(user);
-    if (!roomUser) {
-      this.logger.warn(
-        `user ${user.username} is not participating in any room!`,
+  async findJoinedRooms(user: User) {
+    const joinedRooms = await user.joinedRooms;
+    if (joinedRooms == null) {
+      throw new InternalServerErrorException(
+        '참가 중인 방을 찾을 수 없습니다.',
       );
-      return null;
     }
-    return this.roomRepository.findOne({
-      where: {
-        joinedUsers: { id: roomUser.id },
-      },
-    });
-  }
 
-  async getRoomInfo(code: string) {
-    return this.roomUserRepository.count({
-      where: { room: { code } },
-    });
-  }
-
-  async getRoomUsers(code: string) {
-    return this.roomUserRepository.find({
-      where: { room: { code } },
-    });
+    return joinedRooms;
   }
 }

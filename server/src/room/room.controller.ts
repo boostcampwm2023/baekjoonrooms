@@ -1,11 +1,9 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Logger,
-  Param,
   Post,
   Req,
   UseGuards,
@@ -38,18 +36,6 @@ export class RoomController {
     const room = await this.roomService.createRoom(user);
     this.logger.debug(`room: ${room.code} successfully created!!`);
     return { code: room.code };
-  }
-
-  @Get('/:code')
-  async roomInfo(@Param('code') code: string) {
-    const users = (await this.roomService.getRoomUsers(code)).map(
-      (roomUser) => {
-        return roomUser.user?.username;
-      },
-    );
-    return {
-      users,
-    };
   }
 
   @Post('join')
