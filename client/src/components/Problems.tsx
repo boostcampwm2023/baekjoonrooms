@@ -3,8 +3,9 @@ import { FaPencil } from 'react-icons/fa6';
 
 import { ProblemType } from '../types/ProblemType';
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
-import { useTheme } from '../contexts/ThemeProvider';
+import { useTheme } from '../contexts/useTheme';
 import { getProblemButtonColor } from '../util/getProblemButtonColor';
+import { goSolveProblem } from '../util/goSolveProblem';
 
 export default function Problems({ isHost }: { isHost: boolean }) {
   const [problems, setProblems] = useState<ProblemType[]>([]);
@@ -27,11 +28,6 @@ export default function Problems({ isHost }: { isHost: boolean }) {
     }
   };
 
-  const goSolveProblem = (problemId: number) => () => {
-    // open new tab
-    window.open(`https://www.acmicpc.net/problem/${problemId}`);
-  };
-
   return (
     <>
       {isHost ? (
@@ -52,7 +48,7 @@ export default function Problems({ isHost }: { isHost: boolean }) {
                     className={`flex h-[24px] max-w-[368px] cursor-pointer items-center justify-center gap-2  rounded-[21px] px-2.5 py-1 text-left text-xs ${getProblemButtonColor(
                       problem.level,
                     )}`}
-                    onClick={goSolveProblem(problem.boj_problem_id!)}>
+                    onClick={goSolveProblem(problem)}>
                     <img
                       className="h-[12px] w-[12px]"
                       src={`https://static.solved.ac/tier_small/${problem.level}.svg`}

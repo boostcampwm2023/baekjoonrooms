@@ -1,4 +1,4 @@
-import { useAuthUpdateContext } from '../../contexts/AuthProvider';
+import { useAuthUpdateContext } from '../../contexts/useAuthUpdateContext';
 
 export default function LogoutButton() {
   const { onLogout } = useAuthUpdateContext();

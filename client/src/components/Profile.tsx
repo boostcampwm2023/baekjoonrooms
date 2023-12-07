@@ -1,4 +1,4 @@
-import { useAuthContext } from '../contexts/AuthProvider';
+import { useAuthContext } from '../contexts/useAuthContext';
 import { useLocalStorage } from '../contexts/LocalStorageProvider';
 
 export default function Profile() {

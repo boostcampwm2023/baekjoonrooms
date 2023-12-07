@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { ProblemType } from '../../types/ProblemType';
 import { FaXmark } from 'react-icons/fa6';
 import { getProblemButtonColor } from '../../util/getProblemButtonColor';
+import { goSolveProblem } from '../../util/goSolveProblem';
 
 interface ProblemListProps {
   problemList: ProblemType[];
@@ -21,11 +22,6 @@ export default function ProblemList({
     setProblemList(problemList.filter((_, index) => index !== deleteIndex));
   };
 
-  const goSolveProblem = (problemId: number) => () => {
-    // open new tab
-    window.open(`https://www.acmicpc.net/problem/${problemId}`);
-  };
-
   return (
     <div className="m-2 flex h-[250px] w-[250px] flex-col items-center rounded-lg border-2 border-gutter p-4">
       {problemList.map((problem, index) => (
@@ -36,7 +32,7 @@ export default function ProblemList({
             className={`flex max-w-[174px] cursor-pointer items-center justify-center gap-2 rounded-[21px] px-2.5 py-1 text-left text-xs ${getProblemButtonColor(
               problem.level,
             )}`}
-            onClick={goSolveProblem(problem.boj_problem_id!)}>
+            onClick={goSolveProblem(problem)}>
             <img
               className="h-[12px] w-[12px]"
               src={`https://static.solved.ac/tier_small/${problem.level}.svg`}

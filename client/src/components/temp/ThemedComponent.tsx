@@ -1,6 +1,6 @@
 // ThemeSwitcherDropdown.tsx
 
-import { useTheme } from '../../contexts/ThemeProvider';
+import { useTheme } from '../../contexts/useTheme';
 
 export default function ThemeComponent() {
   const { theme, toggleTheme } = useTheme();

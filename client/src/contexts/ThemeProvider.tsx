@@ -1,12 +1,4 @@
-// ThemeProvider.tsx
-
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from 'react';
+import React, { createContext, ReactNode, useState, useEffect } from 'react';
 
 import { useLocalStorage } from '../contexts/LocalStorageProvider';
 
@@ -16,12 +8,14 @@ type Theme =
   | 'github-dark'
   | 'github-light';
 
-type ThemeContextType = {
+export type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
+export const ThemeContext = createContext<ThemeContextType>(
+  {} as ThemeContextType,
+);
 
 interface ThemeProviderProps {
   children: ReactNode;
@@ -69,12 +63,4 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       <div className="relative">{children}</div>
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = (): ThemeContextType => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
 };

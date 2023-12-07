@@ -1,6 +1,6 @@
 import { FaArrowRight } from 'react-icons/fa6';
 import Message from './Message';
-import { useAuthContext } from '../contexts/AuthProvider';
+import { useAuthContext } from '../contexts/useAuthContext';
 
 import { ChatEvent, MessageInterface } from '../types/Message';
 import { Socket } from 'socket.io-client';
