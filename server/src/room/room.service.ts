@@ -50,9 +50,9 @@ export class RoomService {
   }
 
   async joinRoom(user: User, roomCode: string) {
-    const joinedRooms = this.findJoinedRooms(user);
+    const joinedRooms = await this.findJoinedRooms(user);
 
-    if (joinedRooms != null) {
+    if (joinedRooms.length !== 0) {
       throw new BadRequestException('이미 참가한 방이 있습니다.');
     }
 
