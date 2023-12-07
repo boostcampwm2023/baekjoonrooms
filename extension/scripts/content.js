@@ -12,13 +12,8 @@ function injectScript() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     chrome.runtime.sendMessage({ isActive: true, userInfo });
     isRoom = true;
-  }
-
-  const roomExitButton = document.getElementById('room-exit-button');
-  if (roomExitButton) {
-    roomExitButton.addEventListener('click', () => {
-      chrome.runtime.sendMessage({ isActive: false });
-      isRoom = false;
-    });
+  } else {
+    chrome.runtime.sendMessage({ isActive: false });
+    isRoom = false;
   }
 }

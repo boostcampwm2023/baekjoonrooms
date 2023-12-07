@@ -18,11 +18,11 @@ export default function Profile() {
     <div className="mb-6 flex items-center justify-center gap-3">
       <img
         className="w-12 rounded-full"
-        src={user!.avatarUrl}
+        src={user?.avatarUrl}
         alt="프로필 이미지"
       />
       <p className="text-lg font-semibold text-text_default">
-        {user!.username}
+        {user?.username}
       </p>
     </div>
   );
