@@ -42,7 +42,7 @@ export default function RoomJoinButton() {
   return (
     <form className="flex items-center justify-between gap-2">
       <input
-        className="rounded-lg bg-default_white px-2 py-1"
+        className="rounded-lg bg-default_white px-2 py-1 border"
         placeholder="Room code"
         value={roomCode}
         onChange={(e) => setRoomCode(e.target.value)}

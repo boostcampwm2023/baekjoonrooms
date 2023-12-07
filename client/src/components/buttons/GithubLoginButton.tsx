@@ -1,5 +1,5 @@
 import { FaGithub } from 'react-icons/fa6';
-import { useTheme } from '../../contexts/ThemeProvider';
+import { useTheme } from '../../hooks/useTheme';
 
 export default function GithubLoginButton() {
   async function login(): Promise<void> {

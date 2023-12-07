@@ -1,7 +1,7 @@
+import { Status } from 'src/const/bojResults';
 import {
   BaseEntity,
   Column,
-  CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -15,18 +15,17 @@ export default class Submission extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  // TODO?: enum으로 바꾸기
   @Column()
-  status?: string;
+  status?: Status;
 
   // TODO?: enum으로 바꾸기
-  @Column({ comment: '제출한 코드의 프로그래밍 언어' })
+  @Column({ comment: '제출한 코드의 프로그래밍 언어', nullable: true })
   language?: string;
 
-  @Column({ type: 'text', comment: '제출한 코드' })
+  @Column({ type: 'text', comment: '제출한 코드', nullable: true })
   code?: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @Column({ comment: '요청이 들어온 시간 기준으로 판단', type: 'timestamp' })
   submittedAt?: Date;
 
   // 제출한 사람(submitter)

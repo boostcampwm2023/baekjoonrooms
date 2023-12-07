@@ -10,7 +10,7 @@ export default function ExitButton() {
       await exitRoom();
       navigate(`/lobby`);
     } catch (err) {
-      console.error(err);
+      alert('방 나가기에 실패했습니다.');
       throw err;
     }
   };
