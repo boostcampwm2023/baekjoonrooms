@@ -41,7 +41,7 @@ export class RoomController {
     const user: User = req.user as User;
     const { code } = body;
     this.logger.debug(`user: ${user.username} joining room: ${code}`);
-    return await this.roomService.addUserToRoom(user, code);
+    return await this.roomService.joinRoom(user, code);
   }
 
   @Post('exit')

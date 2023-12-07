@@ -12,17 +12,19 @@ import { RoomUserService } from 'src/roomUser/room.user.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import * as util from 'util';
+import RoomUser from '../entities/roomUser.entity';
 
 @Injectable()
 export class RoomService {
   private readonly logger = new Logger(RoomService.name);
 
   constructor(
-    @InjectRepository(Room)
-    private readonly roomRepository: Repository<Room>,
-
     private readonly userService: UserService,
     private readonly roomUserService: RoomUserService,
+    @InjectRepository(RoomUser)
+    private readonly roomUserRepository: Repository<RoomUser>,
+    @InjectRepository(Room)
+    private readonly roomRepository: Repository<Room>,
   ) {}
 
   async createRoom(userSession: User) {
@@ -60,7 +62,7 @@ export class RoomService {
     return hash.substring(0, 6).toUpperCase();
   }
 
-  async addUserToRoom(userSession: User, roomCode: string) {
+  async joinRoom(userSession: User, roomCode: string) {
     const { provider, providerId } = userSession;
 
     const user = await this.userService.findUserByProviderInfo({
@@ -69,21 +71,33 @@ export class RoomService {
     });
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
-    const room = await this.roomRepository.findOne({
-      where: { code: roomCode },
+    const roomUser = await this.roomUserService.findRoomUserByUser(user);
+
+    if (roomUser) {
+      throw new BadRequestException('이미 참가한 방이 있습니다.');
+    }
+
+    const roomUsers = await this.roomUserRepository.find({
+      where: { room: { code: roomCode } },
     });
-    if (!room) {
-      this.logger.debug(`room with ${roomCode} does not exist!`);
+
+    if (roomUsers.length === 0) {
       throw new BadRequestException('존재하지 않는 방입니다.');
     }
 
-    if (
-      room.joinedUsers &&
-      room.joinedUsers.find((joinedUser) => joinedUser.id === user.id)
-    )
-      throw new BadRequestException('이미 참가한 방입니다.');
+    const room = roomUsers[0].room;
 
-    return await this.roomUserService.createOrRestoreRoomUser({ room, user });
+    if (room == null) {
+      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
+    }
+
+    this.logger.debug(`user ${user.username} joining room ${room.code}...`);
+    return this.roomUserRepository.create({ room, user }).save();
+  }
+
+  async destroyRoom(room: Room) {
+    this.logger.debug(`destroying room: ${room.code}`);
+    return await this.roomRepository.remove(room);
   }
 
   async exitRoom(userSession: User) {
@@ -104,7 +118,20 @@ export class RoomService {
       throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
 
     const roomUser = user.joinedRooms[0];
-    return await roomUser.softRemove();
+    await this.roomUserRepository.remove(roomUser);
+
+    const room = roomUser.room;
+    if (room == null) {
+      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
+    }
+
+    const numberOfJoinedUsers = await this.roomUserRepository.count({
+      where: { room: { id: room.id } },
+    });
+
+    if (numberOfJoinedUsers === 0) {
+      await this.destroyRoom(room);
+    }
   }
 
   async findRoomParticipating(user: User) {

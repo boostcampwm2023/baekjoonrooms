@@ -13,18 +13,11 @@ export class RoomUserService {
   ) {}
 
   async createOrRestoreRoomUser(roomUserInput: RoomUserInput) {
-    const { room, user } = roomUserInput;
-    const roomUser = await this.roomUserRepository.findOne({
-      withDeleted: true,
-      where: {
-        room: { id: room.id },
-        user: { id: user.id },
-      },
-    });
+    return this.roomUserRepository.create(roomUserInput).save();
+  }
 
-    return roomUser
-      ? this.roomUserRepository.recover(roomUser)
-      : this.roomUserRepository.create(roomUserInput).save();
+  async remove(roomUser: RoomUser) {
+    return this.roomUserRepository.remove(roomUser);
   }
 
   async findRoomUserByUser(user: User) {
