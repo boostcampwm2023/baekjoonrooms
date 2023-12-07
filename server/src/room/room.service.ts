@@ -106,4 +106,19 @@ export class RoomService {
     const roomUser = user.joinedRooms[0];
     return await roomUser.softRemove();
   }
+
+  async findRoomParticipating(user: User) {
+    const roomUser = await this.roomUserService.findRoomUserByUser(user);
+    if (!roomUser) {
+      this.logger.warn(
+        `user ${user.username} is not participating in any room!`,
+      );
+      return null;
+    }
+    return this.roomRepository.findOne({
+      where: {
+        joinedUsers: { id: roomUser.id },
+      },
+    });
+  }
 }

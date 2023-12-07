@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
 import {
   ReactNode,
   createContext,
@@ -6,13 +6,13 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { CreateUser } from '../types/CreateUserType';
+import { UserSession } from '../types/UserSessionType';
 import { logout } from '../apis/logout';
 import { getSession } from '../apis/getSession';
 import { useLocalStorage } from './LocalStorageProvider';
 
 interface AuthContextType {
-  user: CreateUser | null;
+  user: UserSession | null;
 }
 
 interface AuthUpdateType {
@@ -28,13 +28,14 @@ const AuthUpdateContext = createContext<AuthUpdateType>({} as AuthUpdateType);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { removeItem } = useLocalStorage();
 
-  const [user, setUser] = useState<CreateUser | null>(null);
+  const [user, setUser] = useState<UserSession | null>(null);
 
-  const onLogout = () => {
-    logout();
-    setUser(null);
+  const onLogout = async () => {
+    await logout();
+    // setUser(null);
     removeItem('userInfo');
     navigate('/');
   };
@@ -43,9 +44,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     getSession().then((data) => {
       if (data) {
         setUser(data);
+      } else {
+        setUser(null);
       }
     });
-  }, []);
+  }, [location.pathname]);
 
   return (
     <AuthContext.Provider value={{ user }}>

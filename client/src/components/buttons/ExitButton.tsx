@@ -5,9 +5,9 @@ import { exitRoom } from '../../apis/exitRoom';
 export default function ExitButton() {
   const navigate = useNavigate();
 
-  const exit = () => {
+  const exit = async () => {
     try {
-      exitRoom();
+      await exitRoom();
       navigate(`/lobby`);
     } catch (err) {
       console.error(err);
