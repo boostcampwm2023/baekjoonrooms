@@ -41,6 +41,10 @@ export default function RandomProblem({
       .flatMap((id) => difficultyMapping[id]);
     try {
       const res = await randomProblem(tagIds, difficultyIds, count);
+      if(res.length === 0) {
+        alert('해당 문제가 없습니다.');
+        return;
+      }
       const newProblems = res.map((problem) => ({
         title: problem.title,
         boj_problem_id: problem.bojProblemId,
