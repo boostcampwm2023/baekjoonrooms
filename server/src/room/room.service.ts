@@ -118,4 +118,16 @@ export class RoomService {
       },
     });
   }
+
+  async getRoomInfo(code: string) {
+    return this.roomUserRepository.count({
+      where: { room: { code } },
+    });
+  }
+
+  async getRoomUsers(code: string) {
+    return this.roomUserRepository.find({
+      where: { room: { code } },
+    });
+  }
 }
