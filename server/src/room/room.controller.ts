@@ -6,14 +6,17 @@ import {
   Logger,
   Post,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import User from '../entities/user.entity';
+import { SessionAuthGuard } from '../auth/auth.guard';
 
 @Controller('room')
 @ApiTags('room')
+@UseGuards(SessionAuthGuard)
 export class RoomController {
   private readonly logger = new Logger(RoomController.name);
 
