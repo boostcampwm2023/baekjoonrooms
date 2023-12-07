@@ -1,5 +1,4 @@
 import { RefObject } from 'react';
-import { useTheme } from '../contexts/ThemeProvider';
 import {
   FaArrowRight,
   FaChartSimple,
@@ -11,7 +10,8 @@ import { ProblemType } from '../types/ProblemType';
 import { getProblemButtonColor } from '../util/getProblemButtonColor';
 import Message from './Message';
 import { MessageInterface, ChatEvent } from '../types/Message';
-import { useAuthContext } from '../contexts/AuthProvider';
+import { useTheme } from '../hooks/useTheme';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 interface GlobalSettingModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;

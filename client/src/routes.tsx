@@ -16,7 +16,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Landing />,
+        element: (
+          <UserBasedRoute>
+            <Home />
+          </UserBasedRoute>
+        ),
       },
       {
         index: true,
@@ -42,6 +46,10 @@ export const router = createBrowserRouter([
             <Room />
           </UserBasedRoute>
         ),
+      },
+      {
+        path: '/intro',
+        element: <Landing />,
       },
     ],
   },

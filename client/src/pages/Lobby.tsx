@@ -25,7 +25,7 @@ export default function Lobby() {
 
   return (
     <div className="min-h-screen bg-bg">
-      <div className="flex w-full justify-end gap-2 pr-4 shadow-md">
+      <div className="flex w-full justify-end gap-4 pr-4 shadow-md">
         <ThemeSettingButton openModal={openModal} />
         <LogoutButton />
       </div>

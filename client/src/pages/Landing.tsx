@@ -1,8 +1,8 @@
 import { FaGithub } from 'react-icons/fa6';
 import VideoPlayer from '../components/VideoPlayer';
-import { useAuthContext } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function Landing() {
   const videoSource = '/assets/test.mp4';
@@ -37,7 +37,7 @@ export default function Landing() {
       </header>
 
       <main className="flex flex-col items-center justify-center gap-y-16 pt-36">
-        <div className="text-transparent bg-gradient-to-r from-text_default to-gold bg-clip-text text-center text-xl font-bold md:text-3xl lg:text-5xl">
+        <div className="bg-gradient-to-r from-text_default to-gold bg-clip-text text-center text-xl font-bold text-transparent md:text-3xl lg:text-5xl">
           Multiplayer rooms for BOJ
         </div>
         <a
@@ -88,7 +88,7 @@ export default function Landing() {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-2 p-10">
-          <div className="text-transparent bg-gradient-to-r from-text_default to-gold bg-clip-text text-3xl font-bold">
+          <div className="bg-gradient-to-r from-text_default to-gold bg-clip-text text-3xl font-bold text-transparent">
             시연영상 보시죠
           </div>
           <VideoPlayer videoSrc={videoSource} />
