@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../contexts/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 import GithubLoginButton from '../components/buttons/GithubLoginButton';
 import { useEffect } from 'react';
 import MockLogin from '../components/temp/MockLogin';

@@ -1,4 +1,4 @@
-import { useAuthUpdateContext } from '../../contexts/useAuthUpdateContext';
+import { useAuthUpdateContext } from '../../hooks/useAuthUpdateContext';
 
 export default function LogoutButton() {
   const { onLogout } = useAuthUpdateContext();

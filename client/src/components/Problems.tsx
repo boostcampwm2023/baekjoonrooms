@@ -3,7 +3,7 @@ import { FaPencil } from 'react-icons/fa6';
 
 import { ProblemType } from '../types/ProblemType';
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
-import { useTheme } from '../contexts/useTheme';
+import { useTheme } from '../hooks/useTheme';
 import { getProblemButtonColor } from '../util/getProblemButtonColor';
 import { goSolveProblem } from '../util/goSolveProblem';
 
