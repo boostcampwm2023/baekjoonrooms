@@ -3,8 +3,9 @@ import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 
 export interface DropdownProps<T> {
   options: Array<T>;
-  onOptionClick: (option: T) => void;
   optionPostFix?: string;
+  selected: T;
+  setSelected: React.Dispatch<React.SetStateAction<T>>;
   buttonClassName?: string;
   itemBoxClassName?: string;
   itemClassName?: string;
@@ -14,8 +15,9 @@ export interface DropdownProps<T> {
  * Custom Dropdown Component
  * @param {DropdownProps<T>} props
  * @param {Array<T>} props.options dropdown items with value
- * @param {Function} props.onOptionClick callback function when dropdown item is clicked
  * @param {string} props.optionPostFix postfix of dropdown item
+ * @param {T} props.selected selected item
+ * @param {React.Dispatch<React.SetStateAction<T>>} props.setSelected set selected item
  * @param {string} props.buttonClassName className of dropdown button for tailwindcss
  * @param {string} props.itemBoxClassName className of dropdown item box for tailwindcss
  * @param {string} props.itemClassName className of dropdown item for tailwindcss
@@ -24,17 +26,17 @@ export interface DropdownProps<T> {
  */
 export default function Dropdown<T>({
   options,
-  onOptionClick,
+  selected,
+  setSelected,
   optionPostFix = '',
   buttonClassName = '',
   itemBoxClassName = '',
   itemClassName = '',
 }: DropdownProps<T>): JSX.Element {
   const [isActive, setIsActive] = useState(false);
-  const [selected, setIsSelected] = useState<T>(options[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const dropdwonOutsiedClick = (event: MouseEvent) => {
+  const dropdownOutsideClick = (event: MouseEvent) => {
     const targetElement = document.elementFromPoint(
       event.clientX,
       event.clientY,
@@ -46,12 +48,12 @@ export default function Dropdown<T>({
   };
 
   useEffect(() => {
-    document.addEventListener('click', dropdwonOutsiedClick);
+    document.addEventListener('click', dropdownOutsideClick);
 
     return () => {
-      document.removeEventListener('click', dropdwonOutsiedClick);
+      document.removeEventListener('click', dropdownOutsideClick);
     };
-  }, []);
+  }, [dropdownRef]);
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -72,9 +74,8 @@ export default function Dropdown<T>({
           <li
             key={option as Key}
             onClick={() => {
-              setIsSelected(option);
+              setSelected(option);
               setIsActive(!isActive);
-              onOptionClick(option);
             }}
             className={`${itemClassName} flex cursor-pointer justify-center`}>
             {option + optionPostFix}

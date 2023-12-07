@@ -46,4 +46,10 @@ export class ProblemService {
     const shuffledProblems = problems.sort(() => 0.5 - Math.random());
     return shuffledProblems.slice(0, count);
   }
+
+  async getProblemByBojProblemId(bojProblemId: number) {
+    return await this.problemRepository.findOne({
+      where: { bojProblemId },
+    });
+  }
 }

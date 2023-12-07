@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import RoomUser from 'src/entities/roomUser.entity';
+import User from 'src/entities/user.entity';
 import { RoomUserInput } from 'src/types/roomUser';
 import { Repository } from 'typeorm';
 import User from '../entities/user.entity';

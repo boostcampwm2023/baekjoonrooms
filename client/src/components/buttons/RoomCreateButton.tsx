@@ -12,10 +12,6 @@ export default function RoomCreateButton() {
     try {
       const roomInfo: RoomCreateType | undefined = await createRoom();
       if (roomInfo === undefined) {
-        // setTimeout(() => {
-        //   alert('방 생성에 실패했습니다.');
-        //
-        // }, 1000);
         setIsLoading(false);
         return;
       }

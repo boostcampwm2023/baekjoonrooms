@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(function (req) {
 
 chrome.webRequest.onHeadersReceived.addListener(
   function (details) {
-    if (isActive) {
+    if (isActive && userInfo && userInfo.provider) {
       if (details.method === 'POST') {
         const submitURL = details.responseHeaders.filter((item) => item.name === 'location')[0].value;
         fetch('https://api.baekjoonrooms.com/submission', {
@@ -31,7 +31,7 @@ chrome.webRequest.onHeadersReceived.addListener(
           headers: {
             'Content-Type': 'application/json',
           },
-          body: { submitURL, provider: userInfo.provider, providerId: userInfo.providerId },
+          body: JSON.stringify({ submitURL, provider: userInfo.provider, providerId: userInfo.providerId }),
         });
       }
     }
