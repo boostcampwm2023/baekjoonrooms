@@ -17,7 +17,7 @@ export default function Landing() {
   }, [navigate, user]);
 
   return (
-    <div className="h-full min-h-screen overscroll-none bg-bg pt-5">
+    <div className="h-full min-h-screen overscroll-none bg-bg">
       <header className="fixed z-50 w-full bg-opacity-50 shadow-lg backdrop-blur-sm transition duration-300 ease-in-out">
         <div className="flex h-20 flex-row items-center justify-center px-16 md:px-24 lg:px-36">
           <div className="flex flex-row items-center gap-x-3 sm:flex-1">
