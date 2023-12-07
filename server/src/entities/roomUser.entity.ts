@@ -17,10 +17,10 @@ export default class RoomUser extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Room, (room) => room.joinedUsers)
+  @ManyToOne(() => Room, (room) => room.joinedUsers, { eager: true })
   room?: Room;
 
-  @ManyToOne(() => User, (user) => user.joinedRooms)
+  @ManyToOne(() => User, (user) => user.joinedRooms, { eager: true })
   user?: User;
 
   @CreateDateColumn({ type: 'timestamp' })
