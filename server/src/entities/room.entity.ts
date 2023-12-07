@@ -22,7 +22,7 @@ export default class Room extends BaseEntity {
   id!: number;
 
   @Column()
-  code?: string;
+  code!: string;
 
   @Column({
     type: 'timestamp',

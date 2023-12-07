@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProviderInfo } from 'src/types/user';
 import { Repository } from 'typeorm';
@@ -40,5 +44,19 @@ export class UserService {
     return this.userRepository.findOne({
       where: providerInfo,
     });
+  }
+
+  async getJoinedRoom(user: User) {
+    const joinedRooms = await user.joinedRooms;
+    if (joinedRooms == null) {
+      throw new BadRequestException('joinedRooms is null');
+    }
+    if (joinedRooms.length !== 1) {
+      throw new InternalServerErrorException(
+        `zero or multiple joined rooms ${joinedRooms.length}`,
+      );
+    }
+
+    return joinedRooms[0];
   }
 }
