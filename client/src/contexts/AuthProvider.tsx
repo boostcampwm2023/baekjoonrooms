@@ -5,7 +5,7 @@ import { logout } from '../apis/logout';
 import { getSession } from '../apis/getSession';
 import { useLocalStorage } from './LocalStorageProvider';
 
-interface AuthContextType {
+export interface AuthContextType {
   user: UserSession | null;
 }
 
