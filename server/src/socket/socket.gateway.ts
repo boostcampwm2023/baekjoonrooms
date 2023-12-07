@@ -16,7 +16,7 @@ import User from '../entities/user.entity';
 // @UseFilters(new WebsocketExceptionsFilter())
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost5173', '*'],
+    origin: [process.env.CLIENT_HTTP_URL, process.env.CLIENT_HTTPS_URL, process.env.CLIENT_URL, 'http://localhost:4000'],
     credentials: true,
   },
   transports: ['websocket', 'polling'],
