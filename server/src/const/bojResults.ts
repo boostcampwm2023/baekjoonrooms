@@ -31,4 +31,4 @@ export const BojResultsToStatus = {
   'no-judge': Status.WRONG,
   co: Status.WRONG,
   del: Status.WRONG,
-};
+} as const;
