@@ -12,6 +12,7 @@ import { RoomModule } from './room/room.module';
 import { SocketModule } from './socket/socket.module';
 import { UserModule } from './user/user.module';
 import { ShortLoggerService } from './short-logger/short-logger.service';
+import { SubmissionModule } from './submission/submission.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ShortLoggerService } from './short-logger/short-logger.service';
     SocketModule,
     RoomModule,
     ProblemModule,
+    SubmissionModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger, ShortLoggerService],
