@@ -6,7 +6,7 @@ import Home from './pages/Home.tsx';
 import NotFound from './pages/NotFound.tsx';
 import Lobby from './pages/Lobby.tsx';
 import Room from './pages/Room.tsx';
-import Landing from './pages/Landing.tsx';
+import Intro from './pages/Intro.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/intro',
-        element: <Landing />,
+        element: <Intro />,
       },
     ],
   },

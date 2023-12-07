@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-export default function Landing() {
+export default function Intro() {
   const videoSource = '/assets/test.mp4';
 
   const { user } = useAuthContext();
