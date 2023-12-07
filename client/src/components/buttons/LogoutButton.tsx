@@ -5,9 +5,9 @@ export default function LogoutButton() {
 
   return (
     <button
-      className="hover:bg-gray-600 m-4 rounded-lg bg-gutter p-2.5 px-5 text-sm text-guide"
+      className="m-4 rounded-lg border p-2.5 px-5 text-sm text-text_default bg-fg/25"
       onClick={onLogout}>
-      Log out
+      LOGOUT
     </button>
   );
 }

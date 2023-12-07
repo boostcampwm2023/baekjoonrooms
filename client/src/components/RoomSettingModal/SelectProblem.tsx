@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { ProblemType } from '../../types/ProblemType';
 import { ProblemResponse } from '../../types/Problem';
-import { SearchResults } from '../SearchResults';
+import { SearchResults } from './SearchResults';
 
 interface SelectProblemProps {
   problem: ProblemType;
@@ -28,15 +28,19 @@ export default function SelectProblem({
   };
 
   const handleOptionClick = (option: ProblemResponse) => {
-    console.log(option);
     const newProblem: ProblemType = {
       title: option.title,
       boj_problem_id: option.bojProblemId,
       url: `https://www.acmicpc.net/problem/${option.bojProblemId}}`,
       level: option.level,
-      // TODO: implement tag
+      // TODO : response have no tag attribute
       tag: [],
     };
+    // max 4 problems
+    if (problemList.length + 1 > 4) {
+      alert('문제는 최대 4개까지만 등록할 수 있습니다.');
+      return;
+    }
     setProblemList([...problemList, newProblem]);
     setSearchInput('');
   };
@@ -51,10 +55,7 @@ export default function SelectProblem({
         value={searchInput}
         onChange={onChangeInput}
       />
-      <SearchResults
-        input={searchInput}
-        onResultClick={handleOptionClick}
-      />
+      <SearchResults input={searchInput} onResultClick={handleOptionClick} />
       <button className="rounded-lg bg-accent px-3 py-1 text-sm text-default_white hover:opacity-80">
         등록
       </button>
