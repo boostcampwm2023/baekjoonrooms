@@ -47,9 +47,7 @@ export default class Room extends BaseEntity {
   })
   host?: User;
 
-  @OneToMany(() => RoomUser, (roomUser) => roomUser.room, {
-    cascade: ['remove'],
-  })
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.room)
   joinedUsers?: RoomUser[];
 
   @OneToMany(() => Submission, (submission) => submission.room)
