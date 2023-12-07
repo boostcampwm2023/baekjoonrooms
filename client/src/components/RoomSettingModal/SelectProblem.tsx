@@ -45,18 +45,15 @@ export default function SelectProblem({
 
   return (
     <form
-      className="relative m-2 flex w-[250px] justify-between"
+      className="relative m-2 flex justify-between"
       onSubmit={registerProblem}>
       <input
-        className="rounded-lg bg-default_white px-2"
+        className="rounded-lg bg-default_white px-2 py-0.5"
         placeholder="문제를 입력하시오"
         value={searchInput}
         onChange={onChangeInput}
       />
       <SearchResults input={searchInput} onResultClick={handleOptionClick} />
-      <button className="rounded-lg bg-accent px-3 py-1 text-sm text-default_white hover:opacity-80">
-        등록
-      </button>
     </form>
   );
 }
