@@ -1,4 +1,11 @@
-import { ReactNode, createContext, useEffect, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserSession } from '../types/UserSessionType';
 import { logout } from '../apis/logout';
@@ -7,6 +14,8 @@ import { useLocalStorage } from './LocalStorageProvider';
 
 export interface AuthContextType {
   user: UserSession | null;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface AuthUpdateType {
@@ -30,6 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { removeItem } = useLocalStorage();
 
   const [user, setUser] = useState<UserSession | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const onLogout = async () => {
     await logout();
@@ -42,14 +52,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     getSession().then((data) => {
       if (data) {
         setUser(data);
+        setIsLoading(false);
       } else {
         setUser(null);
+        setIsLoading(false);
       }
     });
-  }, [location.pathname]);
+  }, [location]);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, isLoading, setIsLoading }}>
       <AuthUpdateContext.Provider value={{ onLogout }}>
         {children}
       </AuthUpdateContext.Provider>
