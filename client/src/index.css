@@ -76,7 +76,6 @@
     --color--level-ruby: 225 100 110;
   }
 
-  /* 아래 두개는 copilot이 적어준거임 신뢰 ㄴㄴ */
   :root[data-theme='github-dark'] {
     --color--fg: 139 148 158;
     --color--bg: 13 17 23;
