@@ -12,7 +12,7 @@ export class RoomUserService {
     private readonly roomUserRepository: Repository<RoomUser>,
   ) {}
 
-  async createOrRestoreRoomUser(roomUserInput: RoomUserInput) {
+  async create(roomUserInput: RoomUserInput) {
     return this.roomUserRepository.create(roomUserInput).save();
   }
 
@@ -23,6 +23,12 @@ export class RoomUserService {
   async findRoomUserByUser(user: User) {
     return this.roomUserRepository.findOne({
       where: { user: { id: user.id } },
+    });
+  }
+
+  async findRoomUsersByRoomCode(roomCode: string) {
+    return this.roomUserRepository.find({
+      where: { room: { code: roomCode } },
     });
   }
 }
