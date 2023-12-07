@@ -41,9 +41,9 @@ export default class User extends BaseEntity {
   deletedAt?: Date;
 
   @OneToMany(() => RoomUser, (roomUser) => roomUser.user, {
-    cascade: ['remove'],
+    lazy: true,
   })
-  joinedRooms?: RoomUser[];
+  joinedRooms?: Promise<RoomUser[]>;
 
   @OneToMany(() => Submission, (submission) => submission.user)
   submissions?: Submission[];

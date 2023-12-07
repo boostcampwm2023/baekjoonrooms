@@ -10,6 +10,7 @@ export default {
       default_white: 'rgb(255 255 255 / <alpha-value>)',
       fg: 'rgb(var(--color--fg) / <alpha-value>)',
       bg: 'rgb(var(--color--bg) / <alpha-value>)',
+      bg_secondary: 'rgb(var(--color--bg-secondary) / <alpha-value>)',
       gutter: 'rgb(var(--color--gutter) / <alpha-value>)',
       text_default: 'rgb(var(--color--text) / <alpha-value>)',
       guide: 'rgb(var(--color--guide) / <alpha-value>)',

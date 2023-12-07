@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import User from '../entities/user.entity';
 import * as util from 'util';
+import { UserSession } from '../types/userSession';
 
 @Injectable()
 export class LocalSerializer extends PassportSerializer {
@@ -16,19 +16,24 @@ export class LocalSerializer extends PassportSerializer {
     super();
   }
 
-  serializeUser(user: User, done: CallableFunction) {
-    this.logger.debug('Serializing user:', util.inspect(user));
-    return done(null, user);
+  serializeUser(userSession: UserSession, done: CallableFunction) {
+    this.logger.debug('Serializing user:', util.inspect(userSession));
+    return done(null, userSession);
   }
 
-  /**
-   * This function gets triggered everytime a client sends a request with a valid sid cookie.
-   * @param {User} user - user object that is found in the session using sid.
-   * @param done
-   */
-  async deserializeUser(user: User, done: CallableFunction) {
-    this.logger.debug('Deserializing user:', user);
-    this.logger.debug('Now accessible via req.user!');
-    return done(null, user);
+  async deserializeUser(userSession: UserSession, done: CallableFunction) {
+    this.logger.debug('Deserializing userSession:', userSession);
+    const { provider, providerId } = userSession;
+    const user = await this.userService.findUserByProviderInfo({
+      provider,
+      providerId,
+    });
+
+    if (!user) {
+      this.logger.error('User not found in the database!');
+      throw new BadRequestException('User not found!');
+    }
+
+    return await done(null, user);
   }
 }

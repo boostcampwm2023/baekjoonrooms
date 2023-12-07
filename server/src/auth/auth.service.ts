@@ -1,4 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import User from '../entities/user.entity';
 import { ProviderInfo } from 'src/types/user';
@@ -18,9 +22,10 @@ export class AuthService {
       await this.userService.findUserByProviderInfo(mockProviderInfo);
 
     if (user == null) {
-      this.logger.debug(`Mock user ${username} not found!`);
-      throw new Error('Mock user not found');
+      this.logger.debug('유저가 존재하지 않습니다.');
+      throw new InternalServerErrorException();
     }
+
     return user;
   }
 }

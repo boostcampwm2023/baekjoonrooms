@@ -11,33 +11,22 @@ import User from 'src/entities/user.entity';
 import { RoomUserService } from 'src/roomUser/room.user.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import * as util from 'util';
+import RoomUser from '../entities/roomUser.entity';
 
 @Injectable()
 export class RoomService {
   private readonly logger = new Logger(RoomService.name);
 
   constructor(
-    @InjectRepository(Room)
-    private readonly roomRepository: Repository<Room>,
-
     private readonly userService: UserService,
     private readonly roomUserService: RoomUserService,
+    @InjectRepository(RoomUser)
+    private readonly roomUserRepository: Repository<RoomUser>,
+    @InjectRepository(Room)
+    private readonly roomRepository: Repository<Room>,
   ) {}
 
-  async createRoom(userSession: User) {
-    const { provider, providerId } = userSession;
-
-    const user = await this.userService.findUserByProviderInfoWithRooms({
-      provider,
-      providerId,
-    });
-
-    if (!user) {
-      throw new InternalServerErrorException('유저를 찾을 수 없습니다.');
-    }
-    if (user.joinedRooms && user.joinedRooms.length > 0)
-      throw new BadRequestException('이미 방에 참가 중입니다.');
+  async createRoom(user: User) {
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
 
@@ -48,8 +37,8 @@ export class RoomService {
         host: user,
       })
       .save();
-    await this.roomUserService.createOrRestoreRoomUser({ room, user });
 
+    await this.roomUserService.create({ room, user });
     return room;
   }
 
@@ -60,50 +49,69 @@ export class RoomService {
     return hash.substring(0, 6).toUpperCase();
   }
 
-  async addUserToRoom(userSession: User, roomCode: string) {
-    const { provider, providerId } = userSession;
+  async joinRoom(user: User, roomCode: string) {
+    const joinedRooms = await this.findJoinedRooms(user);
 
-    const user = await this.userService.findUserByProviderInfo({
-      provider,
-      providerId,
-    });
-    if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
-
-    const room = await this.roomRepository.findOne({
-      where: { code: roomCode },
-    });
-    if (!room) {
-      this.logger.debug(`room with ${roomCode} does not exist!`);
-      throw new BadRequestException('존재하지 않는 방입니다.');
+    if (joinedRooms.length !== 0) {
+      throw new BadRequestException('이미 참가한 방이 있습니다.');
     }
 
-    if (
-      room.joinedUsers &&
-      room.joinedUsers.find((joinedUser) => joinedUser.id === user.id)
-    )
-      throw new BadRequestException('이미 참가한 방입니다.');
+    const roomUsers =
+      await this.roomUserService.findRoomUsersByRoomCode(roomCode);
 
-    return await this.roomUserService.createOrRestoreRoomUser({ room, user });
+    if (roomUsers.length === 0) {
+      throw new BadRequestException('존재하지 않는 방입니다.');
+    }
+    const room = roomUsers[0].room;
+    if (room == null) {
+      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
+    }
+    this.logger.debug(`user ${user.username} joining room ${room.code}...`);
+    return this.roomUserRepository.create({ room, user }).save();
   }
 
-  async exitRoom(userSession: User) {
-    const { provider, providerId } = userSession;
+  async destroyRoom(room: Room) {
+    this.logger.debug(`destroying room: ${room.code}`);
+    return await this.roomRepository.remove(room);
+  }
 
-    const user = await this.userService.findUserByProviderInfoWithRooms({
-      provider,
-      providerId,
-    });
-    if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
+  async exitRoom(user: User) {
+    const joinedRooms = await user.joinedRooms;
+    if (joinedRooms == null) {
+      throw new InternalServerErrorException(
+        '참가 중인 방을 찾을 수 없습니다.',
+      );
+    }
 
-    this.logger.debug('user from db:', util.inspect(user));
-
-    if (!user.joinedRooms || user.joinedRooms.length === 0)
-      throw new BadRequestException('참가 중인 방이 없습니다.');
-
-    if (user.joinedRooms.length > 1)
+    if (joinedRooms.length > 1)
       throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
 
-    const roomUser = user.joinedRooms[0];
-    return await roomUser.softRemove();
+    const roomUser = joinedRooms[0];
+
+    await this.roomUserRepository.remove(roomUser);
+
+    const room = roomUser.room;
+    if (room == null) {
+      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
+    }
+
+    const numberOfJoinedUsers = await this.roomUserRepository.count({
+      where: { room: { id: room.id } },
+    });
+
+    if (numberOfJoinedUsers === 0) {
+      await this.destroyRoom(room);
+    }
+  }
+
+  async findJoinedRooms(user: User) {
+    const joinedRooms = await user.joinedRooms;
+    if (joinedRooms == null) {
+      throw new InternalServerErrorException(
+        '참가 중인 방을 찾을 수 없습니다.',
+      );
+    }
+
+    return joinedRooms;
   }
 }

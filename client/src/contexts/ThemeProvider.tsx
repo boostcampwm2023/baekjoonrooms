@@ -1,12 +1,6 @@
-// ThemeProvider.tsx
+import React, { createContext, ReactNode, useState, useEffect } from 'react';
 
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from 'react';
+import { useLocalStorage } from '../contexts/LocalStorageProvider';
 
 type Theme =
   | 'atom-one-dark'
@@ -14,12 +8,14 @@ type Theme =
   | 'github-dark'
   | 'github-light';
 
-type ThemeContextType = {
+export type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
+export const ThemeContext = createContext<ThemeContextType>(
+  {} as ThemeContextType,
+);
 
 interface ThemeProviderProps {
   children: ReactNode;
@@ -28,13 +24,16 @@ interface ThemeProviderProps {
 const localStorageKey = 'theme';
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const storedTheme = localStorage.getItem(localStorageKey) as Theme | null;
+  const { getItem, setItem } = useLocalStorage();
+
+  const storedTheme = getItem(localStorageKey) as Theme | null;
+
   const [theme, setTheme] = useState<Theme>(storedTheme || 'atom-one-dark');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(localStorageKey, theme);
-  }, [theme]);
+    setItem(localStorageKey, theme);
+  }, [setItem, theme]);
 
   // TODO: change setting function
   const toggleTheme = () => {
@@ -64,12 +63,4 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       <div className="relative">{children}</div>
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = (): ThemeContextType => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
 };

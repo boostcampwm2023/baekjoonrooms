@@ -1,11 +1,14 @@
-import { CreateUser } from '../types/CreateUserType';
+import { AxiosError } from 'axios';
+import { UserSession } from '../types/UserSessionType';
 import { apiClient } from './apiClient';
 
-export async function getSession(): Promise<CreateUser | undefined> {
+export async function getSession(): Promise<UserSession | undefined> {
   try {
-    const { data }: { data: CreateUser } = await apiClient.get('/session');
+    const { data }: { data: UserSession } = await apiClient.get('/session');
     return data;
   } catch (error) {
-    console.log(error);
+    if (error instanceof AxiosError && error.response?.status === 403) {
+      // console.log('Login required');
+    }
   }
 }

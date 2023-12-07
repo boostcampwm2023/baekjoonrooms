@@ -8,6 +8,7 @@ import Chat from '../components/Chat';
 import StartButton from '../components/buttons/StartButton';
 import RoomInfo from '../components/RoomInfo';
 import { MessageInterface, RoomMessagesLocalStorage } from '../types/Message';
+import { useLocalStorage } from '../contexts/LocalStorageProvider';
 
 export default function Room() {
   const location = useLocation();
@@ -22,13 +23,15 @@ export default function Room() {
   const messagesRef = useRef<HTMLUListElement>(null);
   const [messages, setMessages] = useState<MessageInterface[]>([]);
   const socketRef = useRef<Socket | null>(null);
+  const { getItem, setItem } = useLocalStorage();
 
   useEffect(() => {
     const socket: Socket = io(serverUrl, {
       transports: ['websocket', 'polling'],
     });
 
-    const storedRoomMessagesString = localStorage.getItem('leetRoomsMessages');
+    const storedRoomMessagesString = getItem(`${roomId}-messages`);
+
     if (storedRoomMessagesString) {
       const storedRoomMessages: RoomMessagesLocalStorage = JSON.parse(
         storedRoomMessagesString,
@@ -42,8 +45,8 @@ export default function Room() {
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, newMessage];
 
-        localStorage.setItem(
-          'leetRoomsMessages',
+        setItem(
+          `${roomId}-messages`,
           JSON.stringify({
             messages: newMessages,
           }),
@@ -56,7 +59,7 @@ export default function Room() {
     return () => {
       socket.disconnect();
     };
-  }, [roomId, serverUrl]);
+  }, [getItem, roomId, serverUrl, setItem]);
 
   useEffect(() => {
     function autoScrollToLatestMessage() {

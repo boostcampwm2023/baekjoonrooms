@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import ProtectedRoute from './pages/ProtectedRoute.tsx';
+import UserBasedRoute from './pages/UserBasedRoute.tsx';
 
 import App from './App.tsx';
 import Home from './pages/Home.tsx';
@@ -21,22 +21,26 @@ export const router = createBrowserRouter([
       {
         index: true,
         path: '/home',
-        element: <Home />,
+        element: (
+          <UserBasedRoute>
+            <Home />
+          </UserBasedRoute>
+        ),
       },
       {
         path: '/lobby',
         element: (
-          <ProtectedRoute>
+          <UserBasedRoute>
             <Lobby />
-          </ProtectedRoute>
+          </UserBasedRoute>
         ),
       },
       {
         path: '/room/:roomId',
         element: (
-          <ProtectedRoute>
+          <UserBasedRoute>
             <Room />
-          </ProtectedRoute>
+          </UserBasedRoute>
         ),
       },
     ],

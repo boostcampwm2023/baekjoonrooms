@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import RoomUser from 'src/entities/roomUser.entity';
+import User from 'src/entities/user.entity';
 import { RoomUserInput } from 'src/types/roomUser';
 import { Repository } from 'typeorm';
 
@@ -11,18 +12,23 @@ export class RoomUserService {
     private readonly roomUserRepository: Repository<RoomUser>,
   ) {}
 
-  async createOrRestoreRoomUser(roomUserInput: RoomUserInput) {
-    const { room, user } = roomUserInput;
-    const roomUser = await this.roomUserRepository.findOne({
-      withDeleted: true,
-      where: {
-        room: { id: room.id },
-        user: { id: user.id },
-      },
-    });
+  async create(roomUserInput: RoomUserInput) {
+    return this.roomUserRepository.create(roomUserInput).save();
+  }
 
-    return roomUser
-      ? this.roomUserRepository.recover(roomUser)
-      : this.roomUserRepository.create(roomUserInput).save();
+  async remove(roomUser: RoomUser) {
+    return this.roomUserRepository.remove(roomUser);
+  }
+
+  async findRoomUserByUser(user: User) {
+    return this.roomUserRepository.findOne({
+      where: { user: { id: user.id } },
+    });
+  }
+
+  async findRoomUsersByRoomCode(roomCode: string) {
+    return this.roomUserRepository.find({
+      where: { room: { code: roomCode } },
+    });
   }
 }
