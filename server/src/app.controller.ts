@@ -34,11 +34,10 @@ export class AppController {
 
     if (user && isUserSession(user)) {
       const userSession: UserSession = { ...(req.user as User) } as UserSession;
-      const room = await this.roomService.findRoomParticipating(user);
-      this.logger.debug(
-        `The current user is participating in room: ${room?.code}`,
-      );
-      userSession.participatingRoomCode = room?.code;
+      const joinedRooms = await this.roomService.findJoinedRooms(user);
+      if (joinedRooms.length > 0) {
+        userSession.participatingRoomCode = joinedRooms[0].room?.code;
+      }
       return userSession;
     }
 
