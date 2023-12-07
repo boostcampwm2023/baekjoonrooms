@@ -1,8 +1,20 @@
 import { FaGithub } from 'react-icons/fa6';
 import VideoPlayer from '../components/VideoPlayer';
+import { useAuthContext } from '../contexts/AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function Landing() {
   const videoSource = '/assets/test.mp4';
+
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/lobby');
+    }
+  }, [navigate, user]);
 
   return (
     <div className="h-full min-h-screen overscroll-none bg-bg pt-5">

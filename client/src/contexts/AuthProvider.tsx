@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const onLogout = () => {
     logout();
     setUser(null);
-    navigate('/');
+    navigate('/home');
   };
 
   useEffect(() => {
