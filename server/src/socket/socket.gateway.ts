@@ -9,7 +9,6 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { MessageInterface } from '../types/MessageInterface';
-import * as util from 'util';
 import { Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import User from '../entities/user.entity';
@@ -37,46 +36,42 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.logger.error('user is null!');
       return;
     }
-    const joinedRoom = await this.userService.getJoinedRoom(user);
+    try {
+      const joinedRoom = await this.userService.getJoinedRoom(user);
 
-    const roomCode = joinedRoom.room.code;
-    this.logger.debug(`client ${user.username} joining room ${roomCode}`);
+      const roomCode = joinedRoom.room.code;
+      this.logger.debug(`client ${user.username} joining room ${roomCode}`);
 
-    client.join(roomCode);
-    this.logger.debug(`client ${client.id} connected`);
+      client.join(roomCode);
+      this.logger.debug(`client ${client.id} connected`);
+    } catch (e) {
+      this.logger.error(e);
+    }
   }
 
   @SubscribeMessage('chat-message')
-  handleMessage(
+  async handleMessage(
     @ConnectedSocket() client: Socket,
     @MessageBody() message: Partial<MessageInterface>,
   ) {
-    this.logger.debug(`client ${client.id} sent ${util.inspect(message.body)}`);
+    try {
+      const request = client.request as any;
+      const user = request.user as User;
+      const joinedRoom = await this.userService.getJoinedRoom(user);
+      const roomCode = joinedRoom.room.code;
 
-    this.logger.debug(
-      `<--- server sent ${util.inspect(message.body)} to room RM1234`,
-    );
-    if (this.server == null) {
-      this.logger.error('server is null!');
-      return;
+      if (this.server == null) {
+        this.logger.error('server is null!');
+        return;
+      }
+
+      this.server.to(roomCode).emit('chat-message', message);
+    } catch (e) {
+      this.logger.error(e);
     }
-    this.server.to('RM1234').emit('chat-message', message);
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
     this.logger.debug(`client ${client.id} disconnected`);
-  }
-
-  @SubscribeMessage('piesocket-test')
-  piesocketTest(@MessageBody() body) {
-    this.logger.debug(`piesocket sent ${util.inspect(body)}`);
-
-    if (this.server == null) {
-      this.logger.error('server is null!');
-      return;
-    }
-    this.server
-      .to('RM1234')
-      .emit('piesocket-test', `${util.inspect(body)} from server!`);
   }
 }

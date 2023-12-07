@@ -1,10 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProviderInfo } from 'src/types/user';
 import { Repository } from 'typeorm';
 import User from '../entities/user.entity';
 import { CreateUserDto } from './dto/create.user.dto';
-import { WsException } from '@nestjs/websockets';
 
 @Injectable()
 export class UserService {
@@ -44,12 +47,14 @@ export class UserService {
   }
 
   async getJoinedRoom(user: User) {
-    if (user.joinedRooms == null) {
-    }
-
     const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null || joinedRooms.length === 0) {
-      throw new WsException('방에 참여하지 않은 유저입니다');
+    if (joinedRooms == null) {
+      throw new BadRequestException('joinedRooms is null');
+    }
+    if (joinedRooms.length !== 1) {
+      throw new InternalServerErrorException(
+        `zero or multiple joined rooms ${joinedRooms.length}`,
+      );
     }
 
     return joinedRooms[0];
