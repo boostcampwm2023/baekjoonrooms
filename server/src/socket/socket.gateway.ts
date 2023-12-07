@@ -10,7 +10,9 @@ import {
 import { Server, Socket } from 'socket.io';
 import { MessageInterface } from '../types/MessageInterface';
 import * as util from 'util';
-import { Logger } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
+import { UserService } from '../user/user.service';
+import { SessionAuthGuard } from '../auth/auth.guard';
 
 @WebSocketGateway({
   cors: {
@@ -25,8 +27,15 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(SocketGateway.name);
 
+  constructor(private readonly userService: UserService) {}
+
+  @UseGuards(SessionAuthGuard)
   handleConnection(@ConnectedSocket() client: Socket) {
+    const request = client.request as any;
+    this.logger.debug(`${util.inspect(request.user)}`);
+
     this.logger.debug(`client ${client.id} connected`);
+
     client.join('RM1234');
   }
 

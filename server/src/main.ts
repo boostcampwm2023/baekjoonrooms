@@ -8,6 +8,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
 import { ShortLoggerService } from './short-logger/short-logger.service';
 import { ExceptionsFilter } from './exceptions/exceptions.filter';
+import { SocketIOAdapter } from './socket/socket.adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -25,16 +26,16 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  app.use(
-    session({
-      secret: 'example-session-secret',
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        httpOnly: true,
-      },
-    }),
-  );
+  const sessionMiddleware = session({
+    secret: 'example-session-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+    },
+  });
+
+  app.use(sessionMiddleware);
 
   app.use(passport.initialize());
   app.use(passport.session());
@@ -58,6 +59,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
+
+  app.useWebSocketAdapter(new SocketIOAdapter(sessionMiddleware, app));
 
   await app.listen(4000);
 }
