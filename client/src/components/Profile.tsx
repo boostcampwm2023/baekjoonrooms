@@ -25,13 +25,13 @@ export default function Profile() {
       ) : (
         <img
           className="w-12 rounded-full"
-          src={user!.avatarUrl}
+          src={user?.avatarUrl}
           onError={() => setImageError(true)}
           alt="프로필 이미지"
         />
       )}
       <p className="text-lg font-semibold text-text_default">
-        {user!.username}
+        {user?.username}
       </p>
     </div>
   );

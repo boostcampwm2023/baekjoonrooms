@@ -4,6 +4,7 @@ import RoomUser from 'src/entities/roomUser.entity';
 import User from 'src/entities/user.entity';
 import { RoomUserInput } from 'src/types/roomUser';
 import { Repository } from 'typeorm';
+import User from '../entities/user.entity';
 
 @Injectable()
 export class RoomUserService {
@@ -27,10 +28,9 @@ export class RoomUserService {
       : this.roomUserRepository.create(roomUserInput).save();
   }
 
-  async findRoomUserByUserWithRoom(user: User) {
+  async findRoomUserByUser(user: User) {
     return this.roomUserRepository.findOne({
       where: { user: { id: user.id } },
-      relations: ['room'],
     });
   }
 }
