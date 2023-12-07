@@ -18,10 +18,10 @@ export default class RoomUser extends BaseEntity {
   id!: number;
 
   @ManyToOne(() => Room, (room) => room.joinedUsers, { eager: true })
-  room?: Room;
+  room!: Room;
 
   @ManyToOne(() => User, (user) => user.joinedRooms, { eager: true })
-  user?: User;
+  user!: User;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;

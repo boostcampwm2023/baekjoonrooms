@@ -4,6 +4,7 @@ import { ProviderInfo } from 'src/types/user';
 import { Repository } from 'typeorm';
 import User from '../entities/user.entity';
 import { CreateUserDto } from './dto/create.user.dto';
+import { WsException } from '@nestjs/websockets';
 
 @Injectable()
 export class UserService {
@@ -40,5 +41,17 @@ export class UserService {
     return this.userRepository.findOne({
       where: providerInfo,
     });
+  }
+
+  async getJoinedRoom(user: User) {
+    if (user.joinedRooms == null) {
+    }
+
+    const joinedRooms = await user.joinedRooms;
+    if (joinedRooms == null || joinedRooms.length === 0) {
+      throw new WsException('방에 참여하지 않은 유저입니다');
+    }
+
+    return joinedRooms[0];
   }
 }

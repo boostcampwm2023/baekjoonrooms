@@ -10,13 +10,14 @@ import {
 import { Server, Socket } from 'socket.io';
 import { MessageInterface } from '../types/MessageInterface';
 import * as util from 'util';
-import { Logger, UseGuards } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { SessionAuthGuard } from '../auth/auth.guard';
+import User from '../entities/user.entity';
 
+// @UseFilters(new WebsocketExceptionsFilter())
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost5173', '*'],
     credentials: true,
   },
   transports: ['websocket', 'polling'],
@@ -28,15 +29,21 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(SocketGateway.name);
 
   constructor(private readonly userService: UserService) {}
-
-  @UseGuards(SessionAuthGuard)
-  handleConnection(@ConnectedSocket() client: Socket) {
+  // @UseGuards(SessionAuthGuard)
+  async handleConnection(@ConnectedSocket() client: Socket) {
     const request = client.request as any;
-    this.logger.debug(`${util.inspect(request.user)}`);
+    const user = request.user as User;
+    if (user == null) {
+      this.logger.error('user is null!');
+      return;
+    }
+    const joinedRoom = await this.userService.getJoinedRoom(user);
 
+    const roomCode = joinedRoom.room.code;
+    this.logger.debug(`client ${user.username} joining room ${roomCode}`);
+
+    client.join(roomCode);
     this.logger.debug(`client ${client.id} connected`);
-
-    client.join('RM1234');
   }
 
   @SubscribeMessage('chat-message')
