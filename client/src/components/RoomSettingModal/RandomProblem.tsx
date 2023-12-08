@@ -41,6 +41,10 @@ export default function RandomProblem({
       .flatMap((id) => difficultyMapping[id]);
     try {
       const res = await randomProblem(tagIds, difficultyIds, count);
+      if(res.length === 0) {
+        alert('해당 문제가 없습니다.');
+        return;
+      }
       const newProblems = res.map((problem) => ({
         title: problem.title,
         boj_problem_id: problem.bojProblemId,
@@ -48,6 +52,7 @@ export default function RandomProblem({
         level: problem.level,
         tag: problem.tags.map((tag:Tag) => tag.name),
       }));
+
       if (problemList.length + newProblems.length > 4) {
         alert('문제는 최대 4개까지만 등록할 수 있습니다.');
         return;

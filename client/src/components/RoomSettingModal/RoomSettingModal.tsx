@@ -44,13 +44,21 @@ export default function RoomSettingModal({
   };
 
   const settingComplete = () => {
+    const numberList = problemList.map((problem)=>problem.boj_problem_id);
+    const duplicated = numberList.some(
+      (item) => numberList.indexOf(item) !== numberList.lastIndexOf(item),
+    );
+    if (duplicated) {
+      alert('중복된 문제가 있습니다.');
+      return;
+    }
     setProblems(problemList);
     closeModal();
   };
 
   return (
     <div
-      className="bg-bg/80 absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center"
+      className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-bg/80"
       style={{ backdropFilter: 'blur(10px)' }}
       ref={modalOverlayRef}
       onClick={modalOutsideClick}>
@@ -72,7 +80,7 @@ export default function RoomSettingModal({
         </div>
 
         {isRandom ? (
-          <RandomProblem 
+          <RandomProblem
             problemList={problemList}
             setProblemList={setProblemList}
           />
