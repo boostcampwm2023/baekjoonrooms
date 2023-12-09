@@ -40,16 +40,19 @@ export default function Chat({
   function handleSubmitMessage(event: React.SyntheticEvent) {
     event.preventDefault();
 
+    const keyBoardEvent = event.nativeEvent as KeyboardEvent;
+
     if (
       !inputRef.current ||
       !socketRef.current ||
-      (inputRef.current && !inputRef.current.value.trim())
+      (inputRef.current && !inputRef.current.value.trim()) ||
+      keyBoardEvent.isComposing
     ) {
       return;
     }
 
     const socket = socketRef.current;
-    const inputText = insertNewlines(inputRef.current.value, 40);
+    const inputText = insertNewlines(inputRef.current.value.trim(), 40);
     const newChatMessage: MessageInterface = {
       timestamp: Date.now(),
       username: user?.username || 'Anonymous',
@@ -59,7 +62,7 @@ export default function Chat({
     };
 
     socket.emit('chat-message', newChatMessage);
-
+    console.log('inputText', inputText);
     inputRef.current.value = '';
   }
 
