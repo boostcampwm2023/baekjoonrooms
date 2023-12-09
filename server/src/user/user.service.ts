@@ -46,6 +46,14 @@ export class UserService {
     });
   }
 
+  async findJoinedRooms(user: User) {
+    const joinedRooms = await user.joinedRooms;
+    if (joinedRooms == null) {
+      throw new BadRequestException('joinedRooms is null');
+    }
+    return joinedRooms;
+  }
+
   async getJoinedRoom(user: User) {
     const joinedRooms = await user.joinedRooms;
     if (joinedRooms == null) {
