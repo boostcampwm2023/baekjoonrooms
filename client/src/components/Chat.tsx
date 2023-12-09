@@ -62,7 +62,6 @@ export default function Chat({
     };
 
     socket.emit('chat-message', newChatMessage);
-    console.log('inputText', inputText);
     inputRef.current.value = '';
   }
 
