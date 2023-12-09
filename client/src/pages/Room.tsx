@@ -19,7 +19,7 @@ export default function Room() {
 
   const serverUrl = import.meta.env.VITE_BASE_URL;
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesRef = useRef<HTMLUListElement>(null);
   const [messages, setMessages] = useState<MessageInterface[]>([]);
   const socketRef = useRef<Socket | null>(null);
