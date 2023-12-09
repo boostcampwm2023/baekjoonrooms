@@ -36,19 +36,17 @@ export default function Message({
           <span>
             <span className="chat-message text-text_default">
               <MessageBody message={message.body} />
-              </span>
+            </span>
           </span>
         </li>
       ) : (
         <li className="flex flex-row items-start gap-x-1">
-          <span>
-            <span className={`${message.color} font-bold`}>
-              {message.username}
-            </span>
-            <span>:&nbsp;</span>
-            <span className="chat-message text-text_default">
-              <MessageBody message={message.body} />
-            </span>
+          <span className={`${message.color} font-bold`}>
+            {message.username}
+          </span>
+          <span>:&nbsp;</span>
+          <span className="chat-message text-text_default">
+            <MessageBody message={message.body} />
           </span>
         </li>
       );
