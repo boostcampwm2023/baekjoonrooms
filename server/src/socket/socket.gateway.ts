@@ -6,14 +6,16 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { MessageInterface } from '../types/MessageInterface';
-import { Logger } from '@nestjs/common';
+import { Logger, UseFilters, UseGuards } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import User from '../entities/user.entity';
+import { SessionAuthGuard } from 'src/auth/auth.guard';
+import { WebsocketExceptionsFilter } from './socket.filter';
 
-// @UseFilters(new WebsocketExceptionsFilter())
 @WebSocketGateway({
   cors: {
     origin: [process.env.CLIENT_HTTP_URL, process.env.CLIENT_HTTPS_URL, process.env.CLIENT_URL, 'http://localhost:4000'],
@@ -21,6 +23,7 @@ import User from '../entities/user.entity';
   },
   transports: ['websocket', 'polling'],
 })
+@UseFilters(WebsocketExceptionsFilter)
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   private readonly server?: Server;
@@ -28,15 +31,11 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(SocketGateway.name);
 
   constructor(private readonly userService: UserService) {}
-  // @UseGuards(SessionAuthGuard)
+  @UseGuards(SessionAuthGuard)
   async handleConnection(@ConnectedSocket() client: Socket) {
-    const request = client.request as any;
-    const user = request.user as User;
-    if (user == null) {
-      this.logger.error('user is null!');
-      return;
-    }
     try {
+      const request = client.request as any;
+      const user = request.user as User;
       const joinedRoom = await this.userService.getJoinedRoom(user);
 
       const roomCode = joinedRoom.room.code;
@@ -45,6 +44,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       client.join(roomCode);
       this.logger.debug(`client ${client.id} connected`);
     } catch (e) {
+      this.logger.error('error while connecting and joining room...');
       this.logger.error(e);
     }
   }
@@ -54,21 +54,14 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
     @MessageBody() message: Partial<MessageInterface>,
   ) {
-    try {
-      const request = client.request as any;
-      const user = request.user as User;
-      const joinedRoom = await this.userService.getJoinedRoom(user);
-      const roomCode = joinedRoom.room.code;
+    const request = client.request as any;
+    const user = request.user as User;
+    const joinedRoom = await this.userService.getJoinedRoom(user);
+    const roomCode = joinedRoom.room.code;
 
-      if (this.server == null) {
-        this.logger.error('server is null!');
-        return;
-      }
+    if (this.server == null) throw new WsException('server is null');
 
-      this.server.to(roomCode).emit('chat-message', message);
-    } catch (e) {
-      this.logger.error(e);
-    }
+    this.server.to(roomCode).emit('chat-message', message);
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
