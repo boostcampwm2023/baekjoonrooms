@@ -12,8 +12,8 @@ export class WebsocketExceptionsFilter extends BaseWsExceptionFilter {
         `IO server raises ${name}: Error Message: ${message}`,
         stack,
       );
-
-      this.logger.error(exception);
+    } else {
+      this.logger.error(`Server caught unknown type`, exception);
     }
     super.catch(exception, host);
   }
