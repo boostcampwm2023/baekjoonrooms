@@ -41,7 +41,7 @@ export class MockAuthGuard extends AuthGuard('local') {
   private readonly logger = new Logger(MockAuthGuard.name);
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    this.logger.debug('[start] MockAuthGuard canActivate');
+    this.logger.debug('Mock Login request received!');
     const request = context.switchToHttp().getRequest();
     const isAuthenticated = request.isAuthenticated();
 
@@ -56,14 +56,15 @@ export class MockAuthGuard extends AuthGuard('local') {
 
     const result = (await super.canActivate(context)) as boolean;
 
-    if (result) {
-      this.logger.debug(`Now we ask passport to record this session...`);
-      await super.logIn(request);
-      this.logger.debug(`Session recording successful!`);
-    } else {
-      this.logger.fatal(`login failed!`);
+    if (!result) {
+      this.logger.log(`login failed!`);
+      return false;
     }
-    return result;
+
+    this.logger.debug(`Now we ask passport to record this session...`);
+    await super.logIn(request);
+    this.logger.debug(`Session recording successful!`);
+    return true;
   }
 }
 
@@ -77,10 +78,11 @@ export class SessionAuthGuard implements CanActivate {
   private readonly logger = new Logger(SessionAuthGuard.name);
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    this.logger.debug('start canActivate');
     const request = context.switchToHttp().getRequest();
     const isAuthenticated = request.isAuthenticated();
-    this.logger.debug(`isAuthenticated is ${isAuthenticated}`);
-    return request.isAuthenticated();
+    this.logger.debug(
+      `Is this request from authenticated user? ${isAuthenticated}`,
+    );
+    return isAuthenticated;
   }
 }
