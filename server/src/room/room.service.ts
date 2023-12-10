@@ -124,4 +124,12 @@ export class RoomService {
 
     return joinedRooms;
   }
+
+  async findRoomByCode(code: string) {
+    const room = await this.roomRepository.findOne({ where: { code } });
+    if (!room) {
+      throw new BadRequestException('존재하지 않는 방입니다.');
+    }
+    return room;
+  }
 }
