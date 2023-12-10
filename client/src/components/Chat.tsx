@@ -25,14 +25,14 @@ export default function Chat({
     let lineLength = 0;
     let result = '';
 
-    for (const word of words) {
+    words.forEach((word) => {
       if (lineLength + word.length > width) {
         result += '\n';
         lineLength = 0;
       }
       result += word + ' ';
       lineLength += word.length + 1;
-    }
+    });
 
     return result;
   }
