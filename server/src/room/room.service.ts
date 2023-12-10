@@ -39,12 +39,13 @@ export class RoomService {
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
     const code = await this.createRoomCode(user.username);
-    const room = await this.roomRepository
-      .create({
-        code,
-        host: user,
-      })
-      .save();
+
+    this.logger.log(`creating room ${code}...`);
+    const room = new Room();
+    room.code = code;
+    room.host = Promise.resolve(user);
+    await this.roomRepository.save(room);
+    this.logger.log(`room ${code} successfully created by ${user.username}!`);
 
     await this.roomUserService.create({ room, user });
     return room;
@@ -79,7 +80,7 @@ export class RoomService {
   }
 
   async destroyRoom(room: Room) {
-    this.logger.debug(`destroying room: ${room.code}`);
+    this.logger.log(`destroying room: ${room.code}`);
     return await this.roomRepository.remove(room);
   }
 
