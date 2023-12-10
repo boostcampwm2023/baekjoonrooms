@@ -1,21 +1,15 @@
 import { useState } from 'react';
-import { Socket } from 'socket.io-client';
-import { RoomInfoType } from '../../types/RoomInfoType';
+import { useRoom } from '../../hooks/useRoom';
 
 export type StartButtonProps = {
   start: () => void;
   timer: string;
 };
 
-export default function StartButton({
-  isHost,
-  socketRef,
-  roomInfo,
-}: {
-  isHost: boolean;
-  socketRef: React.MutableRefObject<Socket | null>;
-  roomInfo: RoomInfoType;
-}) {
+export default function StartButton() {
+  const { isHost, socketRef, roomInfo } = useRoom();
+
+  // TODO: 이거 내일 얘기해보고 Provider로 옮길 수 있음, 내 생각에 이 로직은 setRoomInfo쪽으로 들어가는게 맞는 것 같음
   const [timer, setTimer] = useState(`${isHost ? 'start' : 'waiting'}`);
   const start = () => {
     // isHost && setTimer('0:00:00');
