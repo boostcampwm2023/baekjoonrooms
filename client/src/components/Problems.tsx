@@ -7,8 +7,16 @@ import { useTheme } from '../hooks/useTheme';
 import { getProblemButtonColor } from '../util/getProblemButtonColor';
 import { goSolveProblem } from '../util/goSolveProblem';
 
-export default function Problems({ isHost }: { isHost: boolean }) {
-  const [problems, setProblems] = useState<ProblemType[]>([]);
+export default function Problems({
+  isHost,
+  problems,
+  setProblems,
+}: {
+  isHost: boolean;
+  problems: ProblemType[];
+  setProblems: React.Dispatch<React.SetStateAction<ProblemType[]>>;
+}) {
+  // const [problems, setProblems] = useState<ProblemType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOverlayRef = useRef<HTMLDivElement>(null);
 
