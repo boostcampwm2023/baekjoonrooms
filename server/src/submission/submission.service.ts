@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as cheerio from 'cheerio';
 import { BojResultsToStatus, Status } from 'src/const/bojResults';
@@ -9,9 +9,11 @@ import { BojSubmissionInfo } from 'src/types/submission';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { SubmissionDto } from './dto/submission.dto';
+import { SocketGateway } from '../socket/socket.gateway';
 
 @Injectable()
 export class SubmissionService {
+  private readonly logger = new Logger(SubmissionService.name);
   constructor(
     @InjectRepository(Submission)
     private readonly submissionRepository: Repository<Submission>,
@@ -19,6 +21,7 @@ export class SubmissionService {
     private readonly userService: UserService,
     private readonly problemService: ProblemService,
     private readonly roomUserService: RoomUserService,
+    private readonly socketGateway: SocketGateway,
   ) {}
 
   async submitCode(submissionDto: SubmissionDto) {
@@ -28,6 +31,7 @@ export class SubmissionService {
       .split('&')
       .map((v) => v.split('=')[1]);
     const submittedAt = new Date(); // extension으로 sumbit time을 받아서 판단하는 것이 더 정확한데 현재는 그냥 request가 들어오는 시간을 submittedAt으로 사용함
+    this.logger.debug(bojUserId, bojProblemStringId);
     const bojProblemId = Number(bojProblemStringId);
     const { provider, providerId } = submissionDto;
 
@@ -52,15 +56,26 @@ export class SubmissionService {
       await this.problemService.getProblemByBojProblemId(bojProblemId);
     if (!problem) throw new BadRequestException('존재하지 않는 문제입니다.');
 
-    // TODO : 이 즈음에서 socket emit 해서 클라이언트에서 제출한 문제가 제출되었다는 것을 알려줘야 함
+    if (user.username == null)
+      throw new BadRequestException('username이 없습니다.');
 
-    const status = await this.getBojSubmissionStatus({
+    await this.socketGateway.submitCode(
+      user.username,
+      room.code,
+      bojProblemStringId,
+    );
+
+    const status: Status = await this.getBojSubmissionStatus({
       bojUserId,
       bojProblemStringId,
       submittedAt,
     });
-
-    // TODO : 이 즈음에서 socket emit 해서 클라이언트에서 제출한 문제가 채점된 것을 알려줘야 함
+    await this.socketGateway.notifySubmissionStatus(
+      user.username,
+      room.code,
+      bojProblemStringId,
+      status,
+    );
 
     return await this.submissionRepository
       .create({
