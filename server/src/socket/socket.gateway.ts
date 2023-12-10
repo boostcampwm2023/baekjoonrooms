@@ -16,9 +16,18 @@ import User from '../entities/user.entity';
 import { SessionAuthGuard } from 'src/auth/auth.guard';
 import { WebsocketExceptionsFilter } from './socket.filter';
 import { Status } from '../const/bojResults';
+import Room from 'src/entities/room.entity';
 
-export type GameStartInfo = {
+// export type Problem = {
+//   bojProblemId: string;
+//   title: string;
+//   level: number;
+// };
+
+export type RoomInfo = {
+  participantNames: string[];
   problems: string[];
+  isStarted: boolean;
   endTime: string;
 };
 
@@ -43,30 +52,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   constructor(private readonly userService: UserService) {}
 
-  async handleDisconnect(@ConnectedSocket() client: Socket) {
-    try {
-      const user = this.getUser(client);
-      const message: Partial<MessageInterface> = {
-        username: 'system',
-        body: `${user.username}님이 퇴장하셨습니다.`,
-        timestamp: Date.now(),
-        chatEvent: ChatEvent.Leave,
-      };
-      const joinedRoom = await this.userService.getJoinedRoom(user);
-      const roomCode = joinedRoom.room.code;
-      this.logger.log(
-        `client ${user.username} leaving room ${roomCode} and disconnecting...`,
-      );
-      this.server.to(roomCode).emit('chat-message', message);
-    } catch (e) {
-      if (e instanceof WsException) {
-        this.logger.error('--> ws: error while disconnecting...');
-        this.logger.error(e);
-        this.logger.error('<-- ws: error caught...');
-      }
-    }
-  }
-
   @UseGuards(SessionAuthGuard)
   async handleConnection(@ConnectedSocket() client: Socket) {
     try {
@@ -85,11 +70,77 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
         chatEvent: ChatEvent.Join,
       };
       this.server.to(roomCode).emit('chat-message', message);
+
+      const roomInfo: RoomInfo = await this.makeRoomInfo(joinedRoom.room);
+
+      this.server.to(roomCode).emit('room-info', roomInfo);
     } catch (e) {
       this.logger.error('--> ws: error while connecting and joining room...');
       this.logger.error(e);
       this.logger.error('<-- ws: error caught...');
     }
+  }
+
+  async makeRoomInfo(room: Room) {
+    const roomUsers = await room.joinedUsers;
+
+    if (roomUsers == null) throw new WsException('roomUsers is null');
+
+    const host = await room.host;
+    if (host == null) throw new WsException('host is null');
+
+    const problems = await room.problems;
+    if (problems == null) throw new WsException('problems is null');
+
+    if (problems.length === 0) {
+      this.logger.debug(`no problems in room ${room.code}`);
+    }
+
+    if (this.server == null) throw new WsException('server is null');
+
+    const roomInfo: RoomInfo = {
+      participantNames: roomUsers.map(
+        (roomUser) => roomUser.user?.username || '',
+      ),
+      problems: problems.map((problem) => problem.bojProblemId.toString()),
+      isStarted: room.isStarted,
+      endTime: room.endAt?.toISOString() ?? '',
+    };
+
+    return roomInfo;
+  }
+
+  @SubscribeMessage('game-start')
+  async handleGameStart(@ConnectedSocket() client: Socket) {
+    const user = this.getUser(client);
+
+    const joinedRoom = await this.userService.getJoinedRoom(user);
+
+    const host = await joinedRoom.room.host;
+
+    if (host == null) throw new WsException('host is null');
+    if (host.id !== user.id) {
+      throw new WsException('방장이 아닙니다.');
+    }
+
+    const roomCode = joinedRoom.room.code;
+    this.logger.debug(`--> ws: game-start from ${user.username}`);
+
+    const message = {
+      username: 'system',
+      body: `${user.username}님이 게임을 시작하셨습니다.`,
+      timestamp: Date.now(),
+      chatEvent: ChatEvent.Message,
+    };
+    this.server.to(roomCode).emit('chat-message', message);
+
+    const room = joinedRoom.room;
+    room.isStarted = true;
+    room.save();
+
+    this.server
+      .to(roomCode)
+      .emit('room-info', await this.makeRoomInfo(joinedRoom.room));
   }
 
   @SubscribeMessage('chat-message')
@@ -109,38 +160,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.logger.debug(`--> ws: chat-message ${message.body}`);
     this.server.to(roomCode).emit('chat-message', message);
-  }
-
-  @SubscribeMessage('game-start')
-  async handleGameStart(@ConnectedSocket() client: Socket) {
-    const user = this.getUser(client);
-    const joinedRoom = await this.userService.getJoinedRoom(user);
-    this.logger.debug(
-      `--> ws: game-start of room ${joinedRoom.room.host} from ${user.username}`,
-    );
-
-    const host = await joinedRoom.room.host;
-    if (host == null) throw new WsException('host is null');
-    if (host.id !== user.id) {
-      throw new WsException('방장이 아닙니다.');
-    }
-
-    const problems = await joinedRoom.room.problems;
-    if (problems == null) throw new WsException('problems is null');
-    if (problems.length === 0) {
-      throw new WsException('문제가 없습니다.');
-    }
-
-    if (this.server == null) throw new WsException('server is null');
-    const roomCode = joinedRoom.room.code;
-
-    const message: GameStartInfo = {
-      problems: problems.map((problem) => problem.bojProblemId.toString()),
-      endTime: joinedRoom.room?.endAt?.toISOString() ?? '',
-    };
-
-    this.logger.debug(`<-- ws: game-start ${message.toString()}`);
-    this.server.to(roomCode).emit('game-start', message);
   }
 
   getUser(client: Socket): User {
@@ -196,5 +215,29 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     this.server.to(roomCode).emit('chat-message', message);
+  }
+
+  async handleDisconnect(@ConnectedSocket() client: Socket) {
+    try {
+      const user = this.getUser(client);
+      const message: Partial<MessageInterface> = {
+        username: 'system',
+        body: `${user.username}님이 퇴장하셨습니다.`,
+        timestamp: Date.now(),
+        chatEvent: ChatEvent.Leave,
+      };
+      const joinedRoom = await this.userService.getJoinedRoom(user);
+      const roomCode = joinedRoom.room.code;
+      this.logger.log(
+        `client ${user.username} leaving room ${roomCode} and disconnecting...`,
+      );
+      this.server.to(roomCode).emit('chat-message', message);
+    } catch (e) {
+      if (e instanceof WsException) {
+        this.logger.error('--> ws: error while disconnecting...');
+        this.logger.error(e);
+        this.logger.error('<-- ws: error caught...');
+      }
+    }
   }
 }

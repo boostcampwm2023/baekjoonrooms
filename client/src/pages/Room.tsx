@@ -55,6 +55,10 @@ export default function Room() {
       });
     });
 
+    socket.on('room-info', (roomInfo) => {
+      console.log(roomInfo);
+    });
+
     socketRef.current = socket;
     return () => {
       socket.disconnect();

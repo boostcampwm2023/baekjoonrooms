@@ -44,6 +44,7 @@ export class RoomService {
     const room = new Room();
     room.code = code;
     room.host = Promise.resolve(user);
+    room.isStarted = false;
     await this.roomRepository.save(room);
     this.logger.log(`room ${code} successfully created by ${user.username}!`);
 

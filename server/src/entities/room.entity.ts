@@ -31,6 +31,18 @@ export default class Room extends BaseEntity {
   })
   endAt?: Date;
 
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+    comment: 'duration of the room',
+  })
+  duration?: Date;
+
+  @Column({
+    type: 'boolean',
+  })
+  isStarted!: boolean;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;
 
@@ -46,8 +58,8 @@ export default class Room extends BaseEntity {
   })
   host?: Promise<User>;
 
-  @OneToMany(() => RoomUser, (roomUser) => roomUser.room)
-  joinedUsers?: RoomUser[];
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.room, { lazy: true })
+  joinedUsers?: Promise<RoomUser[]>;
 
   @OneToMany(() => Submission, (submission) => submission.room, { lazy: true })
   submissions?: Promise<Submission[]>;
