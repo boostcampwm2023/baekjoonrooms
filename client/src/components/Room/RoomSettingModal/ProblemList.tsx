@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { ProblemType } from '../../types/ProblemType';
+import { ProblemType } from '../../../types/ProblemType';
 import { FaXmark } from 'react-icons/fa6';
-import { getProblemButtonColor } from '../../util/getProblemButtonColor';
-import { goSolveProblem } from '../../util/goSolveProblem';
+import { getProblemButtonColor } from '../../../util/getProblemButtonColor';
+import { goSolveProblem } from '../../../util/goSolveProblem';
 
 interface ProblemListProps {
   problemList: ProblemType[];

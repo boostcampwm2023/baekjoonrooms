@@ -2,11 +2,11 @@ import { io, Socket } from 'socket.io-client';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import Problems from '../components/Problems';
+import Problems from '../components/Room/Problems';
 import ScoreboardButton from '../components/buttons/ScoreBoardButton';
-import Chat from '../components/Chat';
+import Chat from '../components/Room/Chat';
 import StartButton from '../components/buttons/StartButton';
-import RoomInfo from '../components/RoomInfo';
+import RoomInfo from '../components/Room/RoomInfo';
 import { MessageInterface, RoomMessagesLocalStorage } from '../types/Message';
 import { RoomInfoType } from '../types/RoomInfoType';
 import { useLocalStorage } from '../contexts/LocalStorageProvider';

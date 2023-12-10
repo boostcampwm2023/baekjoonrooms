@@ -1,4 +1,4 @@
-import { PlayerScore } from '../../types/ScoreType';
+import { PlayerScore } from '../../../types/ScoreType';
 import Result from './Result';
 
 interface PlayersProps {
@@ -7,7 +7,7 @@ interface PlayersProps {
 
 export default function Players({ playerScore }: PlayersProps) {
   return (
-    <li className="flex flex-row bg-bg odd:bg-bg_secondary px-5 py-2.5 text-text_default">
+    <li className="flex flex-row bg-bg px-5 py-2.5 text-text_default odd:bg-bg_secondary">
       <div>{playerScore.name}</div>
       <div className="flex w-full flex-row gap-1">
         {playerScore.results.map((result, index) => (

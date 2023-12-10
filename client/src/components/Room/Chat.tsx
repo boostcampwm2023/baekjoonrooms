@@ -1,8 +1,8 @@
 import { FaArrowRight } from 'react-icons/fa6';
 import Message from './Message';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
-import { ChatEvent, MessageInterface } from '../types/Message';
+import { ChatEvent, MessageInterface } from '../../types/Message';
 import { Socket } from 'socket.io-client';
 
 // TODO: userColor -> 서버에서 설정

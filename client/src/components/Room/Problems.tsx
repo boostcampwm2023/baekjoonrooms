@@ -1,11 +1,11 @@
 import { useState, useRef } from 'react';
 import { FaPencil } from 'react-icons/fa6';
 
-import { ProblemType } from '../types/ProblemType';
+import { ProblemType } from '../../types/ProblemType';
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
-import { useTheme } from '../hooks/useTheme';
-import { getProblemButtonColor } from '../util/getProblemButtonColor';
-import { goSolveProblem } from '../util/goSolveProblem';
+import { useTheme } from '../../hooks/useTheme';
+import { getProblemButtonColor } from '../../util/getProblemButtonColor';
+import { goSolveProblem } from '../../util/goSolveProblem';
 
 export default function Problems({
   isHost,

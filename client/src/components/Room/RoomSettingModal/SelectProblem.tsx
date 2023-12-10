@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { ProblemType } from '../../types/ProblemType';
-import { ProblemResponse } from '../../types/Problem';
+import { ProblemType } from '../../../types/ProblemType';
+import { ProblemResponse } from '../../../types/Problem';
 import { SearchResults } from './SearchResults';
 
 interface SelectProblemProps {
@@ -35,7 +35,7 @@ export default function SelectProblem({
       // response have no tag attribute, leave blank
       tag: [],
     };
-    
+
     if (problemList.length + 1 > 4) {
       alert('문제는 최대 4개까지만 등록할 수 있습니다.');
       return;

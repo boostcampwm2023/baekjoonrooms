@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { searchProblem } from '../../apis/searchProblem';
-import { ProblemResponse } from '../../types/Problem';
+import { searchProblem } from '../../../apis/searchProblem';
+import { ProblemResponse } from '../../../types/Problem';
 
 interface SearchResultsProps {
   input: string;

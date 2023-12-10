@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { constTags } from '../../../public/tags';
+import { constTags } from '../../../../public/tags';
 import Dropdown from '../Dropdown';
 import MultipleChoiceDropdown from '../MultipleDropdown';
-import { randomProblem } from '../../apis/randomProblems';
-import { Tag } from '../../types/Tag';
-import { Difficulty, difficultyMapping } from '../../types/Difficulty';
-import { ProblemType } from '../../types/ProblemType';
+import { randomProblem } from '../../../apis/randomProblems';
+import { Tag } from '../../../types/Tag';
+import { Difficulty, difficultyMapping } from '../../../types/Difficulty';
+import { ProblemType } from '../../../types/ProblemType';
 
 interface RandomProblemProps {
   problemList: ProblemType[];
@@ -31,7 +31,7 @@ export default function RandomProblem({
   ];
 
   const requestRandomProblem = async () => {
-    if(tags.length === 0 || difficulty.length === 0) {
+    if (tags.length === 0 || difficulty.length === 0) {
       alert('태그와 난이도를 선택해주세요.');
       return;
     }
@@ -41,7 +41,7 @@ export default function RandomProblem({
       .flatMap((id) => difficultyMapping[id]);
     try {
       const res = await randomProblem(tagIds, difficultyIds, count);
-      if(res.length === 0) {
+      if (res.length === 0) {
         alert('해당 문제가 없습니다.');
         return;
       }
@@ -50,7 +50,7 @@ export default function RandomProblem({
         boj_problem_id: problem.bojProblemId,
         url: `https://www.acmicpc.net/problem/${problem.bojProblemId}`,
         level: problem.level,
-        tag: problem.tags.map((tag:Tag) => tag.name),
+        tag: problem.tags.map((tag: Tag) => tag.name),
       }));
 
       if (problemList.length + newProblems.length > 4) {
