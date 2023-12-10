@@ -143,6 +143,7 @@ export class SubmissionService {
     return new Promise((resolve) => setTimeout(resolve, mss));
   }
 
+  // 일단 미제출 문제에 대해서는 값을 리턴하지 않음
   async getRoomSubmission({ roomCode }) {
     const room = await this.roomService.findRoomByCode(roomCode);
 
