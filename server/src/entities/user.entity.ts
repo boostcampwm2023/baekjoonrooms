@@ -20,7 +20,7 @@ export default class User extends BaseEntity {
   id!: number;
 
   @Column({ comment: 'OAuth provider string id' })
-  username?: string;
+  username!: string;
 
   @Column({ comment: 'OAuth provider' })
   provider!: string;

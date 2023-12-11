@@ -36,7 +36,7 @@ export default class Room extends BaseEntity {
     nullable: true,
     comment: 'duration of the room',
   })
-  duration?: Date;
+  duration?: number;
 
   @Column({
     type: 'boolean',
