@@ -61,7 +61,6 @@ export class SocketService {
       problems: problems.map((problem) => problem.bojProblemId.toString()),
       isStarted: room.isStarted,
       endTime: room.endAt,
-      duration: room.duration,
     };
 
     return roomInfo;

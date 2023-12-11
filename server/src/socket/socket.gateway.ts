@@ -110,7 +110,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     if (roomInfo.duration == null) throw new WsException('duration is null');
     const now = new Date();
     const endTime = new Date(now.getTime() + roomInfo.duration * 60 * 1000);
-    room.duration = roomInfo.duration;
     room.endAt = endTime;
     room.isStarted = true;
     await room.save();
@@ -145,17 +144,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = request.user;
     if (user == null) throw new WsException('user is null');
     return user as User;
-  }
-
-  async submitCode(username: string, roomCode: string, problemId: string) {
-    const message: MessageInterface = {
-      username: username,
-      body: `님이 ${problemId} 문제를 제출하셨습니다.`,
-      timestamp: Date.now(),
-      chatEvent: ChatEvent.Submit,
-      color: 'green',
-    };
-    this.server.to(roomCode).emit('chat-message', message);
   }
 
   async handleDisconnect(@ConnectedSocket() client: Socket) {

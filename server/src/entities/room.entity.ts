@@ -32,13 +32,6 @@ export default class Room extends BaseEntity {
   endAt?: Date;
 
   @Column({
-    type: 'timestamp',
-    nullable: true,
-    comment: 'duration of the room',
-  })
-  duration?: number;
-
-  @Column({
     type: 'boolean',
   })
   isStarted!: boolean;
