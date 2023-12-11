@@ -8,7 +8,7 @@ import { goSolveProblem } from '../../util/goSolveProblem';
 import { useRoom } from '../../hooks/useRoom';
 
 export default function Problems() {
-  const { isHost, problems, setProblems } = useRoom();
+  const { isHost, problems, setProblems, roomInfo, setRoomInfo } = useRoom();
   const { theme } = useTheme();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,7 +55,7 @@ export default function Problems() {
                       alt={`${problem.level}`}
                     />
                     <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
-                      {problem.boj_problem_id}. {problem.title}
+                      {problem.bojProblemId}. {problem.title}
                     </p>
                   </div>
                 </div>

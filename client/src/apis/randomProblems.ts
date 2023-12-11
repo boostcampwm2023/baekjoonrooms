@@ -1,16 +1,15 @@
 import { apiClient } from './apiClient';
-import { ProblemResponse } from '../types/Problem';
+import { ProblemType } from '../types/ProblemType';
 
 export async function randomProblem(
   tagIds: number[],
   levels: number[],
   count: number,
-): Promise<ProblemResponse[]> {
+): Promise<ProblemType[]> {
   const tagIdsQuery = tagIds.join(',');
   const levelIdsQuery = levels.join(',');
   try {
-    const {data} = await apiClient
-    .get(
+    const { data } = await apiClient.get(
       `/problem/random?tagIds=${tagIdsQuery}&levels=${levelIdsQuery}&count=${count}`,
     );
     return data;

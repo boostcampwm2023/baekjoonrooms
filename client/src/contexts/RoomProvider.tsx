@@ -47,14 +47,12 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
   const { getItem, setItem } = useLocalStorage();
   const [messages, setMessages] = useState<MessageInterface[]>([]);
 
-  const [roomInfo, setRoomInfo] = useState<RoomInfoType>({
-    participantNames: [],
-    problems: [],
-    isStarted: false,
-    endTime: '',
-  });
+  const [roomInfo, setRoomInfo] = useState<RoomInfoType>({} as RoomInfoType);
 
   const [problems, setProblems] = useState<ProblemType[]>([]);
+
+  // const [duration, setDuration] = useState<number>(0); // minutes
+  // const [endTime, setEndTime] = useState<Date>({} as Date);
 
   useEffect(() => {
     const socket: Socket = io(serverUrl, {

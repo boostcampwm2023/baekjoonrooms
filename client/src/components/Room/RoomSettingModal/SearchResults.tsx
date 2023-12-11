@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { searchProblem } from '../../../apis/searchProblem';
-import { ProblemResponse } from '../../../types/Problem';
+import { ProblemType } from '../../../types/ProblemType';
 
 interface SearchResultsProps {
   input: string;
-  onResultClick: (problem: ProblemResponse) => void;
+  onResultClick: (problem: ProblemType) => void;
 }
 
 export const SearchResults: React.FC<SearchResultsProps> = ({
@@ -31,7 +31,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
       {isPending ? (
         <div className="text-center">loading...</div>
       ) : (
-        results.slice(0, 100).map((result: ProblemResponse) => (
+        results.slice(0, 100).map((result: ProblemType) => (
           <div
             key={result.bojProblemId}
             className="hover:bg-gray-200 cursor-pointer p-2"
