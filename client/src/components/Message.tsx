@@ -1,4 +1,5 @@
 import { ChatEvent, MessageInterface } from '../types/Message';
+import MessageBody from './MessageBody';
 
 // This just needs to be here so that these colors get bundled in the final distribution.
 // The userColor is actually assigned on the server.
@@ -33,17 +34,19 @@ export default function Message({
       return user === message.username ? (
         <li className="flex flex-row items-start justify-end gap-x-1">
           <span>
-            <span className="chat-message text-text_default">{`${message.body}`}</span>
+            <span className="chat-message text-text_default">
+              <MessageBody message={message.body} />
+            </span>
           </span>
         </li>
       ) : (
         <li className="flex flex-row items-start gap-x-1">
-          <span>
-            <span className={`${message.color} font-bold`}>
-              {message.username}
-            </span>
-            <span>:&nbsp;</span>
-            <span className="chat-message text-text_default">{`${message.body}`}</span>
+          <span className={`${message.color} font-bold`}>
+            {message.username}
+          </span>
+          <span>:&nbsp;</span>
+          <span className="chat-message text-text_default">
+            <MessageBody message={message.body} />
           </span>
         </li>
       );
