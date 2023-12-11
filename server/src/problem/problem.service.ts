@@ -7,6 +7,12 @@ import { SearchProblemDto } from './dto/search.problem.dto';
 
 @Injectable()
 export class ProblemService {
+  async getProblemsByIds(bojProblemIds: number[]) {
+    return await this.problemRepository
+      .createQueryBuilder('problem')
+      .where('problem.bojProblemId IN (:...bojProblemIds)', { bojProblemIds })
+      .getMany();
+  }
   constructor(
     @InjectRepository(Problem)
     private readonly problemRepository: Repository<Problem>,

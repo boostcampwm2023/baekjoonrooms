@@ -16,8 +16,9 @@ import User from '../entities/user.entity';
 import { WebsocketExceptionsFilter } from './socket.filter';
 import Room from 'src/entities/room.entity';
 import * as util from 'util';
-import { RoomInfo } from 'src/types/RoomInfo';
+import { RoomInfoType } from 'src/types/RoomInfo';
 import { SocketService } from './socket.service';
+import { ProblemService } from 'src/problem/problem.service';
 
 @WebSocketGateway({
   cors: {
@@ -41,6 +42,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly userService: UserService,
     private readonly socketService: SocketService,
+    private readonly problemService: ProblemService,
   ) {}
 
   afterInit(server: Server) {
@@ -66,7 +68,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       };
       this.server.to(roomCode).emit('chat-message', message);
 
-      const roomInfo: RoomInfo = await this.socketService.makeRoomInfo(
+      const roomInfo: RoomInfoType = await this.socketService.makeRoomInfo(
         joinedRoom.room,
       );
 
@@ -81,7 +83,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('game-start')
   async handleGameStart(
     @ConnectedSocket() client: Socket,
-    @MessageBody() roomInfo: RoomInfo,
+    @MessageBody() roomInfo: RoomInfoType,
   ) {
     const user = this.getUser(client);
 
@@ -94,10 +96,24 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       throw new WsException('방장이 아닙니다.');
     }
 
-    this.logger.debug(`--> ws: game-start from ${user.username}`);
+    // reflect roomInfo to the actual room entity in db
+
+    const { problems, duration, isStarted } = roomInfo;
+    if (problems == null) throw new WsException('problems is null');
+    if (isStarted == null) throw new WsException('isStarted is null');
+    if (duration == null) throw new WsException('duration is null');
+
+    room.endAt = new Date(Date.now() + duration * 60 * 1000);
+    const problemEntities = await this.problemService.getProblemsByIds(
+      problems.map((problem) => problem.bojProblemId),
+    );
+    room.problems = Promise.resolve(problemEntities);
+    room.isStarted = true;
+    room.save();
 
     const roomCode = joinedRoom.room.code;
 
+    this.logger.debug(`--> ws: game-start from ${user.username}`);
     const message = {
       username: user.username,
       body: `님이 게임을 시작하셨습니다.`,
@@ -106,13 +122,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     };
     this.logger.debug(`<-- ws: chat-message ${util.inspect(message)}`);
     this.server.to(roomCode).emit('chat-message', message);
-
-    if (roomInfo.duration == null) throw new WsException('duration is null');
-    const now = new Date();
-    const endTime = new Date(now.getTime() + roomInfo.duration * 60 * 1000);
-    room.endAt = endTime;
-    room.isStarted = true;
-    await room.save();
 
     const roomInfoResponse = await this.socketService.makeRoomInfo(room);
     this.logger.debug(`<-- ws: room-info ${util.inspect(roomInfoResponse)}`);

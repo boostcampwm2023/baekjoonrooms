@@ -1,6 +1,6 @@
 import { ProblemType } from './ProblemType';
 
-export type RoomInfo = {
+export type RoomInfoType = {
   participantNames: string[];
   problems: ProblemType[];
   isStarted: boolean;

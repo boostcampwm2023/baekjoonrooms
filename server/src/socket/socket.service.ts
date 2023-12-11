@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import Room from '../entities/room.entity';
 import { WsException } from '@nestjs/websockets';
-import { RoomInfo } from '../types/RoomInfo';
+import { RoomInfoType } from '../types/RoomInfo';
 import { Server } from 'socket.io';
 import { Status } from '../const/bojResults';
 import { ChatEvent, MessageInterface } from '../types/MessageInterface';
+import { ProblemType } from 'src/types/ProblemType';
 
 @Injectable()
 export class SocketService {
@@ -52,13 +53,21 @@ export class SocketService {
       this.logger.debug(`no problems in room ${room.code}`);
     }
 
+    const problemTypes: ProblemType[] = problems.map((problem) => {
+      return {
+        bojProblemId: problem.bojProblemId,
+        title: problem.title || '',
+        level: problem.level || 0,
+      };
+    });
+
     if (this.server == null) throw new WsException('server is null');
 
-    const roomInfo: RoomInfo = {
+    const roomInfo: RoomInfoType = {
       participantNames: roomUsers.map(
         (roomUser) => roomUser.user?.username || '',
       ),
-      problems: problems.map((problem) => problem.bojProblemId.toString()),
+      problems: problemTypes,
       isStarted: room.isStarted,
       endTime: room.endAt,
     };
@@ -125,7 +134,7 @@ export class SocketService {
     };
     this.server.to(code).emit('chat-message', message);
 
-    const roomInfo: RoomInfo = await this.makeRoomInfo(room);
+    const roomInfo: RoomInfoType = await this.makeRoomInfo(room);
     this.server.to(code).emit('room-info', roomInfo);
   }
 }
