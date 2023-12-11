@@ -1,5 +1,3 @@
-import { ScoreResult, Score } from '../../../types/ScoreType';
-import mockScoresData from '../../../../public/mocks/Scores.json';
 import ScoreBoard from './ScoreBoard';
 import { FaChartSimple, FaXmark } from 'react-icons/fa6';
 import { RefObject } from 'react';
@@ -11,14 +9,6 @@ interface ModalProps {
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const mockScores: Score = {
-  players: mockScoresData.players.map((player) => ({
-    ...player,
-    results: player.results.map(
-      (result) => ScoreResult[result as keyof typeof ScoreResult],
-    ),
-  })),
-};
 
 const iconStyle = {
   fontSize: '1.5rem',
@@ -51,7 +41,7 @@ export default function ScoreBoardModal({
           </div>
           <div className="text-xs text-text_default">3 online</div>
         </div>
-        <ScoreBoard scores={mockScores}></ScoreBoard>
+        <ScoreBoard />
       </div>
     </div>
   );
