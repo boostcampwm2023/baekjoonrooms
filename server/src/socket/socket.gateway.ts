@@ -55,10 +55,14 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const user = this.getUser(client);
       this.logger.debug(`client ${user.username} connecting...`);
       const joinedRoom = await this.userService.getJoinedRoom(user);
+      const room = joinedRoom.room;
 
       const roomCode = joinedRoom.room.code;
       this.logger.log(`client ${user.username} joining room ${roomCode}`);
       client.join(roomCode);
+      this.server
+        .to(roomCode)
+        .emit('room-info', await this.socketService.makeRoomInfo(room));
 
       const message: Partial<MessageInterface> = {
         username: user.username,

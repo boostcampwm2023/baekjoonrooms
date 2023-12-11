@@ -36,7 +36,6 @@ export class SocketService {
       color: 'green',
     };
     this.server.to(room.code).emit('chat-message', message);
-    this.server.to(room.code).emit('room-info', await this.makeRoomInfo(room));
   }
 
   async makeRoomInfo(room: Room) {
