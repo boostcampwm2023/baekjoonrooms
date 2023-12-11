@@ -12,6 +12,7 @@ import { RoomUserService } from 'src/roomUser/room.user.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import RoomUser from '../entities/roomUser.entity';
+import { SocketService } from '../socket/socket.service';
 
 @Injectable()
 export class RoomService {
@@ -24,6 +25,7 @@ export class RoomService {
     private readonly roomUserRepository: Repository<RoomUser>,
     @InjectRepository(Room)
     private readonly roomRepository: Repository<Room>,
+    private readonly socketService: SocketService,
   ) {}
 
   /**
@@ -105,11 +107,10 @@ export class RoomService {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
 
-    const numberOfJoinedUsers = await this.roomUserRepository.count({
-      where: { room: { id: room.id } },
-    });
+    await this.socketService.notifyExit(user.username, room);
 
-    if (numberOfJoinedUsers === 0) {
+    const numberOfJoinedUsers = (await room.joinedUsers)?.length;
+    if (numberOfJoinedUsers == null || numberOfJoinedUsers === 0) {
       await this.destroyRoom(room);
     }
   }
