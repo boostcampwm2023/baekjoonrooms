@@ -10,7 +10,7 @@ export type RoomContextType = {
   isHost: boolean;
   roomCode: string;
   roomId: string | undefined;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLTextAreaElement>;
   messagesRef: React.RefObject<HTMLUListElement>;
   socketRef: React.RefObject<Socket | null>;
   getItem: (key: string) => string | null;
@@ -40,7 +40,7 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
   const roomCode = location.state?.roomCode;
   const roomId = useParams<{ roomId: string }>().roomId;
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesRef = useRef<HTMLUListElement>(null);
   const socketRef = useRef<Socket | null>(null);
 
