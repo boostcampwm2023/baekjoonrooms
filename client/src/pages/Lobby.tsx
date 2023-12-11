@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import LogoutButton from '../components/buttons/LogoutButton';
-import Profile from '../components/Profile';
-import RoomAccessPanel from '../components/RoomAccessPanel';
-import ThemeSettingModal from '../components/ThemeSettingModal';
+import Profile from '../components/Lobby/Profile';
+import RoomAccessPanel from '../components/Lobby/RoomAccessPanel';
+import ThemeSettingModal from '../components/Lobby/ThemeSettingModal';
 import ThemeSettingButton from '../components/buttons/ThemeSettingButton';
 
 export default function Lobby() {

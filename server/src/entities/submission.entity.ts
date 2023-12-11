@@ -32,7 +32,7 @@ export default class Submission extends BaseEntity {
   @ManyToOne(() => User, (user) => user.submissions, { cascade: true })
   user?: User;
 
-  @ManyToOne(() => Room, (room) => room.submissions, { cascade: true })
+  @ManyToOne(() => Room, (room) => room.submissions, { cascade: false })
   room?: Room;
 
   @ManyToOne(() => Problem, (problem) => problem.submissions, { cascade: true })

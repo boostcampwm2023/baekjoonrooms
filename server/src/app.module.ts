@@ -30,7 +30,7 @@ import { SubmissionModule } from './submission/submission.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity.*'],
-      logging: true,
+      logging: false,
       synchronize: true, // production시 false로 변경
       namingStrategy: new SnakeNamingStrategy(),
     }),

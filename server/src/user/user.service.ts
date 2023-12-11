@@ -46,10 +46,18 @@ export class UserService {
     });
   }
 
-  async getJoinedRoom(user: User) {
+  async findJoinedRooms(user: User) {
     const joinedRooms = await user.joinedRooms;
     if (joinedRooms == null) {
       throw new BadRequestException('joinedRooms is null');
+    }
+    return joinedRooms;
+  }
+
+  async getJoinedRoom(user: User) {
+    const joinedRooms = await user.joinedRooms;
+    if (joinedRooms == null) {
+      throw new InternalServerErrorException('joinedRooms is null');
     }
     if (joinedRooms.length !== 1) {
       throw new InternalServerErrorException(

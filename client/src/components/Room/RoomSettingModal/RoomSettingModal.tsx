@@ -7,7 +7,7 @@ import { FaXmark } from 'react-icons/fa6';
 import { FaToggleOff } from 'react-icons/fa6';
 import { FaToggleOn } from 'react-icons/fa6';
 import Dropdown from '../Dropdown';
-import { ProblemType } from '../../types/ProblemType';
+import { ProblemType } from '../../../types/ProblemType';
 
 interface RoomSettingModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;
@@ -44,7 +44,7 @@ export default function RoomSettingModal({
   };
 
   const settingComplete = () => {
-    const numberList = problemList.map((problem)=>problem.boj_problem_id);
+    const numberList = problemList.map((problem) => problem.boj_problem_id);
     const duplicated = numberList.some(
       (item) => numberList.indexOf(item) !== numberList.lastIndexOf(item),
     );

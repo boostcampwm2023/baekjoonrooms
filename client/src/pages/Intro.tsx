@@ -1,5 +1,5 @@
 import { FaGithub } from 'react-icons/fa6';
-import VideoPlayer from '../components/VideoPlayer';
+import VideoPlayer from '../components/Intro/VideoPlayer';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';

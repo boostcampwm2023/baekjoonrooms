@@ -6,12 +6,12 @@ import {
   FaXmark,
 } from 'react-icons/fa6';
 import { RxExit } from 'react-icons/rx';
-import { ProblemType } from '../types/ProblemType';
-import { getProblemButtonColor } from '../util/getProblemButtonColor';
-import Message from './Message';
-import { MessageInterface, ChatEvent } from '../types/Message';
-import { useTheme } from '../hooks/useTheme';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { ProblemType } from '../../types/ProblemType';
+import { getProblemButtonColor } from '../../util/getProblemButtonColor';
+import Message from '../Room/Message';
+import { MessageInterface, ChatEvent } from '../../types/Message';
+import { useTheme } from '../../hooks/useTheme';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 interface ThemeSettingModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;

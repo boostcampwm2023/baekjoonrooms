@@ -1,9 +1,9 @@
-import { ScoreResult, Score } from '../../types/ScoreType';
-import mockScoresData from '../../../public/mocks/Scores.json';
+import { ScoreResult, Score } from '../../../types/ScoreType';
+import mockScoresData from '../../../../public/mocks/Scores.json';
 import ScoreBoard from './ScoreBoard';
 import { FaChartSimple, FaXmark } from 'react-icons/fa6';
 import { RefObject } from 'react';
-import { useTheme } from '../../hooks/useTheme';
+import { useTheme } from '../../../hooks/useTheme';
 
 interface ModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;
@@ -40,10 +40,7 @@ export default function ScoreBoardModal({
       onClick={modalOutsideClick}>
       <div className="relative flex h-[430px] w-[330px] flex-col items-center rounded-2xl border-[0.5px] border-gutter bg-bg">
         <button className="absolute right-4 top-4" onClick={closeModal}>
-          <FaXmark
-            style={iconStyle}
-            color={iconColor}
-          />
+          <FaXmark style={iconStyle} color={iconColor} />
         </button>
         <div className="flex w-full flex-col items-center gap-y-[2px] border-b-[0.5px] border-gutter px-5 py-3">
           <div className="flex flex-row items-baseline gap-2">

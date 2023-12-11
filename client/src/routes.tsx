@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound.tsx';
 import Lobby from './pages/Lobby.tsx';
 import Room from './pages/Room.tsx';
 import Intro from './pages/Intro.tsx';
+import { RoomProvider } from './contexts/RoomProvider.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +44,9 @@ export const router = createBrowserRouter([
         path: '/room/:roomId',
         element: (
           <UserBasedRoute>
-            <Room />
+            <RoomProvider>
+              <Room />
+            </RoomProvider>
           </UserBasedRoute>
         ),
       },
