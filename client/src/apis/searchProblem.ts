@@ -1,10 +1,10 @@
-import { ProblemResponse } from '../types/Problem';
+import { ProblemType } from '../types/ProblemType';
 
 import { apiClient } from './apiClient';
 
 export async function searchProblem(
   searchKeyword: string,
-): Promise<ProblemResponse[]> {
+): Promise<ProblemType[]> {
   if (!searchKeyword) return Promise.resolve([]);
 
   try {

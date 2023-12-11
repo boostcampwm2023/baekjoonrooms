@@ -28,13 +28,7 @@ export default function RoomSettingModal({
   problems,
   setProblems,
 }: RoomSettingModalProps) {
-  const [problem, setProblem] = useState<ProblemType>({
-    title: '',
-    boj_problem_id: undefined,
-    url: '',
-    level: undefined,
-    tag: [],
-  });
+  const [problem, setProblem] = useState<ProblemType>({} as ProblemType);
   const [problemList, setProblemList] = useState<ProblemType[]>(problems);
   const [isRandom, setIsRandom] = useState<boolean>(false);
   const [time, setTime] = useState<number>(15);
@@ -44,7 +38,7 @@ export default function RoomSettingModal({
   };
 
   const settingComplete = () => {
-    const numberList = problemList.map((problem) => problem.boj_problem_id);
+    const numberList = problemList.map((problem) => problem.bojProblemId);
     const duplicated = numberList.some(
       (item) => numberList.indexOf(item) !== numberList.lastIndexOf(item),
     );
