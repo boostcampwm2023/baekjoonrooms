@@ -54,7 +54,6 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
   const [problems, setProblems] = useState<ProblemType[]>([]);
 
   const [duration, setDuration] = useState<number>(0); // minutes
-  // const [endTime, setEndTime] = useState<Date>({} as Date);
 
   useEffect(() => {
     const socket: Socket = io(serverUrl, {
@@ -64,14 +63,21 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
     socketRef.current = socket;
 
     socket.on('room-info', (roomInfo) => {
-      console.log(roomInfo);
       setRoomInfo(roomInfo);
+
+      if (roomInfo.problems) {
+        // add url to problems
+        roomInfo.problems.forEach((problem: ProblemType) => {
+          problem.url = `https://www.acmicpc.net/problem/${problem.bojProblemId}`;
+        });
+        setProblems(roomInfo.problems);
+      }
     });
 
     return () => {
       socket.disconnect();
     };
-  }, [getItem, roomId, serverUrl, setItem]);
+  }, [roomId, serverUrl]);
 
   return (
     <RoomContext.Provider

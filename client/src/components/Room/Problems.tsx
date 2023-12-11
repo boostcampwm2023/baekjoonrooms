@@ -3,12 +3,12 @@ import { FaPencil } from 'react-icons/fa6';
 
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
 import { useTheme } from '../../hooks/useTheme';
-import { getProblemButtonColor } from '../../util/getProblemButtonColor';
-import { goSolveProblem } from '../../util/goSolveProblem';
 import { useRoom } from '../../hooks/useRoom';
+import ProblemLists from './ProblemLists';
 
 export default function Problems() {
-  const { isHost, problems, setProblems, duration, setDuration } = useRoom();
+  const { isHost, roomInfo, problems, setProblems, duration, setDuration } =
+    useRoom();
   const { theme } = useTheme();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,9 +28,9 @@ export default function Problems() {
     }
   };
 
-  return (
-    <>
-      {isHost ? (
+  if (isHost && !roomInfo.isStarted) {
+    return (
+      <>
         <div className="relative h-[120px] w-full">
           {problems.length === 0 ? (
             <div
@@ -41,26 +41,7 @@ export default function Problems() {
               </h1>
             </div>
           ) : (
-            <div className="flex-col">
-              {problems.map((problem, index) => (
-                <div className="mt-1 flex h-[24px]" key={index}>
-                  <div
-                    className={`flex h-[24px] max-w-[368px] cursor-pointer items-center justify-center gap-2  rounded-[21px] px-2.5 py-1 text-left text-xs ${getProblemButtonColor(
-                      problem.level,
-                    )}`}
-                    onClick={goSolveProblem(problem)}>
-                    <img
-                      className="h-[12px] w-[12px]"
-                      src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
-                      alt={`${problem.level}`}
-                    />
-                    <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
-                      {problem.bojProblemId}. {problem.title}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ProblemLists problems={problems} />
           )}
           <div
             className="absolute right-3 top-3 cursor-pointer"
@@ -71,22 +52,42 @@ export default function Problems() {
             />
           </div>
         </div>
-      ) : (
-        <div className="flex h-[108px] w-full items-center justify-center text-text_default">
-          문제 출제중...
-        </div>
-      )}
-      {isModalOpen && (
-        <RoomSettingModal
-          modalOverlayRef={modalOverlayRef}
-          closeModal={closeModal}
-          modalOutsideClick={modalOutsideClick}
-          problems={problems}
-          setProblems={setProblems}
-          duration={duration}
-          setDuration={setDuration}
-        />
-      )}
-    </>
-  );
+        {isModalOpen && (
+          <RoomSettingModal
+            modalOverlayRef={modalOverlayRef}
+            closeModal={closeModal}
+            modalOutsideClick={modalOutsideClick}
+            problems={problems}
+            setProblems={setProblems}
+            duration={duration}
+            setDuration={setDuration}
+          />
+        )}
+      </>
+    );
+  }
+
+  if (isHost && roomInfo.isStarted) {
+    return (
+      <div className="relative h-[120px] w-full">
+        <ProblemLists problems={problems} />
+      </div>
+    );
+  }
+
+  if (!isHost && !roomInfo.isStarted) {
+    return (
+      <div className="flex h-[108px] w-full items-center justify-center text-text_default">
+        문제 출제중...
+      </div>
+    );
+  }
+
+  if (!isHost && roomInfo.isStarted) {
+    return (
+      <div className="relative h-[120px] w-full">
+        <ProblemLists problems={problems} />
+      </div>
+    );
+  }
 }
