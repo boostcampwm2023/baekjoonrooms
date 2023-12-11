@@ -60,14 +60,11 @@ export default function Chat() {
     }
 
     const inputText = insertNewlines(inputRef.current.value.trim(), 40);
-    const username = user?.username || 'Anonymous';
-    const userColor = JSON.parse(getItem('userColor') as string);
     const newChatMessage: MessageInterface = {
       timestamp: Date.now(),
-      username: username,
+      username: user?.username || 'Anonymous',
       body: inputText,
       chatEvent: ChatEvent.Message,
-      color: userColor[username], // TODO: 클라에서 랜덤 설정
     };
 
     socket?.emit('chat-message', newChatMessage);
@@ -89,6 +86,9 @@ export default function Chat() {
 
     socket?.on('chat-message', (newMessage) => {
       setMessages((prevMessages) => {
+        newMessage.color = JSON.parse(getItem('userColor') as string)[
+          newMessage.username
+        ];
         const newMessages = [...prevMessages, newMessage];
         setItem(
           `${roomId}-messages`,
