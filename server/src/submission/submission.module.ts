@@ -7,11 +7,13 @@ import { UserModule } from 'src/user/user.module';
 import { SubmissionController } from './submission.controller';
 import { SubmissionService } from './submission.service';
 import { SocketModule } from '../socket/socket.module';
+import { RoomModule } from 'src/room/room.module';
 
 @Module({
   imports: [
     UserModule,
     ProblemModule,
+    RoomModule,
     RoomUserModule,
     TypeOrmModule.forFeature([Submission]),
     SocketModule,
