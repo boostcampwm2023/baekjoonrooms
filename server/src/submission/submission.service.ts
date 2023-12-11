@@ -10,7 +10,7 @@ import { BojSubmissionInfo } from 'src/types/submission';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { SubmissionDto } from './dto/submission.dto';
-import { SocketGateway } from '../socket/socket.gateway';
+import { SocketService } from '../socket/socket.service';
 
 @Injectable()
 export class SubmissionService {
@@ -23,7 +23,7 @@ export class SubmissionService {
     private readonly problemService: ProblemService,
     private readonly roomService: RoomService,
     private readonly roomUserService: RoomUserService,
-    private readonly socketGateway: SocketGateway,
+    private readonly socketService: SocketService,
   ) {}
 
   async submitCode(submissionDto: SubmissionDto) {
@@ -61,7 +61,7 @@ export class SubmissionService {
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
 
-    await this.socketGateway.submitCode(
+    await this.socketService.submitCode(
       user.username,
       room.code,
       bojProblemStringId,
@@ -72,7 +72,7 @@ export class SubmissionService {
       bojProblemStringId,
       submittedAt,
     });
-    await this.socketGateway.notifySubmissionStatus(
+    await this.socketService.notifySubmissionStatus(
       user.username,
       room.code,
       bojProblemStringId,

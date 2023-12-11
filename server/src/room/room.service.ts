@@ -12,6 +12,7 @@ import { RoomUserService } from 'src/roomUser/room.user.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import RoomUser from '../entities/roomUser.entity';
+import { SocketService } from '../socket/socket.service';
 
 @Injectable()
 export class RoomService {
@@ -24,6 +25,7 @@ export class RoomService {
     private readonly roomUserRepository: Repository<RoomUser>,
     @InjectRepository(Room)
     private readonly roomRepository: Repository<Room>,
+    private readonly socketService: SocketService,
   ) {}
 
   /**
@@ -49,6 +51,7 @@ export class RoomService {
     this.logger.log(`room ${code} successfully created by ${user.username}!`);
 
     await this.roomUserService.create({ room, user });
+    this.socketService.notifyCreatingRoom(user.username, room.code);
     return room;
   }
 
@@ -77,7 +80,8 @@ export class RoomService {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
     this.logger.debug(`user ${user.username} joining room ${room.code}...`);
-    return this.roomUserRepository.create({ room, user }).save();
+    await this.roomUserRepository.create({ room, user }).save();
+    this.socketService.notifyJoiningRoom(user.username, roomCode);
   }
 
   async destroyRoom(room: Room) {
@@ -105,11 +109,10 @@ export class RoomService {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
 
-    const numberOfJoinedUsers = await this.roomUserRepository.count({
-      where: { room: { id: room.id } },
-    });
+    await this.socketService.notifyExit(user.username, room);
 
-    if (numberOfJoinedUsers === 0) {
+    const numberOfJoinedUsers = (await room.joinedUsers)?.length;
+    if (numberOfJoinedUsers == null || numberOfJoinedUsers === 0) {
       await this.destroyRoom(room);
     }
   }

@@ -3,7 +3,7 @@ export interface MessageInterface {
   username: string;
   body: string;
   chatEvent: ChatEvent;
-  color: string;
+  color?: string;
 }
 
 // export enum chatEvent {
