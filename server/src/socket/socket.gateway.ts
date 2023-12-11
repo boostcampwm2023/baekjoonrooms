@@ -103,9 +103,11 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     );
     room.problems = Promise.resolve(problemEntities);
     room.isStarted = true;
-    room.save();
+    room.joinedUsers = Promise.resolve(room.joinedUsers!);
 
-    const roomCode = joinedRoom.room.code;
+    await room.save();
+
+    const roomCode = room.code;
 
     this.logger.debug(`--> ws: game-start from ${user.username}`);
     const message = {

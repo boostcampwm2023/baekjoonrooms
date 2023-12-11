@@ -4,6 +4,6 @@ export type RoomInfoType = {
   participantNames: string[];
   problems: ProblemType[];
   isStarted: boolean;
-  endTime?: Date;
+  endTime?: number;
   duration?: number;
 };

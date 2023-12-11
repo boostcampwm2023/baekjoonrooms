@@ -70,7 +70,7 @@ export class SocketService {
       ),
       problems: problemTypes,
       isStarted: room.isStarted,
-      endTime: room.endAt,
+      endTime: room.endAt?.valueOf(),
     };
 
     return roomInfo;
