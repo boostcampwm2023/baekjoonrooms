@@ -1,5 +1,5 @@
-import { ProblemType } from "../types/ProblemType";
+import { ProblemType } from '../types/ProblemType';
 
-export const goSolveProblem = (problem:ProblemType) => () => {
-    window.open(problem.url);
-  };
+export const goSolveProblem = (problem: ProblemType) => () => {
+  window.open(problem.url);
+};

@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { ProblemType } from '../../../types/ProblemType';
-import { ProblemResponse } from '../../../types/Problem';
 import { SearchResults } from './SearchResults';
 
 interface SelectProblemProps {
@@ -26,14 +25,14 @@ export default function SelectProblem({
     event.preventDefault();
   };
 
-  const handleOptionClick = (option: ProblemResponse) => {
+  const handleOptionClick = (option: ProblemType) => {
     const newProblem: ProblemType = {
       title: option.title,
-      boj_problem_id: option.bojProblemId,
+      bojProblemId: option.bojProblemId,
       url: `https://www.acmicpc.net/problem/${option.bojProblemId}`,
       level: option.level,
       // response have no tag attribute, leave blank
-      tag: [],
+      tags: [],
     };
 
     if (problemList.length + 1 > 4) {

@@ -39,7 +39,7 @@ export default function ProblemList({
               alt={`${problem.level}`}
             />
             <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
-              {problem.boj_problem_id}. {problem.title}
+              {problem.bojProblemId}. {problem.title}
             </p>
           </div>
           <button

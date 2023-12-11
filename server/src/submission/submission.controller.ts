@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
+import { RoomSubmissionDto } from './dto/roomSubmission.dto';
 import { SubmissionDto } from './dto/submission.dto';
 import { SubmissionService } from './submission.service';
 
@@ -15,5 +16,13 @@ export class SubmissionController {
   @Post()
   async submitCode(@Body() submissionDto: SubmissionDto) {
     return await this.submissionService.submitCode(submissionDto);
+  }
+
+  @ApiOperation({
+    summary: 'roomCode에 해당하는 방에 속한 유저들의 최종 제출 정보',
+  })
+  @Get()
+  async getRoomSumbmission(@Query() roomSubmissionDto: RoomSubmissionDto) {
+    return await this.submissionService.getRoomSubmission(roomSubmissionDto);
   }
 }

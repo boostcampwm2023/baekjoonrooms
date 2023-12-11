@@ -4,12 +4,13 @@ import * as cheerio from 'cheerio';
 import { BojResultsToStatus, Status } from 'src/const/bojResults';
 import Submission from 'src/entities/submission.entity';
 import { ProblemService } from 'src/problem/problem.service';
+import { RoomService } from 'src/room/room.service';
 import { RoomUserService } from 'src/roomUser/room.user.service';
 import { BojSubmissionInfo } from 'src/types/submission';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { SubmissionDto } from './dto/submission.dto';
-import { SocketGateway } from '../socket/socket.gateway';
+import { SocketService } from '../socket/socket.service';
 
 @Injectable()
 export class SubmissionService {
@@ -20,8 +21,9 @@ export class SubmissionService {
 
     private readonly userService: UserService,
     private readonly problemService: ProblemService,
+    private readonly roomService: RoomService,
     private readonly roomUserService: RoomUserService,
-    private readonly socketGateway: SocketGateway,
+    private readonly socketService: SocketService,
   ) {}
 
   async submitCode(submissionDto: SubmissionDto) {
@@ -59,7 +61,7 @@ export class SubmissionService {
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
 
-    await this.socketGateway.submitCode(
+    await this.socketService.submitCode(
       user.username,
       room.code,
       bojProblemStringId,
@@ -70,7 +72,7 @@ export class SubmissionService {
       bojProblemStringId,
       submittedAt,
     });
-    await this.socketGateway.notifySubmissionStatus(
+    await this.socketService.notifySubmissionStatus(
       user.username,
       room.code,
       bojProblemStringId,
@@ -139,5 +141,32 @@ export class SubmissionService {
 
   async sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  // 일단 미제출 문제에 대해서는 값을 리턴하지 않음
+  async getRoomSubmission({ roomCode }) {
+    const room = await this.roomService.findRoomByCode(roomCode);
+
+    const subQuery = this.submissionRepository
+      .createQueryBuilder(`latestSubmission`)
+      .select('user_id')
+      .addSelect('problem_id')
+      .addSelect('MAX(submitted_at) as submitted_at')
+      .groupBy('user_id, problem_id');
+
+    const sumbissions = await this.submissionRepository
+      .createQueryBuilder('submission')
+      .where(`(user_id, problem_id, submitted_at) IN (${subQuery.getQuery()})`)
+      .andWhere('room_id = :id', { id: room.id })
+      .orderBy('user_id, problem_id')
+      .leftJoinAndSelect('submission.user', 'user')
+      .leftJoinAndSelect('submission.problem', 'problem')
+      .getMany();
+
+    return sumbissions.map((submission) => ({
+      username: submission.user!.username,
+      bojroblemId: submission.problem!.bojProblemId,
+      status: submission.status,
+    }));
   }
 }

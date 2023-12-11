@@ -31,31 +31,31 @@ export default function ThemeSettingModal({
   const problems: ProblemType[] = [
     {
       title: '테스트 문제1',
-      boj_problem_id: 1000,
+      bojProblemId: 1000,
       url: 'https://www.acmicpc.net/problem/1000',
       level: 1,
-      tag: ['브론즈'],
+      tags: [{ id: 96, name: '수학' }],
     },
     {
       title: '테스트 문제2',
-      boj_problem_id: 1001,
+      bojProblemId: 1001,
       url: 'https://www.acmicpc.net/problem/1001',
       level: 10,
-      tag: ['실버'],
+      tags: [{ id: 96, name: '수학' }],
     },
     {
       title: '테스트 문제3',
-      boj_problem_id: 1002,
+      bojProblemId: 1002,
       url: 'https://www.acmicpc.net/problem/1002',
       level: 20,
-      tag: ['브론즈'],
+      tags: [{ id: 96, name: '수학' }],
     },
     {
       title: '테스트 문제4',
-      boj_problem_id: 1003,
+      bojProblemId: 1003,
       url: 'https://www.acmicpc.net/problem/1003',
       level: 30,
-      tag: ['브론즈'],
+      tags: [{ id: 96, name: '수학' }],
     },
   ];
 
@@ -210,7 +210,7 @@ export default function ThemeSettingModal({
                     alt={`${problem.level}`}
                   />
                   <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
-                    {problem.boj_problem_id}. {problem.title}
+                    {problem.bojProblemId}. {problem.title}
                   </p>
                 </div>
               </div>

@@ -47,10 +47,10 @@ export default function RandomProblem({
       }
       const newProblems = res.map((problem) => ({
         title: problem.title,
-        boj_problem_id: problem.bojProblemId,
+        bojProblemId: problem.bojProblemId,
         url: `https://www.acmicpc.net/problem/${problem.bojProblemId}`,
         level: problem.level,
-        tag: problem.tags.map((tag: Tag) => tag.name),
+        tags: problem.tags,
       }));
 
       if (problemList.length + newProblems.length > 4) {
