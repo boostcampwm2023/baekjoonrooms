@@ -81,7 +81,7 @@ export class RoomService {
     }
     this.logger.debug(`user ${user.username} joining room ${room.code}...`);
     await this.roomUserRepository.create({ room, user }).save();
-    this.socketService.notifyJoiningRoom(user.username, roomCode);
+    this.socketService.notifyJoiningRoom(user.username, room);
   }
 
   async destroyRoom(room: Room) {
