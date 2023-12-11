@@ -117,7 +117,7 @@ export default function Chat() {
       <div className="mx-2 flex-1 overflow-y-auto px-2 py-2">
         <ul ref={messagesRef} className="flex flex-col gap-y-1.5">
           {messages.map((message, index) => (
-            <Message key={index} message={message} user={user?.username} />
+            <Message key={index} message={message} />
           ))}
         </ul>
       </div>

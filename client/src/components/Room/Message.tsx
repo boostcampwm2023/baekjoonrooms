@@ -4,13 +4,7 @@ import { hash } from '../../utils/hash';
 import { ChatEvent, MessageInterface } from '../../types/Message';
 import MessageBody from './MessageBody';
 
-export default function Message({
-  message,
-  user,
-}: {
-  message: MessageInterface;
-  user: string | undefined;
-}) {
+export default function Message({ message }: { message: MessageInterface }) {
   const { roomCode } = useRoom();
   const generateRandomColor = (username: string) => {
     const idx = Math.abs(hash(username + roomCode) % userColors.length);
@@ -20,15 +14,7 @@ export default function Message({
   switch (message.chatEvent) {
     // 유저의 채팅 메세지
     case ChatEvent.Message:
-      return user === message.username ? (
-        <li className="flex flex-row items-start justify-end gap-x-1">
-          <span>
-            <span className="chat-message text-text_default">
-              <MessageBody message={message.body} />
-            </span>
-          </span>
-        </li>
-      ) : (
+      return (
         <li className="flex flex-row items-start gap-x-1 py-1">
           <span
             className={`${generateRandomColor(message.username)} font-bold`}>
