@@ -31,6 +31,18 @@ export default class Room extends BaseEntity {
   })
   endAt?: Date;
 
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+    comment: 'duration of the room',
+  })
+  duration?: Date;
+
+  @Column({
+    type: 'boolean',
+  })
+  isStarted!: boolean;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt?: Date;
 
@@ -41,20 +53,19 @@ export default class Room extends BaseEntity {
   deletedAt?: Date;
 
   @ManyToOne(() => User, (user) => user.hostedRooms, {
-    cascade: true,
-
-    nullable: true,
+    lazy: true,
+    nullable: false,
   })
-  host?: User;
+  host?: Promise<User>;
 
-  @OneToMany(() => RoomUser, (roomUser) => roomUser.room)
-  joinedUsers?: RoomUser[];
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.room, { lazy: true })
+  joinedUsers?: Promise<RoomUser[]>;
 
-  @OneToMany(() => Submission, (submission) => submission.room)
-  submissions?: Submission[];
+  @OneToMany(() => Submission, (submission) => submission.room, { lazy: true })
+  submissions?: Promise<Submission[]>;
 
   // 이 방에서 출제된 문제들
-  @ManyToMany(() => Problem, (problem) => problem.rooms)
+  @ManyToMany(() => Problem, (problem) => problem.rooms, { lazy: true })
   @JoinTable()
-  problems?: Problem[];
+  problems?: Promise<Problem[]>;
 }

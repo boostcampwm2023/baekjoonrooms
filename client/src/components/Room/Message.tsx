@@ -1,4 +1,4 @@
-import { ChatEvent, MessageInterface } from '../types/Message';
+import { ChatEvent, MessageInterface } from '../../types/Message';
 import MessageBody from './MessageBody';
 
 // This just needs to be here so that these colors get bundled in the final distribution.

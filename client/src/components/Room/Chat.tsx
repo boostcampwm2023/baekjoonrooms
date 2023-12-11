@@ -1,24 +1,32 @@
 import { FaArrowRight } from 'react-icons/fa6';
-import { Socket } from 'socket.io-client';
 import TextAreaAutoSize from 'react-textarea-autosize';
 
 import Message from './Message';
-import { useAuthContext } from '../hooks/useAuthContext';
-import { ChatEvent, MessageInterface } from '../types/Message';
+import { useAuthContext } from '../../hooks/useAuthContext';
+
+import {
+  ChatEvent,
+  MessageInterface,
+  RoomMessagesLocalStorage,
+} from '../../types/Message';
+import { useRoom } from '../../hooks/useRoom';
+import { useEffect } from 'react';
 
 // TODO: userColor -> 서버에서 설정
-export default function Chat({
-  messages,
-  inputRef,
-  messagesRef,
-  socketRef,
-}: {
-  messages: MessageInterface[];
-  inputRef: React.RefObject<HTMLTextAreaElement>;
-  messagesRef: React.RefObject<HTMLUListElement>;
-  socketRef: React.MutableRefObject<Socket | null>;
-}) {
+export default function Chat() {
   const { user } = useAuthContext();
+  const {
+    roomId,
+    messages,
+    setMessages,
+    getItem,
+    setItem,
+    inputRef,
+    messagesRef,
+    socketRef,
+  } = useRoom();
+
+  const socket = socketRef.current;
 
   function insertNewlines(text: string, width: number): string {
     const words = text.split(' ');
@@ -51,7 +59,6 @@ export default function Chat({
       return;
     }
 
-    const socket = socketRef.current;
     const inputText = insertNewlines(inputRef.current.value.trim(), 40);
     const newChatMessage: MessageInterface = {
       timestamp: Date.now(),
@@ -61,9 +68,51 @@ export default function Chat({
       color: 'text-purple', // TODO: 클라에서 랜덤 설정
     };
 
-    socket.emit('chat-message', newChatMessage);
+    socket?.emit('chat-message', newChatMessage);
+
     inputRef.current.value = '';
   }
+
+  useEffect(() => {
+    const storedRoomMessagesString = getItem(`${roomId}-messages`);
+
+    if (storedRoomMessagesString) {
+      const storedRoomMessages: RoomMessagesLocalStorage = JSON.parse(
+        storedRoomMessagesString,
+      );
+      if (storedRoomMessages) {
+        setMessages(storedRoomMessages.messages);
+      }
+    }
+
+    socket?.on('chat-message', (newMessage) => {
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages, newMessage];
+        setItem(
+          `${roomId}-messages`,
+          JSON.stringify({
+            messages: newMessages,
+          }),
+        );
+        return newMessages;
+      });
+    });
+  }, [socket, roomId, setItem, setMessages, getItem]);
+
+  useEffect(() => {
+    function autoScrollToLatestMessage() {
+      if (!messagesRef.current) {
+        return;
+      }
+
+      const latestMessage = messagesRef.current.lastElementChild;
+      latestMessage?.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+
+    autoScrollToLatestMessage();
+  }, [messages, messagesRef]);
 
   return (
     <div className="flex w-full flex-1 flex-col overflow-hidden">

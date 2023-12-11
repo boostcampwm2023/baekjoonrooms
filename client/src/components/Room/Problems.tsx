@@ -1,18 +1,18 @@
 import { useState, useRef } from 'react';
 import { FaPencil } from 'react-icons/fa6';
 
-import { ProblemType } from '../types/ProblemType';
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
-import { useTheme } from '../hooks/useTheme';
-import { getProblemButtonColor } from '../util/getProblemButtonColor';
-import { goSolveProblem } from '../util/goSolveProblem';
+import { useTheme } from '../../hooks/useTheme';
+import { getProblemButtonColor } from '../../util/getProblemButtonColor';
+import { goSolveProblem } from '../../util/goSolveProblem';
+import { useRoom } from '../../hooks/useRoom';
 
-export default function Problems({ isHost }: { isHost: boolean }) {
-  const [problems, setProblems] = useState<ProblemType[]>([]);
+export default function Problems() {
+  const { isHost, problems, setProblems } = useRoom();
+  const { theme } = useTheme();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOverlayRef = useRef<HTMLDivElement>(null);
-
-  const { theme } = useTheme();
 
   const openModal = () => {
     setIsModalOpen(true);

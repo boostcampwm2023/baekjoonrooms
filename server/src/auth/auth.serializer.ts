@@ -22,8 +22,9 @@ export class LocalSerializer extends PassportSerializer {
   }
 
   async deserializeUser(userSession: UserSession, done: CallableFunction) {
-    this.logger.debug('Deserializing userSession:', userSession);
-    const { provider, providerId } = userSession;
+    this.logger.debug('Deserializing userSession...');
+    const { username, providerId, provider } = userSession;
+    this.logger.debug(util.inspect({ provider, providerId, username }));
     const user = await this.userService.findUserByProviderInfo({
       provider,
       providerId,

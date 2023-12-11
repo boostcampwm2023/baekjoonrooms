@@ -1,5 +1,5 @@
 import { FaChartSimple } from 'react-icons/fa6';
-import ScoreBoardModal from '../ScoreBoardModal/ScoreBoardModal';
+import ScoreBoardModal from '../Room/ScoreBoardModal/ScoreBoardModal';
 import { useRef, useState } from 'react';
 
 export default function ScoreboardButton() {
