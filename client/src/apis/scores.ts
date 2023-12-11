@@ -1,24 +1,26 @@
+import { Score } from '../types/Score';
 import { apiClient } from './apiClient';
 
-export async function getScores(roomCode: string) {
+export async function getScores(roomCode: string) : Promise<Score[]> {
   try {
-    await apiClient.post('/DEV-THROW-WRONG-SUBMISSION', { roomCode: roomCode });
+    const {data} = await apiClient.post('/DEV-THROW-WRONG-SUBMISSION', { roomCode: roomCode });
+    return data;
   } catch (error) {
     // console.log(error);
     // DEV MOCK DATA
     return [
         {
-          "username": "user1",
+          "username": "mockuser1",
           "problemId": 1000,
           "status" : "ACCEPTED"
         },
         {
-          "username": "user2",
+          "username": "mockuser2",
           "problemId": 1000,
           "status" : "ACCEPTED"
         },
         {
-          "username": "user1",
+          "username": "mockuser1",
           "problemId": 1001,
           "status" : "WRONG"
         }
