@@ -3,8 +3,8 @@ import { FaPencil } from 'react-icons/fa6';
 
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
 import { useTheme } from '../../hooks/useTheme';
-import { getProblemButtonColor } from '../../util/getProblemButtonColor';
-import { goSolveProblem } from '../../util/goSolveProblem';
+import { getProblemButtonColor } from '../../utils/getProblemButtonColor';
+import { goSolveProblem } from '../../utils/goSolveProblem';
 import { useRoom } from '../../hooks/useRoom';
 
 export default function Problems() {

@@ -1,3 +1,6 @@
+import { useRoom } from '../../hooks/useRoom';
+import { userColors } from '../../../public/userColors';
+import { hash } from '../../utils/hash';
 import { ChatEvent, MessageInterface } from '../../types/Message';
 import MessageBody from './MessageBody';
 
@@ -8,6 +11,12 @@ export default function Message({
   message: MessageInterface;
   user: string | undefined;
 }) {
+  const { roomCode } = useRoom();
+  const generateRandomColor = (username: string) => {
+    const idx = Math.abs(hash(username + roomCode) % userColors.length);
+    return userColors[idx];
+  };
+
   switch (message.chatEvent) {
     // 유저의 채팅 메세지
     case ChatEvent.Message:
@@ -21,7 +30,8 @@ export default function Message({
         </li>
       ) : (
         <li className="flex flex-row items-start gap-x-1 py-1">
-          <span className={`${message.color} font-bold`}>
+          <span
+            className={`${generateRandomColor(message.username)} font-bold`}>
             {message.username}
           </span>
           <span className="text-text_default">:&nbsp;</span>
@@ -43,7 +53,10 @@ export default function Message({
               {`👋`}
               &nbsp;
             </span>
-            <span className={`${message.color} ml-1 font-bold`}>
+            <span
+              className={`${generateRandomColor(
+                message.username,
+              )} ml-1 font-bold`}>
               {`${message.username}`}
             </span>
             <span className="chat-message text-text_default">{`${message.body}`}</span>
@@ -61,7 +74,10 @@ export default function Message({
               {`🤞`}
               &nbsp;
             </span>
-            <span className={`${message.color} ml-1 font-bold`}>
+            <span
+              className={`${generateRandomColor(
+                message.username,
+              )} ml-1 font-bold`}>
               {`${message.username}`}
             </span>
             <span className="chat-message">{`${message.body}`}</span>
@@ -79,7 +95,10 @@ export default function Message({
               {`💯`}
               &nbsp;
             </span>
-            <span className={`${message.color} ml-1 font-bold`}>
+            <span
+              className={`${generateRandomColor(
+                message.username,
+              )} ml-1 font-bold`}>
               {`${message.username}`}
             </span>
             <span className="chat-message">{`${message.body}`}</span>
@@ -97,7 +116,10 @@ export default function Message({
               {`👎`}
               &nbsp;
             </span>
-            <span className={`${message.color} ml-1 font-bold`}>
+            <span
+              className={`${generateRandomColor(
+                message.username,
+              )} ml-1 font-bold`}>
               {`${message.username}`}
             </span>
             <span className="chat-message">{`${message.body}`}</span>
