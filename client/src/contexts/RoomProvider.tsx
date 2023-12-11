@@ -62,15 +62,15 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
 
     socketRef.current = socket;
 
-    socket.on('room-info', (roomInfo) => {
-      setRoomInfo(roomInfo);
+    socket.on('room-info', (newRoomInfo) => {
+      setRoomInfo(newRoomInfo);
 
-      if (roomInfo.problems) {
-        // add url to problems
-        roomInfo.problems.forEach((problem: ProblemType) => {
+      if (newRoomInfo.problems && newRoomInfo.problems.length > 0) {
+        newRoomInfo.problems.forEach((problem: ProblemType) => {
           problem.url = `https://www.acmicpc.net/problem/${problem.bojProblemId}`;
         });
-        setProblems(roomInfo.problems);
+
+        setProblems(newRoomInfo.problems);
       }
     });
 
