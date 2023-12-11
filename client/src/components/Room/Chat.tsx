@@ -12,7 +12,6 @@ import {
 import { useRoom } from '../../hooks/useRoom';
 import { useEffect } from 'react';
 
-// TODO: userColor -> 서버에서 설정
 export default function Chat() {
   const { user } = useAuthContext();
   const {
@@ -86,9 +85,6 @@ export default function Chat() {
 
     socket?.on('chat-message', (newMessage) => {
       setMessages((prevMessages) => {
-        newMessage.color = JSON.parse(getItem('userColor') as string)[
-          newMessage.username
-        ];
         const newMessages = [...prevMessages, newMessage];
         setItem(
           `${roomId}-messages`,
