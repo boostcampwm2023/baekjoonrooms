@@ -21,6 +21,8 @@ export type RoomContextType = {
   setRoomInfo: React.Dispatch<React.SetStateAction<RoomInfoType>>;
   problems: ProblemType[];
   setProblems: React.Dispatch<React.SetStateAction<ProblemType[]>>;
+  duration: number;
+  setDuration: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const RoomContext = createContext<RoomContextType>(
@@ -51,7 +53,7 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
 
   const [problems, setProblems] = useState<ProblemType[]>([]);
 
-  // const [duration, setDuration] = useState<number>(0); // minutes
+  const [duration, setDuration] = useState<number>(0); // minutes
   // const [endTime, setEndTime] = useState<Date>({} as Date);
 
   useEffect(() => {
@@ -62,6 +64,7 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
     socketRef.current = socket;
 
     socket.on('room-info', (roomInfo) => {
+      console.log(roomInfo);
       setRoomInfo(roomInfo);
     });
 
@@ -87,6 +90,8 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
         setRoomInfo,
         problems,
         setProblems,
+        duration,
+        setDuration,
       }}>
       {children}
     </RoomContext.Provider>

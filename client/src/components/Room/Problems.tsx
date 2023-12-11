@@ -8,7 +8,7 @@ import { goSolveProblem } from '../../util/goSolveProblem';
 import { useRoom } from '../../hooks/useRoom';
 
 export default function Problems() {
-  const { isHost, problems, setProblems, roomInfo, setRoomInfo } = useRoom();
+  const { isHost, problems, setProblems, duration, setDuration } = useRoom();
   const { theme } = useTheme();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,6 +83,8 @@ export default function Problems() {
           modalOutsideClick={modalOutsideClick}
           problems={problems}
           setProblems={setProblems}
+          duration={duration}
+          setDuration={setDuration}
         />
       )}
     </>
