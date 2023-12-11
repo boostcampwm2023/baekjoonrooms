@@ -59,8 +59,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       client.join(roomCode);
 
       const message: Partial<MessageInterface> = {
-        username: 'system',
-        body: `${user.username}님께서 연결되었습니다.`,
+        username: user.username,
+        body: `님께서 연결되었습니다.`,
         timestamp: Date.now(),
         chatEvent: ChatEvent.Join,
       };
@@ -99,8 +99,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const roomCode = joinedRoom.room.code;
 
     const message = {
-      username: 'system',
-      body: `${user.username}님이 게임을 시작하셨습니다.`,
+      username: user.username,
+      body: `님이 게임을 시작하셨습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Message,
     };
@@ -149,8 +149,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async submitCode(username: string, roomCode: string, problemId: string) {
     const message: MessageInterface = {
-      username: 'system',
-      body: `${username}님이 ${problemId} 문제를 제출하셨습니다.`,
+      username: username,
+      body: `님이 ${problemId} 문제를 제출하셨습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Submit,
       color: 'green',
@@ -169,8 +169,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       );
 
       const message: Partial<MessageInterface> = {
-        username: 'system',
-        body: `${user.username}님의 연결이 끊어졌습니다.`,
+        username: user.username,
+        body: `님의 연결이 끊어졌습니다.`,
         timestamp: Date.now(),
         chatEvent: ChatEvent.Leave,
       };

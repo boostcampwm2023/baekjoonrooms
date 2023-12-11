@@ -17,8 +17,8 @@ export class SocketService {
 
   notifyCreatingRoom(username: string, roomCode: string) {
     const message: MessageInterface = {
-      username: 'system',
-      body: `${username}님이 방을 만들었습니다.`,
+      username: username,
+      body: `님이 방을 만들었습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Join,
       color: 'green',
@@ -28,8 +28,8 @@ export class SocketService {
 
   notifyJoiningRoom(username: string, roomCode: string) {
     const message: MessageInterface = {
-      username: 'system',
-      body: `${username}님이 방에 들어왔습니다.`,
+      username: username,
+      body: `님이 방에 들어왔습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Join,
       color: 'green',
@@ -78,8 +78,8 @@ export class SocketService {
     switch (status) {
       case Status.ACCEPTED:
         message = {
-          username: 'system',
-          body: `${username}님이 ${problemId} 문제를 맞았습니다.`,
+          username: username,
+          body: `님이 ${problemId} 문제를 맞았습니다.`,
           timestamp: Date.now(),
           chatEvent: ChatEvent.Accepted,
           color: 'green',
@@ -89,8 +89,8 @@ export class SocketService {
         throw new WsException('status가 WAITING일 수 없습니다.');
       case Status.WRONG:
         message = {
-          username: 'system',
-          body: `${username}님이 ${problemId}를 틀렸습니다.`,
+          username: username,
+          body: `님이 ${problemId}를 틀렸습니다.`,
           timestamp: Date.now(),
           chatEvent: ChatEvent.Message,
           color: 'red',
@@ -105,8 +105,8 @@ export class SocketService {
 
   async submitCode(username: string, roomCode: string, problemId: string) {
     const message: MessageInterface = {
-      username: 'system',
-      body: `${username}님이 ${problemId} 문제를 제출하셨습니다.`,
+      username: username,
+      body: `님이 ${problemId} 문제를 제출하셨습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Submit,
       color: 'green',
@@ -118,8 +118,8 @@ export class SocketService {
     const code = room.code;
 
     const message: MessageInterface = {
-      username: 'system',
-      body: `${username}님이 방을 나가셨습니다.`,
+      username: username,
+      body: `님이 방을 나가셨습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Leave,
       color: 'red',
