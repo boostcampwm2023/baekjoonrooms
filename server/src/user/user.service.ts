@@ -54,7 +54,7 @@ export class UserService {
     return joinedRooms;
   }
 
-  async getJoinedRoom(user: User) {
+  async getSingleJoinedRoom(user: User) {
     const joinedRooms = await user.joinedRooms;
     if (joinedRooms == null) {
       throw new InternalServerErrorException('joinedRooms is null');
