@@ -21,12 +21,15 @@ chrome.runtime.onMessage.addListener(function (req) {
   }
 });
 
+// const BASE_URL = 'http://localhost:4000';
+const BASE_URL = 'https://api.baekjoonrooms.com';
+
 chrome.webRequest.onHeadersReceived.addListener(
   function (details) {
     if (isActive && userInfo && userInfo.provider) {
       if (details.method === 'POST') {
         const submitURL = details.responseHeaders.filter((item) => item.name === 'location')[0].value;
-        fetch('https://api.baekjoonrooms.com/submission', {
+        fetch(`${BASE_URL}/submission`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
