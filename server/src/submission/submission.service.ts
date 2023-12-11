@@ -139,8 +139,8 @@ export class SubmissionService {
     return { tmpBojSolutionId, tmpStatus };
   }
 
-  async sleep(mss: number) {
-    return new Promise((resolve) => setTimeout(resolve, mss));
+  async sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // 일단 미제출 문제에 대해서는 값을 리턴하지 않음
