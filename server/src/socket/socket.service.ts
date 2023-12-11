@@ -27,7 +27,7 @@ export class SocketService {
     this.server.to(roomCode).emit('chat-message', message);
   }
 
-  notifyJoiningRoom(username: string, room: Room) {
+  async notifyJoiningRoom(username: string, room: Room) {
     const message: MessageInterface = {
       username: username,
       body: `님이 방에 들어왔습니다.`,
@@ -36,7 +36,7 @@ export class SocketService {
       color: 'green',
     };
     this.server.to(room.code).emit('chat-message', message);
-    this.server.to(room.code).emit('room-info', this.makeRoomInfo(room));
+    this.server.to(room.code).emit('room-info', await this.makeRoomInfo(room));
   }
 
   async makeRoomInfo(room: Room) {
@@ -134,6 +134,6 @@ export class SocketService {
       color: 'red',
     };
     this.server.to(code).emit('chat-message', message);
-    this.server.to(code).emit('room-info', this.makeRoomInfo(room));
+    this.server.to(code).emit('room-info', await this.makeRoomInfo(room));
   }
 }

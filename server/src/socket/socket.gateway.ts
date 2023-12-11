@@ -67,12 +67,6 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
         chatEvent: ChatEvent.Join,
       };
       this.server.to(roomCode).emit('chat-message', message);
-
-      const roomInfo: RoomInfoType = await this.socketService.makeRoomInfo(
-        joinedRoom.room,
-      );
-
-      this.server.to(roomCode).emit('room-info', roomInfo);
     } catch (e) {
       this.logger.error('--> ws: error while connecting and joining room...');
       this.logger.error(e);
