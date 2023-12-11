@@ -51,6 +51,7 @@ export class RoomService {
     this.logger.log(`room ${code} successfully created by ${user.username}!`);
 
     await this.roomUserService.create({ room, user });
+    this.socketService.notifyCreatingRoom(user.username, room.code);
     return room;
   }
 
@@ -79,7 +80,8 @@ export class RoomService {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
     this.logger.debug(`user ${user.username} joining room ${room.code}...`);
-    return this.roomUserRepository.create({ room, user }).save();
+    await this.roomUserRepository.create({ room, user }).save();
+    this.socketService.notifyJoiningRoom(user.username, roomCode);
   }
 
   async destroyRoom(room: Room) {

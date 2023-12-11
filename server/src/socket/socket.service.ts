@@ -15,6 +15,28 @@ export class SocketService {
     this.server = server;
   }
 
+  notifyCreatingRoom(username: string, roomCode: string) {
+    const message: MessageInterface = {
+      username: 'system',
+      body: `${username}님이 방을 만들었습니다.`,
+      timestamp: Date.now(),
+      chatEvent: ChatEvent.Join,
+      color: 'green',
+    };
+    this.server.to(roomCode).emit('chat-message', message);
+  }
+
+  notifyJoiningRoom(username: string, roomCode: string) {
+    const message: MessageInterface = {
+      username: 'system',
+      body: `${username}님이 방에 들어왔습니다.`,
+      timestamp: Date.now(),
+      chatEvent: ChatEvent.Join,
+      color: 'green',
+    };
+    this.server.to(roomCode).emit('chat-message', message);
+  }
+
   async makeRoomInfo(room: Room) {
     const roomUsers = await room.joinedUsers;
 

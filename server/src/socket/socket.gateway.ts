@@ -60,7 +60,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       const message: Partial<MessageInterface> = {
         username: 'system',
-        body: `${user.username}님이 입장하셨습니다.`,
+        body: `${user.username}님께서 연결되었습니다.`,
         timestamp: Date.now(),
         chatEvent: ChatEvent.Join,
       };
