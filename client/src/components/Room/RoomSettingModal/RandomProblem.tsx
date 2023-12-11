@@ -73,7 +73,7 @@ export default function RandomProblem({
         setSelected={setTags}
         buttonClassName="flex w-[232px] justify-center rounded-lg border border-gutter bg-default_white px-2 py-1 text-sm text-default_black"
         itemBoxClassName="rounded-lg border border-gutter"
-        itemClassName="bg-fg py-1 text-sm text-text_default hover:bg-gutter"
+        itemClassName="bg-bg_secondary py-1 text-sm text-text_default hover:bg-gutter"
       />
       <div className="flex flex-row">
         <MultipleChoiceDropdown
@@ -84,7 +84,7 @@ export default function RandomProblem({
           setSelected={setDifficulty}
           buttonClassName="flex w-[120px] justify-center rounded-lg border border-gutter bg-default_white px-2 py-1 text-sm text-default_black"
           itemBoxClassName="rounded-lg border border-gutter"
-          itemClassName="bg-fg py-1 text-sm text-text_default hover:bg-gutter"
+          itemClassName="bg-bg_secondary py-1 text-sm text-text_default hover:bg-gutter"
         />
         <Dropdown
           options={[1, 2, 3, 4]}
@@ -93,7 +93,7 @@ export default function RandomProblem({
           setSelected={setCount}
           buttonClassName="rounded-lg border border-gutter bg-default_white px-2 py-1 text-sm text-default_black"
           itemBoxClassName="rounded-lg border border-gutter"
-          itemClassName="hover:opacity-80 bg-fg text-sm text-text_default py-1 odd:bg-gutter"
+          itemClassName="hover:opacity-80 bg-bg_secondary text-sm text-text_default py-1 odd:bg-gutter"
         />
         <button
           className="flex h-[30px] items-center justify-center rounded-lg bg-accent px-3 py-1 text-sm text-default_white hover:opacity-80"

@@ -104,7 +104,7 @@ export default function RoomSettingModal({
             setSelected={setTime}
             buttonClassName="rounded-lg border border-gutter bg-default_white px-5 py-1 text-sm text-default_black"
             itemBoxClassName="border border-gutter rounded-lg"
-            itemClassName="hover:opacity-80 bg-fg text-sm text-text_default py-1 odd:bg-gutter"
+            itemClassName="hover:opacity-80 bg-bg_secondary text-sm text-text_default py-1 odd:bg-gutter"
           />
           <button
             className="rounded-lg bg-accent px-5 py-1 text-sm text-default_white hover:opacity-80"
