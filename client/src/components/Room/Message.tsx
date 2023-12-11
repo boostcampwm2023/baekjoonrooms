@@ -20,11 +20,11 @@ export default function Message({
           </span>
         </li>
       ) : (
-        <li className="flex flex-row items-start gap-x-1">
+        <li className="flex flex-row items-start gap-x-1 py-1">
           <span className={`${message.color} font-bold`}>
             {message.username}
           </span>
-          <span>:&nbsp;</span>
+          <span className="text-text_default">:&nbsp;</span>
           <span className="chat-message text-text_default">
             <MessageBody message={message.body} />
           </span>
@@ -35,15 +35,16 @@ export default function Message({
     case ChatEvent.Join:
     case ChatEvent.Leave:
       return (
-        <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
+        <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md  py-1">
           <span>
-            <span className="m1-1 font-bold text-accent">system:&nbsp;</span>
-            <span>
+            <span className="m1-1 font-bold text-accent">system&nbsp;</span>
+            <span className="text-text_default">
+              :&nbsp;
               {`👋`}
               &nbsp;
             </span>
             <span className={`${message.color} ml-1 font-bold`}>
-              {`${message.username}`}&nbsp;&nbsp;
+              {`${message.username}`}
             </span>
             <span className="chat-message text-text_default">{`${message.body}`}</span>
           </span>
@@ -54,8 +55,9 @@ export default function Message({
       return (
         <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
           <span>
-            <span className="m1-1 font-bold text-accent">system:&nbsp;</span>
-            <span>
+            <span className="m1-1 font-bold text-accent">system&nbsp;</span>
+            <span className="text-text_default">
+              :&nbsp
               {`🤞`}
               &nbsp;
             </span>
@@ -71,8 +73,9 @@ export default function Message({
       return (
         <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
           <span>
-            <span className="m1-1 font-bold text-accent">system:&nbsp;</span>
-            <span>
+            <span className="m1-1 font-bold text-accent">system&nbsp;</span>
+            <span className="text-text_default">
+              :&nbsp;
               {`💯`}
               &nbsp;
             </span>
@@ -83,14 +86,15 @@ export default function Message({
           </span>
         </li>
       );
-    // 유저가 모든 문제를 맞췄을 때 메세지
-    case ChatEvent.Complete:
+    // 유저가 문제를 틀렸을 때 메세지
+    case ChatEvent.Wrong:
       return (
         <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
           <span>
-            <span className="m1-1 font-bold text-accent">system:&nbsp;</span>
-            <span>
-              {`🎉`}
+            <span className="m1-1 font-bold text-accent">system&nbsp;</span>
+            <span className="text-text_default">
+              :&nbsp;
+              {`👎`}
               &nbsp;
             </span>
             <span className={`${message.color} ml-1 font-bold`}>

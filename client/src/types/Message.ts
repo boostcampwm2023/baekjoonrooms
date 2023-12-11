@@ -17,6 +17,6 @@ export const ChatEvent = {
   Leave: 'Leave',
   Submit: 'Submit',
   Accepted: 'Accepted',
-  Complete: 'Complete',
+  Wrong: 'Wrong',
 } as const;
 type ChatEvent = (typeof ChatEvent)[keyof typeof ChatEvent];
