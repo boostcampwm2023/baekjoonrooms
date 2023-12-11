@@ -60,12 +60,14 @@ export default function Chat() {
     }
 
     const inputText = insertNewlines(inputRef.current.value.trim(), 40);
+    const username = user?.username || 'Anonymous';
+    const userColor = JSON.parse(getItem('userColor') as string);
     const newChatMessage: MessageInterface = {
       timestamp: Date.now(),
-      username: user?.username || 'Anonymous',
+      username: username,
       body: inputText,
       chatEvent: ChatEvent.Message,
-      color: 'text-purple', // TODO: 클라에서 랜덤 설정
+      color: userColor[username], // TODO: 클라에서 랜덤 설정
     };
 
     socket?.emit('chat-message', newChatMessage);

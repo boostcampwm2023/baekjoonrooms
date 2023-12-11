@@ -61,7 +61,23 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
 
     socketRef.current = socket;
 
+    const color = [
+      'text-cyan',
+      'text-blue',
+      'text-purple',
+      'text-green',
+      'text-rose',
+      'text-orange',
+      'text-red',
+      'text-gold',
+    ];
+
     socket.on('room-info', (roomInfo) => {
+      const userColor: Record<string, string> = {};
+      roomInfo.participantNames.forEach((name: string, index: number) => {
+        userColor[name] = color[index];
+      });
+      setItem('userColor', JSON.stringify(userColor));
       setRoomInfo(roomInfo);
     });
 
