@@ -36,8 +36,8 @@ export class AppController {
       const userSession: UserSession = { ...(req.user as User) } as UserSession;
       const joinedRooms = await user.joinedRooms;
 
-      if (joinedRooms != null && joinedRooms.length > 1) {
-        userSession.participatingRoomCode = joinedRooms[1].room?.code;
+      if (joinedRooms != null && joinedRooms.length > 0) {
+        userSession.participatingRoomCode = joinedRooms[0].room?.code;
       }
       return userSession;
     }
