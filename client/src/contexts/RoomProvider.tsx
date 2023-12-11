@@ -62,7 +62,7 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
 
     socketRef.current = socket;
 
-    socket.on('room-info', (newRoomInfo) => {
+    socket.on('room-info', (newRoomInfo: RoomInfoType) => {
       setRoomInfo(newRoomInfo);
 
       if (newRoomInfo.problems && newRoomInfo.problems.length > 0) {
