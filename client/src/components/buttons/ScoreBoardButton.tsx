@@ -17,6 +17,8 @@ export default function ScoreboardButton() {
       setScores(res);
     } catch (e) {
       console.log(e);
+      alert('Error getting scores');
+      return;
     }
     setIsModalOpen(true);
   };

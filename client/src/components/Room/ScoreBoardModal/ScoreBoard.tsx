@@ -9,6 +9,7 @@ interface ScoreBoardProps {
 export default function ScoreBoard({ scores }: ScoreBoardProps) {
   const { participantNames, problems } = useRoom().roomInfo;
 
+
   const playerNames: string[] = participantNames;
   const problemIds: number[] = problems.map((problem) => problem.bojProblemId);
 
@@ -17,14 +18,15 @@ export default function ScoreBoard({ scores }: ScoreBoardProps) {
       const results: Score[] = problemIds.map((problemId) => {
         const score = scores.find(
           (score) =>
-            score.username === playerName && score.problemId === problemId,
+            score.username === playerName && score.bojProblemId === problemId,
         );
         return score
           ? score
-          : { username: playerName, problemId: problemId, status: 'WAITING' };
+          : { username: playerName, bojProblemId: problemId, status: 'WAITING' };
       });
       return { playerName: playerName, results: results };
     });
+
 
   return (
     <ul className="my-5 flex w-full flex-col overflow-auto text-sm font-medium text-text_default">

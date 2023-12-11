@@ -165,7 +165,7 @@ export class SubmissionService {
 
     return sumbissions.map((submission) => ({
       username: submission.user!.username,
-      bojroblemId: submission.problem!.bojProblemId,
+      bojProblemId: submission.problem!.bojProblemId,
       status: submission.status,
     }));
   }

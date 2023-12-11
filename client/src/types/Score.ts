@@ -1,6 +1,6 @@
 export interface Score {
   "username": string,
-  "problemId": number,
+  "bojProblemId": number,
   "status" : Status
 }
 
