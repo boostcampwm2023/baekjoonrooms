@@ -1,4 +1,4 @@
-const bojroomsLink = 'http://baekjoonrooms.com';
+const bojroomsLink = 'https://baekjoonrooms.com';
 const bojroomsLinkElement = document.querySelector('.bojrooms-link');
 bojroomsLinkElement.addEventListener('click', () => {
   chrome.tabs.create({ url: bojroomsLink, active: true });
