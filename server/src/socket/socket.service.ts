@@ -35,7 +35,6 @@ export class SocketService {
       body: `님이 방을 만들었습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Join,
-      color: 'green',
     };
     this.server.to(roomCode).emit('chat-message', message);
   }
@@ -46,7 +45,6 @@ export class SocketService {
       body: `님이 방에 들어왔습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Join,
-      color: 'green',
     };
     this.server.to(room.code).emit('chat-message', message);
   }
@@ -76,7 +74,6 @@ export class SocketService {
       problems: problemTypes,
       isStarted: room.isStarted,
       endTime: room.endAt?.valueOf(),
-      host: host.username,
     };
     return roomInfo;
   }
@@ -96,7 +93,6 @@ export class SocketService {
           body: `님이 ${problemId} 문제를 맞았습니다.`,
           timestamp: Date.now(),
           chatEvent: ChatEvent.Accepted,
-          color: 'green',
         };
         break;
       case Status.WAITING:
@@ -107,7 +103,6 @@ export class SocketService {
           body: `님이 ${problemId}를 틀렸습니다.`,
           timestamp: Date.now(),
           chatEvent: ChatEvent.Wrong,
-          color: 'red',
         };
         break;
       default:
@@ -123,7 +118,6 @@ export class SocketService {
       body: `님이 ${problemId} 문제를 제출하셨습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Submit,
-      color: 'green',
     };
     this.server.to(roomCode).emit('chat-message', message);
   }
@@ -136,7 +130,6 @@ export class SocketService {
       body: `님이 방을 나가셨습니다.`,
       timestamp: Date.now(),
       chatEvent: ChatEvent.Leave,
-      color: 'red',
     };
     this.server.to(code).emit('chat-message', message);
     this.server.to(code).emit('room-info', await this.makeRoomInfo(room));
@@ -173,7 +166,7 @@ export class SocketService {
 
     await this.roomRepository.save(room);
 
-    const message = {
+    const message: MessageInterface = {
       username: user.username,
       body: `님이 게임을 시작하셨습니다.`,
       timestamp: Date.now(),
