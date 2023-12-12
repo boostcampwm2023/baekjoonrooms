@@ -163,8 +163,9 @@ export class SocketService {
     if (problems == null) throw new WsException('problems is null');
     if (duration == null) throw new WsException('duration is null');
     const bojProblemIds = problems.map((problem) => problem.bojProblemId);
-    room.problems =
-      this.problemService.getProblemsByBojProblemIds(bojProblemIds);
+    const problemEntities =
+      await this.problemService.getProblemsByBojProblemIds(bojProblemIds);
+    room.problems = Promise.resolve(problemEntities);
 
     room.isStarted = true;
     room.endAt = new Date(Date.now() + duration * 60 * 1000);
