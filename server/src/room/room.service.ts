@@ -63,9 +63,9 @@ export class RoomService {
   }
 
   async joinRoom(user: User, roomCode: string) {
-    const joinedRooms = await this.findJoinedRooms(user);
+    const joinedRooms = await user.joinedRooms;
 
-    if (joinedRooms.length !== 0) {
+    if (joinedRooms != null && joinedRooms.length !== 0) {
       throw new BadRequestException('이미 참가한 방이 있습니다.');
     }
 
@@ -81,7 +81,7 @@ export class RoomService {
     }
     this.logger.debug(`user ${user.username} joining room ${room.code}...`);
     await this.roomUserRepository.create({ room, user }).save();
-    this.socketService.notifyJoiningRoom(user.username, roomCode);
+    this.socketService.notifyJoiningRoom(user.username, room);
   }
 
   async destroyRoom(room: Room) {
@@ -115,17 +115,6 @@ export class RoomService {
     if (numberOfJoinedUsers == null || numberOfJoinedUsers === 0) {
       await this.destroyRoom(room);
     }
-  }
-
-  async findJoinedRooms(user: User) {
-    const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null) {
-      throw new InternalServerErrorException(
-        '참가 중인 방을 찾을 수 없습니다.',
-      );
-    }
-
-    return joinedRooms;
   }
 
   async findRoomByCode(code: string) {

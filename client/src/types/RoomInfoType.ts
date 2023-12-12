@@ -1,9 +1,9 @@
-import { ProblemType } from "./ProblemType";
+import { ProblemType } from './ProblemType';
 
 export interface RoomInfoType {
   participantNames: string[];
   problems: ProblemType[];
   isStarted: boolean;
-  endTime?: Date;
+  endTime?: number;
   duration?: number;
 }

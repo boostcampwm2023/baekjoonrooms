@@ -34,8 +34,9 @@ export class AppController {
 
     if (user && isUserSession(user)) {
       const userSession: UserSession = { ...(req.user as User) } as UserSession;
-      const joinedRooms = await this.roomService.findJoinedRooms(user);
-      if (joinedRooms.length > 0) {
+      const joinedRooms = await user.joinedRooms;
+
+      if (joinedRooms != null && joinedRooms.length > 0) {
         userSession.participatingRoomCode = joinedRooms[0].room?.code;
       }
       return userSession;

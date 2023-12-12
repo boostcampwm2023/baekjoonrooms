@@ -52,4 +52,11 @@ export class ProblemService {
       where: { bojProblemId },
     });
   }
+
+  async getProblemsByBojProblemIds(bojProblemIds: number[]) {
+    return await this.problemRepository
+      .createQueryBuilder('problem')
+      .where('problem.bojProblemId IN (:...bojProblemIds)', { bojProblemIds })
+      .getMany();
+  }
 }

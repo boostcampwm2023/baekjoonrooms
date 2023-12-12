@@ -1,7 +1,9 @@
-export type RoomInfo = {
+import { ProblemType } from './ProblemType';
+
+export type RoomInfoType = {
   participantNames: string[];
-  problems: string[];
+  problems: ProblemType[];
   isStarted: boolean;
-  endTime?: Date;
+  endTime?: number;
   duration?: number;
 };

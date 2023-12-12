@@ -15,6 +15,8 @@ interface RoomSettingModalProps {
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
   problems: ProblemType[];
   setProblems: Dispatch<SetStateAction<ProblemType[]>>;
+  duration: number;
+  setDuration: Dispatch<SetStateAction<number>>;
 }
 
 const iconStyle = {
@@ -27,11 +29,12 @@ export default function RoomSettingModal({
   modalOutsideClick,
   problems,
   setProblems,
+  duration,
+  setDuration,
 }: RoomSettingModalProps) {
   const [problem, setProblem] = useState<ProblemType>({} as ProblemType);
   const [problemList, setProblemList] = useState<ProblemType[]>(problems);
   const [isRandom, setIsRandom] = useState<boolean>(false);
-  const [time, setTime] = useState<number>(15);
 
   const toggleType = () => {
     setIsRandom(!isRandom);
@@ -92,10 +95,10 @@ export default function RoomSettingModal({
         />
         <div className="m-2 flex w-[250px] justify-between">
           <Dropdown
-            options={[15, 30, 45]}
+            options={[15, 30, 45, 60, 90, 120]}
             optionPostFix="분"
-            selected={time}
-            setSelected={setTime}
+            selected={duration}
+            setSelected={setDuration}
             buttonClassName="rounded-lg border border-gutter bg-default_white px-5 py-1 text-sm text-default_black"
             itemBoxClassName="border border-gutter rounded-lg"
             itemClassName="hover:opacity-80 bg-bg_secondary text-sm text-text_default py-1 odd:bg-gutter"

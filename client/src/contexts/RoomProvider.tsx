@@ -21,6 +21,8 @@ export type RoomContextType = {
   setRoomInfo: React.Dispatch<React.SetStateAction<RoomInfoType>>;
   problems: ProblemType[];
   setProblems: React.Dispatch<React.SetStateAction<ProblemType[]>>;
+  duration: number;
+  setDuration: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const RoomContext = createContext<RoomContextType>(
@@ -51,8 +53,7 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
 
   const [problems, setProblems] = useState<ProblemType[]>([]);
 
-  // const [duration, setDuration] = useState<number>(0); // minutes
-  // const [endTime, setEndTime] = useState<Date>({} as Date);
+  const [duration, setDuration] = useState<number>(0); // minutes
 
   useEffect(() => {
     const socket: Socket = io(serverUrl, {
@@ -61,14 +62,22 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
 
     socketRef.current = socket;
 
-    socket.on('room-info', (roomInfo) => {
-      setRoomInfo(roomInfo);
+    socket.on('room-info', (newRoomInfo: RoomInfoType) => {
+      setRoomInfo(newRoomInfo);
+
+      if (newRoomInfo.problems && newRoomInfo.problems.length > 0) {
+        newRoomInfo.problems.forEach((problem: ProblemType) => {
+          problem.url = `https://www.acmicpc.net/problem/${problem.bojProblemId}`;
+        });
+
+        setProblems(newRoomInfo.problems);
+      }
     });
 
     return () => {
       socket.disconnect();
     };
-  }, [getItem, roomId, serverUrl, setItem]);
+  }, [roomId, serverUrl]);
 
   return (
     <RoomContext.Provider
@@ -87,6 +96,8 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
         setRoomInfo,
         problems,
         setProblems,
+        duration,
+        setDuration,
       }}>
       {children}
     </RoomContext.Provider>
