@@ -8,6 +8,7 @@ import Lobby from './pages/Lobby.tsx';
 import Room from './pages/Room.tsx';
 import Intro from './pages/Intro.tsx';
 import { RoomProvider } from './contexts/RoomProvider.tsx';
+import PrivacyPolicy from './pages/PrivacyPolicy.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
         path: '/intro',
         element: <Intro />,
       },
+      {
+        path: '/privacyPolicy',
+        element: <PrivacyPolicy />,
+      }
     ],
   },
 ]);
