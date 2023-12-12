@@ -54,9 +54,14 @@ export class ProblemService {
   }
 
   async getProblemsByBojProblemIds(bojProblemIds: number[]) {
-    return await this.problemRepository
-      .createQueryBuilder('problem')
-      .where('problem.bojProblemId IN (:...bojProblemIds)', { bojProblemIds })
-      .getMany();
+    const problemEntities: Problem[] = [];
+    for (const bojProblemId of bojProblemIds) {
+      const problem = await this.getProblemByBojProblemId(bojProblemId);
+      if (problem == null) {
+        throw new Error(`bojProblemId ${bojProblemId} not found`);
+      }
+      problemEntities.push(problem);
+    }
+    return problemEntities;
   }
 }
