@@ -76,6 +76,7 @@ export class SocketService {
       problems: problemTypes,
       isStarted: room.isStarted,
       endTime: room.endAt?.valueOf(),
+      host: host.username,
     };
     return roomInfo;
   }
@@ -105,7 +106,7 @@ export class SocketService {
           username: username,
           body: `님이 ${problemId}를 틀렸습니다.`,
           timestamp: Date.now(),
-          chatEvent: ChatEvent.Message,
+          chatEvent: ChatEvent.Wrong,
           color: 'red',
         };
         break;
