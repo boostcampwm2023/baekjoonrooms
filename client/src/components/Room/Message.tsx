@@ -31,7 +31,7 @@ export default function Message({ message }: { message: MessageInterface }) {
     case ChatEvent.Join:
     case ChatEvent.Leave:
       return (
-        <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md  py-1">
+        <li className="flex flex-row items-start gap-x-1 py-1">
           <span>
             <span className="m1-1 font-bold text-accent">system&nbsp;</span>
             <span className="text-text_default">
@@ -52,12 +52,12 @@ export default function Message({ message }: { message: MessageInterface }) {
     // 유저가 문제를 제출했을 때 메세지
     case ChatEvent.Submit:
       return (
-        <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
+        <li className="flex flex-row items-start gap-x-1 py-1">
           <span>
             <span className="m1-1 font-bold text-accent">system&nbsp;</span>
             <span className="text-text_default">
-              :&nbsp
-              {`🤞`}
+              :&nbsp;
+              {`🙌`}
               &nbsp;
             </span>
             <span
@@ -66,14 +66,14 @@ export default function Message({ message }: { message: MessageInterface }) {
               )} ml-1 font-bold`}>
               {`${message.username}`}
             </span>
-            <span className="chat-message">{`${message.body}`}</span>
+            <span className="chat-message text-text_default">{`${message.body}`}</span>
           </span>
         </li>
       );
     // 유저가 문제를 맞췄을 때 메세지
     case ChatEvent.Accepted:
       return (
-        <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
+        <li className="flex flex-row items-start gap-x-1 py-1">
           <span>
             <span className="m1-1 font-bold text-accent">system&nbsp;</span>
             <span className="text-text_default">
@@ -87,14 +87,14 @@ export default function Message({ message }: { message: MessageInterface }) {
               )} ml-1 font-bold`}>
               {`${message.username}`}
             </span>
-            <span className="chat-message">{`${message.body}`}</span>
+            <span className="chat-message text-text_default">{`${message.body}`}</span>
           </span>
         </li>
       );
     // 유저가 문제를 틀렸을 때 메세지
     case ChatEvent.Wrong:
       return (
-        <li className="bg-lc-fg-message-light flex flex-row items-start gap-x-1 rounded-md px-2 py-1.5 dark:bg-[hsl(0,0%,20%)]">
+        <li className="flex flex-row items-start gap-x-1 py-1">
           <span>
             <span className="m1-1 font-bold text-accent">system&nbsp;</span>
             <span className="text-text_default">
@@ -108,7 +108,7 @@ export default function Message({ message }: { message: MessageInterface }) {
               )} ml-1 font-bold`}>
               {`${message.username}`}
             </span>
-            <span className="chat-message">{`${message.body}`}</span>
+            <span className="chat-message text-text_default">{`${message.body}`}</span>
           </span>
         </li>
       );
