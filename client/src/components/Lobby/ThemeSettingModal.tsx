@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa6';
 import { RxExit } from 'react-icons/rx';
 import { ProblemType } from '../../types/ProblemType';
-import { getProblemButtonColor } from '../../util/getProblemButtonColor';
+import { getProblemButtonColor } from '../../utils/getProblemButtonColor';
 import Message from '../Room/Message';
 import { MessageInterface, ChatEvent } from '../../types/Message';
 import { useTheme } from '../../hooks/useTheme';

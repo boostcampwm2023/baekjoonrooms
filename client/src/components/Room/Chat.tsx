@@ -12,7 +12,6 @@ import {
 import { useRoom } from '../../hooks/useRoom';
 import { useEffect } from 'react';
 
-// TODO: userColor -> 서버에서 설정
 export default function Chat() {
   const { user } = useAuthContext();
   const {
@@ -65,7 +64,6 @@ export default function Chat() {
       username: user?.username || 'Anonymous',
       body: inputText,
       chatEvent: ChatEvent.Message,
-      color: 'text-purple', // TODO: 클라에서 랜덤 설정
     };
 
     socket?.emit('chat-message', newChatMessage);
@@ -119,7 +117,7 @@ export default function Chat() {
       <div className="mx-2 flex-1 overflow-y-auto px-2 py-2">
         <ul ref={messagesRef} className="flex flex-col gap-y-1.5">
           {messages.map((message, index) => (
-            <Message key={index} message={message} user={user?.username} />
+            <Message key={index} message={message} />
           ))}
         </ul>
       </div>
