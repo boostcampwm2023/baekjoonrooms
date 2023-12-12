@@ -155,11 +155,12 @@ export class SocketService {
       throw new WsException('방장이 아닙니다.');
     }
 
+    this.logger.debug(util.inspect(startingRoomInfo));
+
     // update room entity properties: problems, isStarted, endAt
 
-    const { problems, duration, isStarted } = startingRoomInfo;
+    const { problems, duration } = startingRoomInfo;
     if (problems == null) throw new WsException('problems is null');
-    if (isStarted == null) throw new WsException('isStarted is null');
     if (duration == null) throw new WsException('duration is null');
     const bojProblemIds = problems.map((problem) => problem.bojProblemId);
     room.problems =
