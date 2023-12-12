@@ -228,11 +228,7 @@ export default function ThemeSettingModal({
             <div className="mx-2 flex-1 overflow-auto px-2 py-2">
               <ul className="flex flex-col gap-y-1.5">
                 {messages.map((message, index) => (
-                  <Message
-                    key={index}
-                    message={message}
-                    user={user?.username}
-                  />
+                  <Message key={index} message={message} />
                 ))}
               </ul>
             </div>

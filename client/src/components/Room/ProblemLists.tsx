@@ -1,6 +1,6 @@
 import { ProblemType } from '../../types/ProblemType';
-import { getProblemButtonColor } from '../../util/getProblemButtonColor';
-import { goSolveProblem } from '../../util/goSolveProblem';
+import { getProblemButtonColor } from '../../utils/getProblemButtonColor';
+import { goSolveProblem } from '../../utils/goSolveProblem';
 
 export default function ProblemLists({
   problems,
