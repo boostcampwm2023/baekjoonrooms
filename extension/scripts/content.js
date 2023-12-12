@@ -13,7 +13,7 @@ function injectScript() {
     chrome.runtime.sendMessage({ isActive: true, userInfo });
     isRoom = true;
   } else if (!urlPattern.test(window.location.href) && isRoom) {
-    chrome.runtime.sendMessage({ isActive: false });
+    chrome.runtime.sendMessage({ isActive: false, userInfo: undefined });
     isRoom = false;
   }
 }

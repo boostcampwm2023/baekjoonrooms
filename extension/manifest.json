@@ -9,7 +9,7 @@
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
   },
-  "permissions": ["webRequest"],
+  "permissions": ["webRequest", "storage"],
   "host_permissions": ["https://www.acmicpc.net/submit/*", "https://api.baekjoonrooms.com/*"],
   "background": {
     "service_worker": "background.js"
