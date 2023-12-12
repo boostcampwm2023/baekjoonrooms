@@ -9,7 +9,7 @@ export default function ScoreboardButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scores , setScores] = useState<Score[]>([]);
   const modalOverlayRef = useRef<HTMLDivElement>(null);
-  const {roomCode} = useRoom();
+  const {roomCode,roomInfo} = useRoom();
 
   const openModal = async () => {
     try {
@@ -33,12 +33,16 @@ export default function ScoreboardButton() {
   };
   return (
     <>
+    {roomInfo.isStarted ? (
       <button
         className="flex w-full flex-row items-center justify-center rounded-lg bg-accent px-3 py-2 text-default_white hover:opacity-80"
         onClick={openModal}>
         <FaChartSimple />
         <div className="pl-2 font-medium">Scoreboard</div>
       </button>
+    ) : (
+      <></>
+    )}
       {isModalOpen ? (
         <ScoreBoardModal
           scores={scores}
