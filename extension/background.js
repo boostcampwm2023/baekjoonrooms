@@ -1,20 +1,25 @@
-let isActive = false;
-let userInfo;
-
-chrome.action.setBadgeText({ text: 'off' });
-chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
-
-chrome.runtime.onMessage.addListener(function (req) {
-  if (req.data === 'toggle') {
-    isActive = !isActive;
-  } else {
-    isActive = req.isActive;
-  }
-
-  if (isActive) {
+chrome.storage.local.get(['isActive'], function (result) {
+  if (result.isActive) {
     chrome.action.setBadgeText({ text: 'on' });
     chrome.action.setBadgeBackgroundColor({ color: '#528BFF' });
-    userInfo = req.userInfo;
+  } else {
+    chrome.action.setBadgeText({ text: 'off' });
+    chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
+  }
+});
+
+chrome.runtime.onMessage.addListener(async function (req) {
+  const { isActive } = await chrome.storage.local.get(['isActive']);
+  if (req.data === 'toggle') {
+    chrome.storage.local.set({ isActive: !isActive });
+  } else {
+    chrome.storage.local.set({ isActive: req.isActive });
+    chrome.storage.local.set({ userInfo: req.userInfo });
+  }
+
+  if (req.isActive) {
+    chrome.action.setBadgeText({ text: 'on' });
+    chrome.action.setBadgeBackgroundColor({ color: '#528BFF' });
   } else {
     chrome.action.setBadgeText({ text: 'off' });
     chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
@@ -25,7 +30,9 @@ chrome.runtime.onMessage.addListener(function (req) {
 const BASE_URL = 'https://api.baekjoonrooms.com';
 
 chrome.webRequest.onHeadersReceived.addListener(
-  function (details) {
+  async function (details) {
+    const { isActive } = await chrome.storage.local.get(['isActive']);
+    const { userInfo } = await chrome.storage.local.get(['userInfo']);
     if (isActive && userInfo && userInfo.provider) {
       if (details.method === 'POST') {
         const submitURL = details.responseHeaders.filter((item) => item.name === 'location')[0].value;
