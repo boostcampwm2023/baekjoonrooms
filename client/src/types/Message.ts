@@ -8,7 +8,7 @@ export interface MessageInterface {
   username: string;
   body: string;
   chatEvent: ChatEvent;
-  color: string;
+  color?: string;
 }
 
 export const ChatEvent = {
@@ -17,6 +17,6 @@ export const ChatEvent = {
   Leave: 'Leave',
   Submit: 'Submit',
   Accepted: 'Accepted',
-  Complete: 'Complete',
+  Wrong: 'Wrong',
 } as const;
 type ChatEvent = (typeof ChatEvent)[keyof typeof ChatEvent];

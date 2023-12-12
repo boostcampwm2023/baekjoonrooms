@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa6';
 import { RxExit } from 'react-icons/rx';
 import { ProblemType } from '../../types/ProblemType';
-import { getProblemButtonColor } from '../../util/getProblemButtonColor';
+import { getProblemButtonColor } from '../../utils/getProblemButtonColor';
 import Message from '../Room/Message';
 import { MessageInterface, ChatEvent } from '../../types/Message';
 import { useTheme } from '../../hooks/useTheme';
@@ -228,11 +228,7 @@ export default function ThemeSettingModal({
             <div className="mx-2 flex-1 overflow-auto px-2 py-2">
               <ul className="flex flex-col gap-y-1.5">
                 {messages.map((message, index) => (
-                  <Message
-                    key={index}
-                    message={message}
-                    user={user?.username}
-                  />
+                  <Message key={index} message={message} />
                 ))}
               </ul>
             </div>
