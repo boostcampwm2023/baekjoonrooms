@@ -4,4 +4,5 @@ export interface UserSession {
   username: string;
   avatarUrl: string;
   participatingRoomCode?: string;
+  isHost?: boolean;
 }
