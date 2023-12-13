@@ -125,7 +125,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
         `client ${user.username} leaving room ${room.code} and disconnecting...`,
       );
 
-      const message: Partial<MessageInterface> = {
+      const message: MessageInterface = {
         username: user.username,
         body: `님의 연결이 끊어졌습니다.`,
         timestamp: Date.now(),
