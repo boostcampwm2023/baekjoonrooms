@@ -22,7 +22,7 @@ export class SubmissionController {
     summary: 'roomCode에 해당하는 방에 속한 유저들의 최종 제출 정보',
   })
   @Get()
-  async getRoomSumbmission(@Query() roomSubmissionDto: RoomSubmissionDto) {
+  async getRoomSubmission(@Query() roomSubmissionDto: RoomSubmissionDto) {
     return await this.submissionService.getRoomSubmission(roomSubmissionDto);
   }
 }
