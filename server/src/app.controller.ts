@@ -33,11 +33,23 @@ export class AppController {
     const user = req.user as User;
 
     if (user && isUserSession(user)) {
-      const userSession: UserSession = { ...(req.user as User) } as UserSession;
-      const joinedRooms = await user.joinedRooms;
+      const userSession: UserSession = {
+        provider: user.provider,
+        providerId: user.providerId,
+        avatarUrl: user.avatarUrl,
+        username: user.username,
+        isHost: false,
+      };
 
+      const joinedRooms = await user.joinedRooms;
       if (joinedRooms != null && joinedRooms.length > 0) {
-        userSession.participatingRoomCode = joinedRooms[0].room?.code;
+        const room = joinedRooms[0].room;
+        userSession.participatingRoomCode = room.code;
+        const host = await room.host;
+
+        if (host != null && host.id === user.id) {
+          userSession.isHost = true;
+        }
       }
       return userSession;
     }

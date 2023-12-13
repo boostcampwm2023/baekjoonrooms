@@ -4,6 +4,7 @@ export interface UserSession {
   username: string;
   avatarUrl: string;
   participatingRoomCode?: string;
+  isHost?: boolean;
 }
 
 export function isUserSession(user: any): user is UserSession {
