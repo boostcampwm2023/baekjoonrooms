@@ -17,14 +17,17 @@ export default function UserBasedRoute({
           return (
             <Navigate
               to={`/room/${user.participatingRoomCode}`}
-              state={{ isHost: true, roomCode: user.participatingRoomCode }}
-              replace={true}
+              state={{
+                isHost: user.isHost,
+                roomCode: user.participatingRoomCode,
+              }}
+              replace
             />
           );
         }
       } else {
         if (location.pathname !== '/lobby') {
-          return <Navigate to="/lobby" replace={true} />;
+          return <Navigate to="/lobby" replace />;
         }
       }
     } else {
