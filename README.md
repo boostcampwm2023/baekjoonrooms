@@ -1,51 +1,44 @@
-# BaekjoonRooms
+<p align="center">
+<img width=30% height=auto src="https://github.com/boostcampwm2023/web15-BaekjoonRooms/assets/74997112/d154ee99-e3e7-4e11-8252-b6220387e9eb" alt="백준룸즈 기본 아이콘"/>
+<img width=30% height=auto src="https://github.com/boostcampwm2023/web15-BaekjoonRooms/assets/74997112/6d8c7a08-b87d-48af-855c-02f309a019c8" alt="백준룸즈 다크 아이콘"/>
+</p>
 
-## 프로젝트 소개
+## Installation
+
+[백준룸즈 사이트](https://baekjoonrooms.com/intro)로 들어 가서 Download 버튼을 클릭 하면 익스텐션 설치로 이동합니다.
+
+## 백준룸즈 소개
 
 **백준룸즈**는 [LeetRooms](https://leetrooms.com/)에서 영감을 받아 [백준](https://www.acmicpc.net/)에서 동일한 기능을 제공하기 위한 프로젝트입니다.
 
 [LeetRooms](https://leetrooms.com/)는 [LeetCode](https://leetcode.com/)를 위한 멀티 플레이어 룸 기능을 제공하는 익스텐션 입니다.
 
-### 백준룸즈 기능
+## 백준룸즈 기능
 
-#### 백준 사이트를 이용
-
-#### 콘테스트 스타일 멀티플레이어 방 생성
+### 백준 사이트를 이용
 
 - 백준 사이트에 문제 제출 시 제출 결과 백준룸즈 방에서 확인 기능
+
+### 콘테스트 스타일 멀티플레이어 방 생성
+
 - 실시간 채팅 기능
+- 실시간 제출 결과 확인 기능
 - 실시간 순위 기능
 
-#### 방 설정의 사용자 정의
+### 방 설정의 사용자 정의
 
+- 사용자가 직접 문제 설정 가능
+- 태그, 레벨을 선택 후 랜덤으로 설정 가능
 - 백준 사이트의 문제를 이용
+- 시간 설정 가능
 
-#### 로그인 옵션
+### 로그인 옵션
 
----
+- 깃허브 로그인
 
-- 기본적인 서비스는 웹 페이지로 제작
-- 익스텐션의 기능 최소화
-  - 익스텐션은 단순히 백준 페이지의 제출 버튼을 listen해서 특정 코드 실행
-  - 백준룸즈에 로그인이 되지 않으면 익스텐션 기능 비활성화
-  - 로그인을 했더라도, 방에 참가하지 않았다면 익스텐션 기능 비활성화
-
-### 백준룸즈 문서
+## 백준룸즈 문서
 
 [백준룸즈 위키](https://github.com/boostcampwm2023/web15-BaekjoonRooms/wiki)
-
-## 익스텐션 설치 가이드
-
-```shell
-git clone https://github.com/boostcampwm2023/web15-BaekjoonRooms.git
-```
-
-- 저장소 클론
-- chrome 접속
-- `확장프로그램 관리`로 이동
-- `개발자 모드`로 전환
-- `압축해제된 확장 프로그램을 로드합니다.` 클릭
-- `../web15-BaekjoonRooms/extension` 선택
 
 ## 기술 스택
 
