@@ -5,5 +5,6 @@ export async function joinRoom(roomCode: string) {
     await apiClient.post('/room/join', { code: roomCode });
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
