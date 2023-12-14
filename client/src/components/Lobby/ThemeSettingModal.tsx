@@ -148,7 +148,7 @@ export default function ThemeSettingModal({
 
   return (
     <div
-      className="absolute top-0 z-50 flex h-full w-full items-center justify-center bg-default_black/50"
+      className="absolute top-0 z-50 flex h-screen w-full items-center justify-center"
       style={{ backdropFilter: 'blur(10px)' }}
       ref={modalOverlayRef}
       onClick={modalOutsideClick}>
@@ -176,7 +176,7 @@ export default function ThemeSettingModal({
           Next Theme
         </button>
         {/* DEMO */}
-        <div className="flex h-screen w-full flex-col items-center gap-2 rounded-lg bg-bg p-4 shadow-2xl">
+        <div className="flex h-screen w-full flex-col items-center gap-2 rounded-lg bg-bg p-4 shadow-2xl overflow-auto">
           {/* RoomInfo */}
           <>
             <div className="flex w-full items-center justify-between">
