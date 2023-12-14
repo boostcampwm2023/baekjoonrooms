@@ -5,7 +5,7 @@
 
 ## Installation
 
-[백준룸즈 사이트로 가기](https://baekjoonrooms.com/intro)
+[백준룸즈 사이트](https://baekjoonrooms.com/intro)로 들어 가서 Download 버튼을 클릭 하면 익스텐션 설치로 이동합니다.
 
 ## 백준룸즈 소개
 
