@@ -34,6 +34,7 @@ export default function StartButton() {
 
     const socket = socketRef.current;
     socket?.emit('game-start', roomInfo);
+    console.log(' game-start');
   };
 
   return (

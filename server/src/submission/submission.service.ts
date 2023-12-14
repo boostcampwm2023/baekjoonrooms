@@ -44,19 +44,36 @@ export class SubmissionService {
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
     const roomUsers = await user.joinedRooms;
-    if (roomUsers == null)
-      throw new BadRequestException('참여중인 방이 없습니다.');
-    if (roomUsers.length == 0)
+    if (roomUsers == null || roomUsers.length === 0)
       throw new BadRequestException('참여중인 방이 없습니다.');
 
     const roomUser = roomUsers[0];
-
-    if (!roomUser) throw new BadRequestException('참여중인 방이 없습니다.');
     const room = roomUser.room;
+    const isStarted = room.isStarted;
+
+    if (!isStarted) {
+      throw new BadRequestException('아직 시작되지 않은 방입니다.');
+    }
+
+    const endAt = room.endAt;
+    if (endAt == null || endAt < new Date()) {
+      throw new BadRequestException('이미 종료된 방입니다.');
+    }
+
+    const problems = await room.problems;
+    if (problems == null || problems.length === 0)
+      throw new BadRequestException('문제가 없는 방입니다.');
 
     const problem =
       await this.problemService.getProblemByBojProblemId(bojProblemId);
-    if (!problem) throw new BadRequestException('존재하지 않는 문제입니다.');
+    if (problem == null)
+      throw new BadRequestException('존재하지 않는 문제입니다.');
+
+    if (
+      !problems.map((problem) => problem.bojProblemId).includes(bojProblemId)
+    ) {
+      throw new BadRequestException('참여중인 방에 없는 문제입니다.');
+    }
 
     if (user.username == null)
       throw new BadRequestException('username이 없습니다.');
