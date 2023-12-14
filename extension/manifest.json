@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "BaekjoonRooms",
   "description": "Multiplayer rooms for BOJ",
-  "version": "0.1",
+  "version": "0.2",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
