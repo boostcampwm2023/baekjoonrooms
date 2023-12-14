@@ -12,17 +12,23 @@ chrome.runtime.onMessage.addListener(async function (req) {
   const { isActive } = await chrome.storage.local.get(['isActive']);
   if (req.data === 'toggle') {
     chrome.storage.local.set({ isActive: !isActive });
+    if (!isActive) {
+      chrome.action.setBadgeText({ text: 'on' });
+      chrome.action.setBadgeBackgroundColor({ color: '#528BFF' });
+    } else {
+      chrome.action.setBadgeText({ text: 'off' });
+      chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
+    }
   } else {
     chrome.storage.local.set({ isActive: req.isActive });
     chrome.storage.local.set({ userInfo: req.userInfo });
-  }
-
-  if (req.isActive) {
-    chrome.action.setBadgeText({ text: 'on' });
-    chrome.action.setBadgeBackgroundColor({ color: '#528BFF' });
-  } else {
-    chrome.action.setBadgeText({ text: 'off' });
-    chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
+    if (req.isActive) {
+      chrome.action.setBadgeText({ text: 'on' });
+      chrome.action.setBadgeBackgroundColor({ color: '#528BFF' });
+    } else {
+      chrome.action.setBadgeText({ text: 'off' });
+      chrome.action.setBadgeBackgroundColor({ color: '#c0c0c0' });
+    }
   }
 });
 
