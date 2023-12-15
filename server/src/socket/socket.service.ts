@@ -54,9 +54,9 @@ export class SocketService {
     const host = await room.host;
     const problems = await room.problems;
 
-    if (roomUsers == null) throw new WsException('roomUsers is null');
-    if (host == null) throw new WsException('host is null');
-    if (problems == null || problems.length === 0)
+    if (roomUsers === undefined) throw new WsException('roomUsers is null');
+    if (host === undefined) throw new WsException('host is null');
+    if (problems === undefined || problems.length === 0)
       throw new WsException('problems is null');
 
     const problemTypes: ProblemType[] = problems.map((problem) => {
@@ -144,7 +144,7 @@ export class SocketService {
     // check if the user is the host of the room
 
     const host = await roomUser.room.host;
-    if (host == null) throw new WsException('host is null');
+    if (host === undefined) throw new WsException('host is null');
     if (host.id !== user.id) {
       throw new WsException('방장이 아닙니다.');
     }
@@ -154,8 +154,8 @@ export class SocketService {
     // update room entity properties: problems, isStarted, endAt
 
     const { problems, duration } = startingRoomInfo;
-    if (problems == null) throw new WsException('problems is null');
-    if (duration == null) throw new WsException('duration is null');
+    if (problems === undefined) throw new WsException('problems is null');
+    if (duration === undefined) throw new WsException('duration is null');
     const bojProblemIds = problems.map((problem) => problem.bojProblemId);
     const problemEntities =
       await this.problemService.getProblemsByBojProblemIds(bojProblemIds);

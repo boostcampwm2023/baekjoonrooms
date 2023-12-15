@@ -12,6 +12,7 @@ import { SessionAuthGuard } from './auth/auth.guard';
 import User from './entities/user.entity';
 import { RoomService } from './room/room.service';
 import { isUserSession, UserSession } from './types/userSession';
+import { isNil } from '@nestjs/common/utils/shared.utils';
 
 @UseGuards(SessionAuthGuard)
 @Controller()
@@ -32,7 +33,7 @@ export class AppController {
   async getSession(@Req() req: Request): Promise<UserSession> {
     const user = req.user as User;
 
-    if (user && isUserSession(user)) {
+    if (!isNil(user) && isUserSession(user)) {
       const userSession: UserSession = {
         provider: user.provider,
         providerId: user.providerId,
@@ -42,12 +43,12 @@ export class AppController {
       };
 
       const joinedRooms = await user.joinedRooms;
-      if (joinedRooms != null && joinedRooms.length > 0) {
+      if (joinedRooms !== undefined && joinedRooms.length > 0) {
         const room = joinedRooms[0].room;
         userSession.participatingRoomCode = room.code;
         const host = await room.host;
 
-        if (host != null && host.id === user.id) {
+        if (host !== undefined && host.id === user.id) {
           userSession.isHost = true;
         }
       }

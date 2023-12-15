@@ -13,6 +13,7 @@ import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import RoomUser from '../entities/roomUser.entity';
 import { SocketService } from '../socket/socket.service';
+import { isNil } from '@nestjs/common/utils/shared.utils';
 
 @Injectable()
 export class RoomService {
@@ -38,7 +39,7 @@ export class RoomService {
       throw new BadRequestException('이미 참가한 방이 있습니다.');
     }
 
-    if (user.username == null)
+    if (isNil(user.username))
       throw new BadRequestException('username이 없습니다.');
     const code = await this.createRoomCode(user.username);
 
@@ -65,7 +66,7 @@ export class RoomService {
   async joinRoom(user: User, roomCode: string) {
     const joinedRooms = await user.joinedRooms;
 
-    if (joinedRooms != null && joinedRooms.length !== 0) {
+    if (joinedRooms !== undefined && joinedRooms.length > 0) {
       throw new BadRequestException('이미 참가한 방이 있습니다.');
     }
 
@@ -76,7 +77,7 @@ export class RoomService {
       throw new BadRequestException('존재하지 않는 방입니다.');
     }
     const room = roomUsers[0].room;
-    if (room == null) {
+    if (isNil(room)) {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
     this.logger.debug(`user ${user.username} joining room ${room.code}...`);
@@ -91,7 +92,7 @@ export class RoomService {
 
   async exitRoom(user: User) {
     const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null) {
+    if (joinedRooms === undefined) {
       throw new InternalServerErrorException(
         '참가 중인 방을 찾을 수 없습니다.',
       );
@@ -105,21 +106,21 @@ export class RoomService {
     await this.roomUserRepository.remove(roomUser);
 
     const room = roomUser.room;
-    if (room == null) {
+    if (isNil(room)) {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
 
     await this.socketService.notifyExit(user.username, room);
 
     const numberOfJoinedUsers = (await room.joinedUsers)?.length;
-    if (numberOfJoinedUsers == null || numberOfJoinedUsers === 0) {
+    if (isNil(numberOfJoinedUsers) || numberOfJoinedUsers === 0) {
       await this.destroyRoom(room);
     }
   }
 
   async findRoomByCode(code: string) {
     const room = await this.roomRepository.findOne({ where: { code } });
-    if (!room) {
+    if (isNil(room)) {
       throw new BadRequestException('존재하지 않는 방입니다.');
     }
     return room;

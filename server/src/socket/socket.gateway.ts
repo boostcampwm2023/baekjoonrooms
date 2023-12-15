@@ -20,6 +20,7 @@ import { SocketService } from './socket.service';
 import { ProblemService } from 'src/problem/problem.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { isNil } from '@nestjs/common/utils/shared.utils';
 
 @WebSocketGateway({
   cors: {
@@ -91,7 +92,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       provider,
       providerId,
     });
-    if (user == null) throw new WsException('user is null');
+    if (isNil(user)) throw new WsException('user is null');
 
     await this.socketService.gameStart(user, roomInfo);
   }
@@ -109,7 +110,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       message,
     );
 
-    if (this.server == null) throw new WsException('server is null');
+    if (isNil(this.server)) throw new WsException('server is null');
 
     this.logger.debug(`--> ws: chat-message ${message.body}`);
     this.server.to(room.code).emit('chat-message', message);
@@ -142,9 +143,9 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
   getUser(client: Socket): User {
     const request = client.request as any;
-    if (request == null) throw new WsException('request is null');
+    if (isNil(request)) throw new WsException('request is null');
     const user = request.user;
-    if (user == null) throw new WsException('user is null');
+    if (isNil(user)) throw new WsException('user is null');
     return user as User;
   }
 }

@@ -48,7 +48,7 @@ export class UserService {
 
   async findJoinedRooms(user: User) {
     const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null) {
+    if (joinedRooms === undefined) {
       throw new BadRequestException('joinedRooms is null');
     }
     return joinedRooms;
@@ -56,7 +56,7 @@ export class UserService {
 
   async getSingleJoinedRoom(user: User) {
     const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null) {
+    if (joinedRooms === undefined) {
       throw new InternalServerErrorException('joinedRooms is null');
     }
     if (joinedRooms.length !== 1) {
