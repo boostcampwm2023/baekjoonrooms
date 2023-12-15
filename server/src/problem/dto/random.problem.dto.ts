@@ -11,7 +11,7 @@ export class RandomProblemDto {
     required: true,
     minLength: 1,
   })
-  @Transform(({ value }) => value.split(',').map((v: string) => +v))
+  @Transform(({ value }) => value.split(',').map((v: string) => Number(v)))
   @ArrayUnique()
   @IsNumber({}, { each: true })
   tagIds!: number[];
@@ -21,7 +21,7 @@ export class RandomProblemDto {
     required: true,
     minLength: 1,
   })
-  @Transform(({ value }) => value.split(',').map((v: string) => +v))
+  @Transform(({ value }) => value.split(',').map((v: string) => Number(v)))
   @ArrayUnique()
   @IsNumber({}, { each: true })
   levels!: number[];
@@ -30,7 +30,7 @@ export class RandomProblemDto {
     example: '5',
     required: true,
   })
-  @Transform(({ value }) => +value)
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   @IsNotEmpty()
   @Min(1)
