@@ -13,6 +13,8 @@
 
 [LeetRooms](https://leetrooms.com/)는 [LeetCode](https://leetcode.com/)를 위한 멀티 플레이어 룸 기능을 제공하는 익스텐션 입니다.
 
+![image](https://github.com/boostcampwm2023/web15-BaekjoonRooms/assets/18080546/f1e7b702-386b-4194-8025-7b795a36701d)
+
 ## 백준룸즈 기능
 
 ### 백준 사이트를 이용
