@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useState, useEffect } from 'react';
 
-import { useLocalStorage } from '../contexts/LocalStorageProvider';
+import { useLocalStorage } from './useLocalStorage';
 
 type Theme =
   | 'atom-one-dark'

@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useRef, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
-import { useLocalStorage } from './LocalStorageProvider';
+import { useLocalStorage } from './useLocalStorage';
 import { MessageInterface } from '../types/Message';
 import { RoomInfoType } from '../types/RoomInfoType';
 import { ProblemType } from '../types/ProblemType';
