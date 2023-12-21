@@ -1,0 +1,49 @@
+name: CICD
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Copy repository
+        uses: actions/checkout@v4
+
+      - name: Create empty .env files
+        run: |
+          touch ./server/.env
+          touch ./client/.env
+
+      - name: Set up Docker Compose
+        run: docker compose build
+
+      - name: Server lint
+        run: docker compose run server npm run lint:dryrun
+
+      - name: Client lint
+        run: docker compose run client npm run lint
+
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+    # ssh to server and run commands
+    steps:
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/project/develop &&
+            git checkout develop &&
+            git pull origin &&
+            docker compose up --build -d
