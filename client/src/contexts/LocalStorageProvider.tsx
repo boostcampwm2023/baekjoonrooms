@@ -1,16 +1,16 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 
 interface LocalStorageContextProps {
   children: ReactNode;
 }
 
-interface LocalStorageContextValue {
+export interface LocalStorageContextValue {
   getItem: (key: string) => string | null;
   setItem: (key: string, value: string) => void;
   removeItem: (key: string) => void;
 }
 
-const LocalStorageContext = createContext<LocalStorageContextValue>(
+export const LocalStorageContext = createContext<LocalStorageContextValue>(
   {} as LocalStorageContextValue,
 );
 
@@ -33,14 +33,4 @@ export const LocalStorageProvider: React.FC<LocalStorageContextProps> = ({
       {children}
     </LocalStorageContext.Provider>
   );
-};
-
-export const useLocalStorage = (): LocalStorageContextValue => {
-  const context = useContext(LocalStorageContext);
-  if (!context) {
-    throw new Error(
-      'useLocalStorage must be used within a LocalStorageProvider',
-    );
-  }
-  return context;
 };

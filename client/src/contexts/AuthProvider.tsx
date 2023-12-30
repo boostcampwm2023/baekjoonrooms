@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { UserSession } from '../types/UserSessionType';
 import { logout } from '../apis/logout';
 import { getSession } from '../apis/getSession';
-import { useLocalStorage } from './LocalStorageProvider';
+import { useLocalStorage } from './useLocalStorage';
 
 export interface AuthContextType {
   user: UserSession | null;
