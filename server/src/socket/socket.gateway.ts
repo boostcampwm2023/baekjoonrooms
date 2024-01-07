@@ -9,13 +9,13 @@ import {
   WsException,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { ChatEvent, MessageInterface } from '../types/MessageInterface';
+import { ChatEvent, MessageInterface } from '../types/message-interface';
 import { Logger, UseFilters } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import User from '../entities/user.entity';
 import { WebsocketExceptionsFilter } from './socket.filter';
 import Room from 'src/entities/room.entity';
-import { RoomInfoType } from 'src/types/RoomInfo';
+import { RoomInfoType } from 'src/types/room-info';
 import { SocketService } from './socket.service';
 import { ProblemService } from 'src/problem/problem.service';
 import { InjectRepository } from '@nestjs/typeorm';

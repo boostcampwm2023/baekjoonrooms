@@ -12,7 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import Problem from './problem.entity';
-import RoomUser from './roomUser.entity';
+import RoomUser from './room-user.entity';
 import Submission from './submission.entity';
 import User from './user.entity';
 

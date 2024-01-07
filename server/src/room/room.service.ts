@@ -8,10 +8,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import Room from 'src/entities/room.entity';
 import User from 'src/entities/user.entity';
-import { RoomUserService } from 'src/roomUser/room.user.service';
+import { RoomUserService } from 'src/room-user/room-user.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import RoomUser from '../entities/roomUser.entity';
+import RoomUser from '../entities/room-user.entity';
 import { SocketService } from '../socket/socket.service';
 
 @Injectable()

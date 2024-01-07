@@ -1,4 +1,4 @@
-import { Status } from 'src/const/bojResults';
+import { Status } from 'src/const/boj-results';
 import {
   BaseEntity,
   Column,

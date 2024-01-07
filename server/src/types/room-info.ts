@@ -1,4 +1,4 @@
-import { ProblemType } from './ProblemType';
+import { ProblemType } from './problem-type';
 
 export type RoomInfoType = {
   participantNames: string[];

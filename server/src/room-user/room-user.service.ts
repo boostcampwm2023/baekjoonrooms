@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import RoomUser from 'src/entities/roomUser.entity';
+import RoomUser from 'src/entities/room-user.entity';
 import User from 'src/entities/user.entity';
-import { RoomUserInput } from 'src/types/roomUser';
+import { RoomUserInput } from 'src/types/room-user-input';
 import { Repository } from 'typeorm';
 
 @Injectable()
