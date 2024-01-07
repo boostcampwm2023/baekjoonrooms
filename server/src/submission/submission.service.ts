@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as cheerio from 'cheerio';
-import { BojResultsToStatus, Status } from 'src/const/bojResults';
+import { BojResultsToStatus, Status } from 'src/const/boj-results';
 import Submission from 'src/entities/submission.entity';
 import { ProblemService } from 'src/problem/problem.service';
 import { RoomService } from 'src/room/room.service';
-import { RoomUserService } from 'src/roomUser/room.user.service';
+import { RoomUserService } from 'src/room-user/room-user.service';
 import { BojSubmissionInfo } from 'src/types/submission';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';

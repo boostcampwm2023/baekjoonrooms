@@ -3,7 +3,7 @@ import { Strategy as StrategyLocal } from 'passport-local';
 import { ConfigService } from '@nestjs/config';
 import { Strategy as StrategyGithub } from 'passport-github2';
 import { Injectable, Logger } from '@nestjs/common';
-import { GitHubProfile } from '../types/authProfiles';
+import { GitHubProfile } from '../types/auth-profiles';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create.user.dto';

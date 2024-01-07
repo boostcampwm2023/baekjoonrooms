@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import Room from '../entities/room.entity';
 import { WsException } from '@nestjs/websockets';
-import { RoomInfoType } from '../types/RoomInfo';
+import { RoomInfoType } from '../types/room-info';
 import { Server } from 'socket.io';
-import { Status } from '../const/bojResults';
-import { ChatEvent, MessageInterface } from '../types/MessageInterface';
-import { ProblemType } from 'src/types/ProblemType';
+import { Status } from '../const/boj-results';
+import { ChatEvent, MessageInterface } from '../types/message-interface';
+import { ProblemType } from 'src/types/problem-type';
 import User from '../entities/user.entity';
 import * as util from 'util';
 import { Repository } from 'typeorm';

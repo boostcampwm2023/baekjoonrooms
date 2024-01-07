@@ -11,7 +11,7 @@ import { Request } from 'express';
 import { SessionAuthGuard } from './auth/auth.guard';
 import User from './entities/user.entity';
 import { RoomService } from './room/room.service';
-import { isUserSession, UserSession } from './types/userSession';
+import { isUserSession, UserSession } from './types/user-session';
 
 @UseGuards(SessionAuthGuard)
 @Controller()
