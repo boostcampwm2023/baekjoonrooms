@@ -14,10 +14,10 @@ import { Logger, UseFilters } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import User from '../entities/user.entity';
 import { WebsocketExceptionsFilter } from './socket.filter';
-import Room from 'src/entities/room.entity';
-import { RoomInfoType } from 'src/types/room-info';
+import Room from '../entities/room.entity';
+import { RoomInfoType } from '../types/room-info';
 import { SocketService } from './socket.service';
-import { ProblemService } from 'src/problem/problem.service';
+import { ProblemService } from '../problem/problem.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -140,6 +140,7 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
       }
     }
   }
+
   getUser(client: Socket): User {
     const request = client.request as any;
     if (request == null) throw new WsException('request is null');

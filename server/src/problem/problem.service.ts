@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Problem from 'src/entities/problem.entity';
+import Problem from '../entities/problem.entity';
 import { ILike, In, Raw, Repository } from 'typeorm';
 import { RandomProblemDto } from './dto/random.problem.dto';
 import { SearchProblemDto } from './dto/search.problem.dto';
