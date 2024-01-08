@@ -5,7 +5,7 @@ import { RoomInfoType } from '../types/room-info';
 import { Server } from 'socket.io';
 import { Status } from '../const/boj-results';
 import { ChatEvent, MessageInterface } from '../types/message-interface';
-import { ProblemType } from 'src/types/problem-type';
+import { ProblemType } from '../types/problem-type';
 import User from '../entities/user.entity';
 import * as util from 'util';
 import { Repository } from 'typeorm';

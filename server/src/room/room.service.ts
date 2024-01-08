@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
-import Room from 'src/entities/room.entity';
-import User from 'src/entities/user.entity';
-import { RoomUserService } from 'src/room-user/room-user.service';
-import { UserService } from 'src/user/user.service';
+import Room from '../entities/room.entity';
+import User from '../entities/user.entity';
+import { RoomUserService } from '../room-user/room-user.service';
+import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
-import RoomUser from '../entities/room-user.entity';
+import RoomUser from '../room-user/room-user.entity';
 import { SocketService } from '../socket/socket.service';
 
 @Injectable()

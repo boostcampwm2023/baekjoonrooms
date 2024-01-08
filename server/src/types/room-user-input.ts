@@ -1,5 +1,5 @@
-import Room from 'src/entities/room.entity';
-import User from 'src/entities/user.entity';
+import Room from '../entities/room.entity';
+import User from '../entities/user.entity';
 
 export interface RoomUserInput {
   room: Room;

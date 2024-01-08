@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import Room from './room.entity';
-import User from './user.entity';
+import Room from '../entities/room.entity';
+import User from '../entities/user.entity';
 
 @Entity()
 @Index(['room', 'user'], { unique: true })
