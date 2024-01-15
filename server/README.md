@@ -1,20 +1,75 @@
 # 백준룸즈 서버
 
-## Description
+<p align="center">
+<img width=30% height=auto src="https://github.com/boostcampwm2023/web15-BaekjoonRooms/assets/74997112/d154ee99-e3e7-4e11-8252-b6220387e9eb" alt="백준룸즈 기본 아이콘"/>
+<img width=30% height=auto src="https://github.com/boostcampwm2023/web15-BaekjoonRooms/assets/74997112/6d8c7a08-b87d-48af-855c-02f309a019c8" alt="백준룸즈 다크 아이콘"/>
+</p>
+
+## 프로젝트 요약
 
 백준룸즈를 가동시키는 백엔드 서버입니다.
 
-REST API Swagger 링크: https://api.baekjoonrooms.com/api
+REST API Swagger 링크 (작성 중): https://api.baekjoonrooms.com/api
 
+## Domain에 대한 설명
 
+### Auth
 
-## Installation
+사용자 인증을 처리하는 부분입니다. Passport.js를 통한 자격 증명, 세션 관리, 깃헙 OAuth2 연동 등을 담당합니다.
+
+### User
+
+사용자와 관련된 모든 정보를 관리합니다. 사용자 이름, 깃허브 닉네임, 이메일 등을 저장합니다.
+
+### Problem
+
+이 도메인은 문제와 관련된 기능을 담당합니다. 백준룸즈 서비스에서 제공되는 다양한 백준 문제들의 정보, 태그, 난이도 등을 관리할 수 있습니다.
+
+### Room
+
+방 도메인은 사용자들이 상호작용하는 가상의 공간을 관리합니다. 사용자는 방을 만들거나 방에 참가할 수 있으며, 각 방에서 방장은 여러 문제들을 출제할 수 있습니다. =
+
+### Submission
+
+사용자가 문제를 해결하고 그 해답을 제출하는 과정을 관리합니다.
+
+### Socket
+
+사용자 간의 실시간 대화, 참가 상태 업데이트, 실시간 문제 제출 내역, '맞았습니다' or '틀렸습니다' 알림 등을 처리합니다.
+
+## Installation & Running
+
+MySQL을 설치한 뒤 
+서버 루트 경로에 .env 파일을 추가하고
+
+```
+DB_HOSTNAME=???
+DB_USERNAME=???
+DB_PASSWORD=???
+DB_NAME=???
+
+MYSQL_DATABASE=???
+MYSQL_USER=???
+MYSQL_PASSWORD=???
+MYSQL_ROOT_PASSWORD=???
+
+GITHUB_CLIENT_ID=???
+GITHUB_CLIENT_SECRET=???
+GITHUB_CALLBACK_URL=http://localhost:4000/auth/github/callback
+
+CLIENT_URL=http://localhost:5173
+SERVER_URL=http://localhost:4000
+
+SESSION_SECRET=???
+```
+
+위 내용에 ???를 보완해야 합니다.
+
+그 이후는 일반적인 NestJS 설치 및 실행 방법과 동일합니다.
 
 ```bash
 npm ci
 ```
-
-## Running the app
 
 ```bash
 # development
@@ -45,8 +100,11 @@ $ npm run start:prod
 - MySQL
 - TypeORM
 - Socket.io
+  - 실시간 채팅 + 제출 알림
 - Nginx
+  - 리버스 프록시 + HTTPS 설정
 - Docker
+  - 배포
 - Naver Cloud Platform
 
 ## Directory Structure
