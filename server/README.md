@@ -189,9 +189,6 @@ $ npm run start:prod
 │  ├──  app.module.ts
 │  ├──  app.service.ts
 │  └──  main.ts
-├──  test
-│  ├──  app.e2e-spec.ts
-│  └──  jest-e2e.json
 ├──  .dockerignore
 ├──  .env
 ├──  .eslintrc.js
