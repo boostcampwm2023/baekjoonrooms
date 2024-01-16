@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import Room from './room.entity';
-import RoomUser from './roomUser.entity';
+import RoomUser from '../room-user/room-user.entity';
 import Submission from './submission.entity';
 
 @Entity()

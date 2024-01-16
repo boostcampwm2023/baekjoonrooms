@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProviderInfo } from 'src/types/user';
+import { ProviderInfo } from '../types/user';
 import { Repository } from 'typeorm';
 import User from '../entities/user.entity';
 import { CreateUserDto } from './dto/create.user.dto';

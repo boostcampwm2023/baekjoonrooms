@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as cheerio from 'cheerio';
-import { BojResultsToStatus, Status } from 'src/const/bojResults';
-import Submission from 'src/entities/submission.entity';
-import { ProblemService } from 'src/problem/problem.service';
-import { RoomService } from 'src/room/room.service';
-import { RoomUserService } from 'src/roomUser/room.user.service';
-import { BojSubmissionInfo } from 'src/types/submission';
-import { UserService } from 'src/user/user.service';
+import { BojResultsToStatus, Status } from '../const/boj-results';
+import Submission from '../entities/submission.entity';
+import { ProblemService } from '../problem/problem.service';
+import { RoomService } from '../room/room.service';
+import { RoomUserService } from '../room-user/room-user.service';
+import { BojSubmissionInfo } from '../types/submission';
+import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
 import { SubmissionDto } from './dto/submission.dto';
 import { SocketService } from '../socket/socket.service';
@@ -15,10 +15,10 @@ import { SocketService } from '../socket/socket.service';
 @Injectable()
 export class SubmissionService {
   private readonly logger = new Logger(SubmissionService.name);
+
   constructor(
     @InjectRepository(Submission)
     private readonly submissionRepository: Repository<Submission>,
-
     private readonly userService: UserService,
     private readonly problemService: ProblemService,
     private readonly roomService: RoomService,
