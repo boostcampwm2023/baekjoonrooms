@@ -2,13 +2,13 @@ import { createBrowserRouter } from 'react-router-dom';
 import UserBasedRoute from './pages/UserBasedRoute.tsx';
 
 import App from './App.tsx';
-import Home from './pages/Home.tsx';
-import NotFound from './pages/NotFound.tsx';
-import Lobby from './pages/Lobby.tsx';
-import Room from './pages/Room.tsx';
-import Intro from './pages/Intro.tsx';
+import Home from './pages/Home/Home.tsx';
+import NotFound from './pages/NotFound/NotFound.tsx';
+import Lobby from './pages/Lobby/Lobby.tsx';
+import Room from './pages/Room/Room.tsx';
+import Intro from './pages/Intro/Intro.tsx';
 import { RoomProvider } from './contexts/RoomProvider.tsx';
-import PrivacyPolicy from './pages/PrivacyPolicy.tsx';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
       {
         path: '/privacyPolicy',
         element: <PrivacyPolicy />,
-      }
+      },
     ],
   },
 ]);
