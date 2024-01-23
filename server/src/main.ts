@@ -9,6 +9,8 @@ import * as morgan from 'morgan';
 import { ShortLoggerService } from './short-logger/short-logger.service';
 import { ExceptionsFilter } from './exceptions/exceptions.filter';
 import { SocketIOAdapter } from './socket/socket.adapter';
+import Redis from 'ioredis';
+import RedisStore from 'connect-redis';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -26,6 +28,19 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
+  const REDIS_HOST = process.env.REDIS_HOSTNAME;
+  if (REDIS_HOST == null) throw new Error('REDIS_HOST is not defined');
+
+  const redis = new Redis({
+    host: REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT ?? '6379'),
+  });
+
+  const redisStore = new RedisStore({
+    client: redis,
+    prefix: 'baekjoonrooms:',
+  });
+
   const sessionMiddleware = session({
     secret: 'example-session-secret',
     resave: false,
@@ -33,6 +48,7 @@ async function bootstrap() {
     cookie: {
       httpOnly: true,
     },
+    store: redisStore,
   });
 
   app.use(sessionMiddleware);
