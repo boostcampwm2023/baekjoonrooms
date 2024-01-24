@@ -20,11 +20,12 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
       - mysql
+      - redis
     env_file:
       - ./server/.env
     environment:
       - DB_HOSTNAME=mysql
-      - DB_PORT=${DB_PORT}
+      - REDIS_HOSTNAME=redis
 
   mysql:
     container_name: mysql
@@ -53,5 +54,14 @@ services:
       - client
       - server
 
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - redis_data:/data
+
 volumes:
   mysql_data:
+  redis_data:
