@@ -6,7 +6,7 @@ export default function UserBasedRoute({
 }: {
   children: JSX.Element;
 }) {
-  const { user, isLoading, setIsLoading } = useAuthContext();
+  const { user, isLoading } = useAuthContext();
   const location = useLocation();
 
   if (!isLoading) {
@@ -18,8 +18,6 @@ export default function UserBasedRoute({
       user &&
       user.participatingRoomCode &&
       location.pathname !== `/room/${user.participatingRoomCode}`;
-
-    setIsLoading(true);
 
     if (isNotLoggedIn) {
       return <Navigate to="/" replace />;
