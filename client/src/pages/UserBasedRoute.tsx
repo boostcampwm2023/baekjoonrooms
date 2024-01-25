@@ -10,30 +10,36 @@ export default function UserBasedRoute({
   const location = useLocation();
 
   if (!isLoading) {
+    const isNotLoggedIn =
+      !user && location.pathname !== '/' && location.pathname !== '/home';
+    const isNotParticipatingRoom =
+      user && !user.participatingRoomCode && location.pathname !== '/lobby';
+    const isParticipatingRoom =
+      user &&
+      user.participatingRoomCode &&
+      location.pathname !== `/room/${user.participatingRoomCode}`;
+
     setIsLoading(true);
-    if (user) {
-      if (user.participatingRoomCode) {
-        if (location.pathname !== `/room/${user.participatingRoomCode}`) {
-          return (
-            <Navigate
-              to={`/room/${user.participatingRoomCode}`}
-              state={{
-                isHost: user.isHost,
-                roomCode: user.participatingRoomCode,
-              }}
-              replace
-            />
-          );
-        }
-      } else {
-        if (location.pathname !== '/lobby') {
-          return <Navigate to="/lobby" replace />;
-        }
-      }
-    } else {
-      if (location.pathname !== '/' && location.pathname !== '/home') {
-        return <Navigate to="/" replace />;
-      }
+
+    if (isNotLoggedIn) {
+      return <Navigate to="/" replace />;
+    }
+
+    if (isNotParticipatingRoom) {
+      return <Navigate to="/lobby" replace />;
+    }
+
+    if (isParticipatingRoom) {
+      return (
+        <Navigate
+          to={`/room/${user.participatingRoomCode}`}
+          state={{
+            isHost: user.isHost,
+            roomCode: user.participatingRoomCode,
+          }}
+          replace
+        />
+      );
     }
   }
 
