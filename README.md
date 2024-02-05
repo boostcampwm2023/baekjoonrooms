@@ -81,8 +81,8 @@
     </thead>
     <tbody>
         <tr>
-            <td><img width="200" src="https://avatars.githubusercontent.com/u/74997112?v=4" /> </td>
-            <td><img width="200" src="https://avatars.githubusercontent.com/u/18080546?s=400&u=504dc96bb5e1946d10056ca91b21bafaf0dce2f3&v=4" /> </td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/74997112?v=4" /></td>
+            <td><img width="200" src="https://avatars.githubusercontent.com/u/18080546?v=4" /></td>
             <td><img width="200" src="https://avatars.githubusercontent.com/u/71765155?v=4" /></td>
             <td><img width="200" src="https://avatars.githubusercontent.com/u/97015501?v=4" /></td>
             <td><img width="200" src="https://avatars.githubusercontent.com/u/63452858?v=4" /></td>
@@ -96,7 +96,7 @@
         </tr>
         <tr>
             <td style="text-align:center;"><a href="https://github.com/kiuuon">@kiuuon</a></td>
-            <td style="text-align:center;"><a href="https://github.com/dqgthb">@dqgthb</a></td>
+            <td style="text-align:center;"><a href="https://github.com/dqgthb">@vimkim</a></td>
             <td style="text-align:center;"><a href="https://github.com/sjn0910">@sjn0910</a></td>
             <td style="text-align:center;"><a href="https://github.com/Lukaid-dev">@Lukaid-dev</a></td>
             <td style="text-align:center;"><a href="https://github.com/glowisn">@glowisn</a></td>
