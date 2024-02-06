@@ -13,6 +13,8 @@ import { SocketModule } from './socket/socket.module';
 import { UserModule } from './user/user.module';
 import { ShortLoggerService } from './short-logger/short-logger.service';
 import { SubmissionModule } from './submission/submission.module';
+import { DataSource } from 'typeorm';
+import { RoomUserModule } from './room-user/room-user.module';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { SubmissionModule } from './submission/submission.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity.*'],
-      logging: false,
+      logging: true,
       synchronize: true, // production시 false로 변경
       namingStrategy: new SnakeNamingStrategy(),
     }),
@@ -40,8 +42,11 @@ import { SubmissionModule } from './submission/submission.module';
     RoomModule,
     ProblemModule,
     SubmissionModule,
+    RoomUserModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger, ShortLoggerService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly datasource: DataSource) {}
+}

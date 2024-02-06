@@ -1,16 +1,27 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as cheerio from 'cheerio';
 import { BojResultsToStatus, Status } from '../const/boj-results';
 import Submission from '../entities/submission.entity';
 import { ProblemService } from '../problem/problem.service';
 import { RoomService } from '../room/room.service';
-import { RoomUserService } from '../room-user/room-user.service';
 import { BojSubmissionInfo } from '../types/submission';
 import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
 import { SubmissionDto } from './dto/submission.dto';
 import { SocketService } from '../socket/socket.service';
+
+export interface SubmissionStatDto {
+  userId: number;
+  count: string;
+  latestSubmittedAt: string;
+}
 
 @Injectable()
 export class SubmissionService {
@@ -21,8 +32,8 @@ export class SubmissionService {
     private readonly submissionRepository: Repository<Submission>,
     private readonly userService: UserService,
     private readonly problemService: ProblemService,
+    @Inject(forwardRef(() => RoomService))
     private readonly roomService: RoomService,
-    private readonly roomUserService: RoomUserService,
     private readonly socketService: SocketService,
   ) {}
 
@@ -171,7 +182,7 @@ export class SubmissionService {
       .addSelect('MAX(submitted_at) as submitted_at')
       .groupBy('user_id, problem_id');
 
-    const sumbissions = await this.submissionRepository
+    const submissions = await this.submissionRepository
       .createQueryBuilder('submission')
       .where(`(user_id, problem_id, submitted_at) IN (${subQuery.getQuery()})`)
       .andWhere('room_id = :id', { id: room.id })
@@ -180,10 +191,25 @@ export class SubmissionService {
       .leftJoinAndSelect('submission.problem', 'problem')
       .getMany();
 
-    return sumbissions.map((submission) => ({
+    return submissions.map((submission) => ({
       username: submission.user!.username,
       bojProblemId: submission.problem!.bojProblemId,
       status: submission.status,
     }));
+  }
+
+  async getSubmissionsByRoomCodeGroupByUsers(
+    roomCode: string,
+  ): Promise<SubmissionStatDto[]> {
+    return this.submissionRepository
+      .createQueryBuilder('s')
+      .innerJoin('s.room', 'r', 'r.code = :roomCode', { roomCode })
+      .innerJoin('s.user', 'u')
+      .where('s.status = :status', { status: Status.ACCEPTED })
+      .select('u.id', 'userId')
+      .addSelect('COUNT(*)', 'count')
+      .addSelect('MAX(s.submittedAt)', 'latestSubmittedAt')
+      .groupBy('u.id')
+      .getRawMany();
   }
 }

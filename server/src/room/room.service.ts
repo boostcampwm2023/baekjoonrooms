@@ -13,6 +13,11 @@ import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
 import RoomUser from '../room-user/room-user.entity';
 import { SocketService } from '../socket/socket.service';
+import {
+  SubmissionService,
+  SubmissionStatDto,
+} from '../submission/submission.service';
+import { RankingResponseDto } from '../room-user/dto/ranking-response.dto';
 
 @Injectable()
 export class RoomService {
@@ -26,6 +31,7 @@ export class RoomService {
     @InjectRepository(Room)
     private readonly roomRepository: Repository<Room>,
     private readonly socketService: SocketService,
+    private readonly submissionService: SubmissionService,
   ) {}
 
   /**
@@ -123,5 +129,31 @@ export class RoomService {
       throw new BadRequestException('존재하지 않는 방입니다.');
     }
     return room;
+  }
+
+  async getUsersRankingByRoomCode(code: string) {
+    const users = await this.roomUserService.findUsersByRoomCode(code);
+
+    const stats =
+      await this.submissionService.getSubmissionsByRoomCodeGroupByUsers(code);
+
+    const statsMap = stats.reduce((acc, stat) => {
+      acc.set(stat.userId, stat);
+      return acc;
+    }, new Map<number, SubmissionStatDto>());
+
+    const rankings: RankingResponseDto[] = users.map((user) => {
+      const count = parseInt(statsMap.get(user.id)?.count ?? '0') || 0;
+
+      return {
+        id: user.id,
+        username: user.username,
+        numberOfProblemsSolved: count,
+        mostRecentCorrectSubmissionTime:
+          statsMap.get(user.id)?.latestSubmittedAt ?? '',
+      };
+    });
+
+    return rankings;
   }
 }
