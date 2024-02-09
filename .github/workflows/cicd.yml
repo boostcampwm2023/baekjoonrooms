@@ -2,9 +2,9 @@ name: CICD
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
   pull_request:
-    branches: [develop]
+    branches: [main]
 
 jobs:
   ci:
@@ -35,6 +35,7 @@ jobs:
   cd:
     runs-on: ubuntu-latest
     needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     # ssh to server and run commands
     steps:
       - name: SSH and Deploy
@@ -45,6 +46,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/project/develop &&
-            git checkout develop &&
+            git checkout main &&
             git pull origin &&
             docker compose up --build -d
