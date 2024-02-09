@@ -45,6 +45,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/project/develop &&
-            git checkout develop &&
+            git checkout main &&
             git pull origin &&
             docker compose up --build -d
