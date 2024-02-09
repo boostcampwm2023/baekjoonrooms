@@ -8,7 +8,6 @@ import Redis from 'ioredis';
 import * as morgan from 'morgan';
 import * as passport from 'passport';
 import { AppModule } from './app.module';
-import { isNil } from './common/utils';
 import { ExceptionsFilter } from './exceptions/exceptions.filter';
 import { ShortLoggerService } from './short-logger/short-logger.service';
 import { SocketIOAdapter } from './socket/socket.adapter';
