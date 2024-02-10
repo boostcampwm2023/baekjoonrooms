@@ -1,11 +1,14 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
+import { RankingResponseDto } from 'src/room-user/dto/ranking-response.dto';
 import { RoomSubmissionDto } from './dto/roomSubmission.dto';
 import { SubmissionDto } from './dto/submission.dto';
 import { SubmissionService } from './submission.service';
 
 @Controller('submission')
 export class SubmissionController {
+  private readonly logger = new Logger(SubmissionController.name);
+
   constructor(private readonly submissionService: SubmissionService) {}
 
   @ApiOperation({
@@ -24,5 +27,13 @@ export class SubmissionController {
   @Get()
   async getRoomSubmission(@Query() roomSubmissionDto: RoomSubmissionDto) {
     return await this.submissionService.getRoomSubmission(roomSubmissionDto);
+  }
+  @Get('ranking')
+  async getRanking(
+    @Query() roomSubmissionDto: RoomSubmissionDto,
+  ): Promise<RankingResponseDto[]> {
+    return this.submissionService.getUsersRankingByRoomCode(
+      roomSubmissionDto.roomCode,
+    );
   }
 }
