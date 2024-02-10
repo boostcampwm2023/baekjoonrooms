@@ -1,7 +1,7 @@
-import { IoAdapter } from '@nestjs/platform-socket.io';
 import { INestApplicationContext } from '@nestjs/common';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 import { RequestHandler } from 'express';
-import * as passport from 'passport';
+import passport from 'passport';
 
 export class SocketIOAdapter extends IoAdapter {
   private readonly session: RequestHandler;
