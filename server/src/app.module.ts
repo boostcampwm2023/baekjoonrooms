@@ -8,13 +8,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ProblemModule } from './problem/problem.module';
-import { RoomModule } from './room/room.module';
-import { SocketModule } from './socket/socket.module';
-import { UserModule } from './user/user.module';
-import { ShortLoggerService } from './short-logger/short-logger.service';
-import { SubmissionModule } from './submission/submission.module';
-import { DataSource } from 'typeorm';
 import { RoomUserModule } from './room-user/room-user.module';
+import { RoomModule } from './room/room.module';
+import { ShortLoggerService } from './short-logger/short-logger.service';
+import { SocketModule } from './socket/socket.module';
+import { SubmissionModule } from './submission/submission.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -48,5 +47,5 @@ import { RoomUserModule } from './room-user/room-user.module';
   providers: [AppService, Logger, ShortLoggerService],
 })
 export class AppModule {
-  constructor(private readonly datasource: DataSource) {}
+  constructor() {}
 }
