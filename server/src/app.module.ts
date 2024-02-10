@@ -1,25 +1,26 @@
-import { Logger, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import passport from 'passport';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { provideGlobalExceptionFilter } from './common/exception.filter.provider';
+import { globalValidationPipe as provideGlobalValidationPipe } from './common/validation.pipe';
+import { LoggerModule } from './logger/logger.module';
 import { ProblemModule } from './problem/problem.module';
 import { RoomUserModule } from './room-user/room-user.module';
 import { RoomModule } from './room/room.module';
-import { ShortLoggerService } from './short-logger/short-logger.service';
 import { SocketModule } from './socket/socket.module';
 import { SubmissionModule } from './submission/submission.module';
 import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    PassportModule.register({
-      session: true,
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -42,10 +43,26 @@ import { UserModule } from './user/user.module';
     ProblemModule,
     SubmissionModule,
     RoomUserModule,
+    LoggerModule,
   ],
   controllers: [AppController],
-  providers: [AppService, Logger, ShortLoggerService],
+  providers: [
+    AppService,
+    provideGlobalValidationPipe(),
+    provideGlobalExceptionFilter(),
+  ],
 })
-export class AppModule {
-  constructor() {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(cookieParser()).forRoutes('*');
+
+    // passport
+    consumer
+      .apply(express.json())
+      .forRoutes('*')
+      .apply(passport.initialize())
+      .forRoutes('*')
+      .apply(passport.session())
+      .forRoutes('*');
+  }
 }

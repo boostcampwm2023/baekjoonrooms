@@ -1,18 +1,17 @@
-import { ValidationPipe } from '@nestjs/common';
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import RedisStore from 'connect-redis';
-import * as cookieParser from 'cookie-parser';
-import * as session from 'express-session';
-import Redis from 'ioredis';
-import * as morgan from 'morgan';
-import * as passport from 'passport';
+import * as dotenv from 'dotenv';
+import morgan from 'morgan';
 import { AppModule } from './app.module';
-import { ExceptionsFilter } from './exceptions/exceptions.filter';
-import { ShortLoggerService } from './short-logger/short-logger.service';
+import {
+  makeRedisStore,
+  makeSessionMiddleware,
+} from './common/middleware/session';
+import { CustomLogger } from './logger/custom.logger';
 import { SocketIOAdapter } from './socket/socket.adapter';
 
 Error.stackTraceLimit = Infinity;
+dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -22,53 +21,18 @@ async function bootstrap() {
       allowedHeaders: 'Content-Type, Accept',
       credentials: true,
     },
+    bufferLogs: false,
   });
 
-  app.useLogger(new ShortLoggerService());
+  app.useLogger(app.get(CustomLogger));
 
   morganSetup(app);
 
-  app.use(cookieParser());
-
-  const REDIS_HOST = process.env.REDIS_HOSTNAME;
-  if (REDIS_HOST == null) throw new Error('REDIS_HOST is not defined');
-
-  const redis = new Redis({
-    host: REDIS_HOST,
-    port: parseInt(process.env.REDIS_PORT ?? '6379'),
-  });
-
-  const redisStore = new RedisStore({
-    client: redis,
-    prefix: 'baekjoonrooms:',
-  });
-
-  const sessionMiddleware = session({
-    secret: 'example-session-secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-    },
-    store: redisStore,
-  });
+  const { redisStore } = makeRedisStore();
+  const sessionMiddleware = makeSessionMiddleware(redisStore);
 
   app.use(sessionMiddleware);
-
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new ExceptionsFilter(httpAdapter));
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      disableErrorMessages: false, // production 환경에서는 보통 true로 설정
-    }),
-  );
+  app.useWebSocketAdapter(new SocketIOAdapter(sessionMiddleware, app));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('bojrooms API Docs')
@@ -77,8 +41,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
-
-  app.useWebSocketAdapter(new SocketIOAdapter(sessionMiddleware, app));
 
   await app.listen(4000);
 }
