@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Logger,
@@ -7,9 +8,12 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { GithubAuthGuard, MockAuthGuard, SessionAuthGuard } from './auth.guard';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { GithubAuthGuard, MockAuthGuard, SessionAuthGuard } from './auth.guard';
+import { LoginDto } from './login.dto';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
@@ -18,22 +22,22 @@ export class AuthController {
 
   @Get('github')
   @UseGuards(GithubAuthGuard)
-  async login() {
-    this.logger.debug('login...');
-  }
+  async login() {}
 
   @Get('github/callback')
   @UseGuards(GithubAuthGuard)
   async authCallback(@Req() req: Request, @Res() res: Response) {
-    this.logger.debug('authCallback...');
     res.redirect(`${process.env.CLIENT_URL}/home`);
   }
 
   @Post('mock')
   @UseGuards(MockAuthGuard)
-  async mockLogin() {
-    this.logger.debug('MockAuthGuard passed!');
-    // res.redirect(`${process.env.CLIENT_URL}/home`);
+  @ApiOperation({
+    summary: 'Mock Login',
+    description: 'Supports Mock Login for development purpose.',
+  })
+  async mockLogin(@Body() loginDto: LoginDto) {
+    this.logger.debug('MockAuthGuard passed! loginDto: ', loginDto);
     return 'mock user login successful!';
   }
 
