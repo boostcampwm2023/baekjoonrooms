@@ -1,23 +1,23 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
+import { SubmissionService } from 'src/submission/submission.service';
+import { Repository } from 'typeorm';
 import Room from '../entities/room.entity';
 import User from '../entities/user.entity';
-import { RoomUserService } from '../room-user/room-user.service';
-import { UserService } from '../user/user.service';
-import { Repository } from 'typeorm';
-import RoomUser from '../room-user/room-user.entity';
-import { SocketService } from '../socket/socket.service';
-import {
-  SubmissionService,
-  SubmissionStatDto,
-} from '../submission/submission.service';
 import { RankingResponseDto } from '../room-user/dto/ranking-response.dto';
+import RoomUser from '../room-user/room-user.entity';
+import { RoomUserService } from '../room-user/room-user.service';
+import { SocketService } from '../socket/socket.service';
+import { SubmissionStatDto } from '../submission/submission.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class RoomService {
@@ -31,6 +31,7 @@ export class RoomService {
     @InjectRepository(Room)
     private readonly roomRepository: Repository<Room>,
     private readonly socketService: SocketService,
+    @Inject(forwardRef(() => SubmissionService))
     private readonly submissionService: SubmissionService,
   ) {}
 
