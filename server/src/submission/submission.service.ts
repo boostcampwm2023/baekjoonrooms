@@ -131,10 +131,10 @@ export class SubmissionService {
       const allSubmissions = $('tbody > tr');
 
       allSubmissions.each((index, element) => {
-        const { tmpBojSolutionId, tmpStatus } = this.getEachSubmissionInfo(
-          $,
-          element,
-        );
+        const { tmpBojSolutionId, tmpStatus: unknownStatus } =
+          this.getEachSubmissionInfo($, element);
+
+        const tmpStatus = unknownStatus as keyof typeof BojResultsToStatus;
 
         if (bojSolutionId === '') {
           bojSolutionId = tmpBojSolutionId;
