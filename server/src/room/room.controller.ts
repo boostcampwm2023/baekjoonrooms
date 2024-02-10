@@ -10,12 +10,12 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { RoomService } from './room.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import User from '../entities/user.entity';
 import { SessionAuthGuard } from '../auth/auth.guard';
+import User from '../entities/user.entity';
 import { RoomUserService } from '../room-user/room-user.service';
+import { RoomService } from './room.service';
 
 @Controller('room')
 @ApiTags('room')
@@ -59,15 +59,6 @@ export class RoomController {
     const user: User = req.user as User;
     this.logger.debug(`user ${user.username} exiting room...`);
     return await this.roomService.exitRoom(user);
-  }
-
-  @Get('/:code/ranking')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({
-    summary: '방에 참가한 유저들의 랭킹 조회',
-  })
-  async getRoomRanking(@Param('code') code: string) {
-    return this.roomService.getUsersRankingByRoomCode(code);
   }
 
   @ApiOperation({
