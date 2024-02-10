@@ -19,12 +19,6 @@ import { BojSubmissionInfo } from '../types/submission';
 import { UserService } from '../user/user.service';
 import { SubmissionDto } from './dto/submission.dto';
 
-export interface SubmissionStatDto {
-  userId: number;
-  count: string;
-  latestSubmittedAt: string;
-}
-
 @Injectable()
 export class SubmissionService {
   private readonly logger = new Logger(SubmissionService.name);
