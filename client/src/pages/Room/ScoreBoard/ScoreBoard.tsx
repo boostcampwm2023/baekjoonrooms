@@ -33,6 +33,7 @@ export default function ScoreBoard({ scores }: ScoreBoardProps) {
       {playerScores.map((playerScore, index) => (
         <Players
           key={index}
+          index={index}
           playerName={playerScore.playerName}
           results={playerScore.results}
         />
