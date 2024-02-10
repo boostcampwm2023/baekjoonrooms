@@ -226,7 +226,7 @@ export class SubmissionService {
     const qb = this.entityManager
       .createQueryBuilder(Room, 'room')
       .where('room.code = :code', { code })
-      .addSelect('user.username', 'username')
+      .select('user.username', 'username')
       .addSelect('COUNT(*)', 'numberOfProblemsSolved')
       .addSelect(
         'MAX(submission.submittedAt)',
