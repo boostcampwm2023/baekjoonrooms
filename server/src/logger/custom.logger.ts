@@ -1,7 +1,7 @@
-import { ConsoleLogger, Injectable, LogLevel, Scope } from '@nestjs/common';
+import { ConsoleLogger, LogLevel } from '@nestjs/common';
 
-@Injectable({ scope: Scope.TRANSIENT })
-export class ShortLoggerService extends ConsoleLogger {
+// @Injectable({ scope: Scope.TRANSIENT })
+export class CustomLogger extends ConsoleLogger {
   protected getTimestamp(): string {
     const now = new Date();
     const month = String(now.getMonth() + 1).padStart(2, '0');
