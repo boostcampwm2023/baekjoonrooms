@@ -38,6 +38,7 @@
     "class-validator": "^0.14.0",
     "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.1",
     "express-session": "^1.17.3",
     "ioredis": "^5.3.2",
     "morgan": "^1.10.0",

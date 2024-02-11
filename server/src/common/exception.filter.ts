@@ -10,8 +10,8 @@ import { BaseExceptionFilter } from '@nestjs/core';
 import * as util from 'util';
 
 @Catch()
-export class ExceptionsFilter extends BaseExceptionFilter {
-  private readonly logger = new Logger(ExceptionsFilter.name);
+export class GlobalExceptionFilter extends BaseExceptionFilter {
+  private readonly logger = new Logger(GlobalExceptionFilter.name);
 
   catch(exception: unknown, host: ArgumentsHost) {
     if (exception instanceof HttpException) {
