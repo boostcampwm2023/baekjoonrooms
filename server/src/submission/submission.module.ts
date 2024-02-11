@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import Submission from '../entities/submission.entity';
 import { ProblemModule } from '../problem/problem.module';
@@ -13,12 +13,13 @@ import { RoomModule } from '../room/room.module';
   imports: [
     UserModule,
     ProblemModule,
-    RoomModule,
+    forwardRef(() => RoomModule),
     RoomUserModule,
     TypeOrmModule.forFeature([Submission]),
     SocketModule,
   ],
   controllers: [SubmissionController],
   providers: [SubmissionService],
+  exports: [SubmissionService],
 })
 export class SubmissionModule {}

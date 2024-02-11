@@ -14,6 +14,12 @@ export class AuthService {
       provider: username,
       providerId: password,
     };
+
+    if (!username.startsWith('mock')) {
+      this.logger.error('username must start with "mock"');
+      throw new BadRequestException('잘못된 로그인 요청입니다!');
+    }
+
     const user =
       await this.userService.findUserByProviderInfo(mockProviderInfo);
 

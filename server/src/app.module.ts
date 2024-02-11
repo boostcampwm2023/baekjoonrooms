@@ -8,11 +8,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ProblemModule } from './problem/problem.module';
+import { RoomUserModule } from './room-user/room-user.module';
 import { RoomModule } from './room/room.module';
-import { SocketModule } from './socket/socket.module';
-import { UserModule } from './user/user.module';
 import { ShortLoggerService } from './short-logger/short-logger.service';
+import { SocketModule } from './socket/socket.module';
 import { SubmissionModule } from './submission/submission.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { SubmissionModule } from './submission/submission.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity.*'],
-      logging: false,
+      logging: true,
       synchronize: true, // production시 false로 변경
       namingStrategy: new SnakeNamingStrategy(),
     }),
@@ -40,8 +41,11 @@ import { SubmissionModule } from './submission/submission.module';
     RoomModule,
     ProblemModule,
     SubmissionModule,
+    RoomUserModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger, ShortLoggerService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {}
+}

@@ -1,16 +1,18 @@
+import { ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
-import * as session from 'express-session';
-import * as passport from 'passport';
-import * as cookieParser from 'cookie-parser';
-import { ValidationPipe } from '@nestjs/common';
-import * as morgan from 'morgan';
-import { ShortLoggerService } from './short-logger/short-logger.service';
-import { ExceptionsFilter } from './exceptions/exceptions.filter';
-import { SocketIOAdapter } from './socket/socket.adapter';
-import Redis from 'ioredis';
 import RedisStore from 'connect-redis';
+import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
+import Redis from 'ioredis';
+import * as morgan from 'morgan';
+import * as passport from 'passport';
+import { AppModule } from './app.module';
+import { ExceptionsFilter } from './exceptions/exceptions.filter';
+import { ShortLoggerService } from './short-logger/short-logger.service';
+import { SocketIOAdapter } from './socket/socket.adapter';
+
+Error.stackTraceLimit = Infinity;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

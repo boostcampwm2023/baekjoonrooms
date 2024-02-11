@@ -6,13 +6,15 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { AppService } from './app.service';
+import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
+import { AppService } from './app.service';
 import { SessionAuthGuard } from './auth/auth.guard';
 import User from './entities/user.entity';
 import { RoomService } from './room/room.service';
-import { isUserSession, UserSession } from './types/user-session';
+import { UserSession, isUserSession } from './types/user-session';
 
+@ApiTags('app')
 @UseGuards(SessionAuthGuard)
 @Controller()
 export class AppController {
@@ -24,7 +26,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    // this.logger.log('get hello world');
     return this.appService.getHello();
   }
 

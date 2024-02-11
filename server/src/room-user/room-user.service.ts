@@ -1,12 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import RoomUser from './room-user.entity';
+import { Repository } from 'typeorm';
 import User from '../entities/user.entity';
 import { RoomUserInput } from '../types/room-user-input';
-import { Repository } from 'typeorm';
+import RoomUser from './room-user.entity';
 
 @Injectable()
 export class RoomUserService {
+  private readonly logger = new Logger(RoomUserService.name);
+
   constructor(
     @InjectRepository(RoomUser)
     private readonly roomUserRepository: Repository<RoomUser>,
@@ -30,5 +32,16 @@ export class RoomUserService {
     return this.roomUserRepository.find({
       where: { room: { code: roomCode } },
     });
+  }
+
+  async findUsersByRoomCode(code: string) {
+    const qb = this.roomUserRepository
+      .createQueryBuilder('roomUser')
+      .innerJoin('roomUser.room', 'room', 'room.code = :code', { code })
+      .innerJoinAndSelect('roomUser.user', 'user');
+
+    const roomUsers = await qb.getMany();
+
+    return roomUsers.map((roomUser) => roomUser.user);
   }
 }

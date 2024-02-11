@@ -1,16 +1,23 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as cheerio from 'cheerio';
+import Room from 'src/entities/room.entity';
+import { RankingResponseDto } from 'src/room-user/dto/ranking-response.dto';
+import { EntityManager, Repository } from 'typeorm';
 import { BojResultsToStatus, Status } from '../const/boj-results';
 import Submission from '../entities/submission.entity';
 import { ProblemService } from '../problem/problem.service';
 import { RoomService } from '../room/room.service';
-import { RoomUserService } from '../room-user/room-user.service';
+import { SocketService } from '../socket/socket.service';
 import { BojSubmissionInfo } from '../types/submission';
 import { UserService } from '../user/user.service';
-import { Repository } from 'typeorm';
 import { SubmissionDto } from './dto/submission.dto';
-import { SocketService } from '../socket/socket.service';
 
 @Injectable()
 export class SubmissionService {
@@ -21,9 +28,10 @@ export class SubmissionService {
     private readonly submissionRepository: Repository<Submission>,
     private readonly userService: UserService,
     private readonly problemService: ProblemService,
+    @Inject(forwardRef(() => RoomService))
     private readonly roomService: RoomService,
-    private readonly roomUserService: RoomUserService,
     private readonly socketService: SocketService,
+    private readonly entityManager: EntityManager,
   ) {}
 
   async submitCode(submissionDto: SubmissionDto) {
@@ -120,10 +128,10 @@ export class SubmissionService {
       const allSubmissions = $('tbody > tr');
 
       allSubmissions.each((index, element) => {
-        const { tmpBojSolutionId, tmpStatus } = this.getEachSubmissionInfo(
-          $,
-          element,
-        );
+        const { tmpBojSolutionId, tmpStatus: unknownStatus } =
+          this.getEachSubmissionInfo($, element);
+
+        const tmpStatus = unknownStatus as keyof typeof BojResultsToStatus;
 
         if (bojSolutionId === '') {
           bojSolutionId = tmpBojSolutionId;
@@ -161,7 +169,7 @@ export class SubmissionService {
   }
 
   // 일단 미제출 문제에 대해서는 값을 리턴하지 않음
-  async getRoomSubmission({ roomCode }) {
+  async getRoomSubmission({ roomCode }: { roomCode: string }) {
     const room = await this.roomService.findRoomByCode(roomCode);
 
     const subQuery = this.submissionRepository
@@ -171,7 +179,7 @@ export class SubmissionService {
       .addSelect('MAX(submitted_at) as submitted_at')
       .groupBy('user_id, problem_id');
 
-    const sumbissions = await this.submissionRepository
+    const submissions = await this.submissionRepository
       .createQueryBuilder('submission')
       .where(`(user_id, problem_id, submitted_at) IN (${subQuery.getQuery()})`)
       .andWhere('room_id = :id', { id: room.id })
@@ -180,10 +188,69 @@ export class SubmissionService {
       .leftJoinAndSelect('submission.problem', 'problem')
       .getMany();
 
-    return sumbissions.map((submission) => ({
+    return submissions.map((submission) => ({
       username: submission.user!.username,
       bojProblemId: submission.problem!.bojProblemId,
       status: submission.status,
     }));
+  }
+
+  async getSubmissionsByRoomCodeGroupByUsers(
+    roomCode: string,
+  ): Promise<RankingResponseDto[]> {
+    const qb = this.submissionRepository
+      .createQueryBuilder('s')
+      .innerJoin('s.room', 'r', 'r.code = :roomCode', { roomCode })
+      .innerJoin('s.user', 'u')
+      .where('s.status = :status', { status: Status.ACCEPTED })
+      .addSelect('u.username', 'username')
+      .addSelect('COUNT(*)', 'numberOfProblemsSolved')
+      .addSelect('MAX(s.submittedAt)', 'mostRecentCorrectSubmissionTime');
+
+    this.explainQuery(...qb.getQueryAndParameters());
+
+    const results = await qb.getRawMany();
+    results.forEach((res) => {
+      res.numberOfProblemsSolved = Number(res.numberOfProblemsSolved);
+    });
+    return results;
+  }
+
+  async getUsersRankingByRoomCode(code: string): Promise<RankingResponseDto[]> {
+    const qb = this.entityManager
+      .createQueryBuilder(Room, 'room')
+      .where('room.code = :code', { code })
+      .select('user.username', 'username')
+      .addSelect('COUNT(*)', 'numberOfProblemsSolved')
+      .addSelect(
+        'MAX(submission.submittedAt)',
+        'mostRecentCorrectSubmissionTime',
+      )
+      .innerJoin('room.joinedUsers', 'roomUser')
+      .innerJoin('roomUser.user', 'user')
+      .leftJoin(
+        'user.submissions',
+        'submission',
+        'submission.status = :status',
+        { status: Status.ACCEPTED },
+      )
+      .groupBy('user.id')
+      .orderBy('COUNT(submission.id)', 'DESC')
+      .addOrderBy('MAX(submission.submittedAt)', 'ASC');
+
+    this.explainQuery(...qb.getQueryAndParameters());
+
+    const results = await qb.getRawMany();
+
+    results.forEach((res) => {
+      res.numberOfProblemsSolved = Number(res.numberOfProblemsSolved);
+    });
+
+    return results;
+  }
+
+  async explainQuery(query: string, param: any[]) {
+    const res = await this.entityManager.query(`EXPLAIN ${query}`, param);
+    this.logger.debug(res);
   }
 }

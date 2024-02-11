@@ -1,18 +1,21 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Logger,
+  Param,
   Post,
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { RoomService } from './room.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import User from '../entities/user.entity';
 import { SessionAuthGuard } from '../auth/auth.guard';
+import User from '../entities/user.entity';
+import { RoomUserService } from '../room-user/room-user.service';
+import { RoomService } from './room.service';
 
 @Controller('room')
 @ApiTags('room')
@@ -20,7 +23,10 @@ import { SessionAuthGuard } from '../auth/auth.guard';
 export class RoomController {
   private readonly logger = new Logger(RoomController.name);
 
-  constructor(private readonly roomService: RoomService) {}
+  constructor(
+    private readonly roomService: RoomService,
+    private readonly roomUserService: RoomUserService,
+  ) {}
 
   @ApiResponse({
     status: 400,
@@ -53,5 +59,14 @@ export class RoomController {
     const user: User = req.user as User;
     this.logger.debug(`user ${user.username} exiting room...`);
     return await this.roomService.exitRoom(user);
+  }
+
+  @ApiOperation({
+    summary: '방에 참가한 유저들 조회',
+  })
+  @Get('/:code/users')
+  @HttpCode(HttpStatus.OK)
+  async getRoomUsers(@Param('code') code: string) {
+    return await this.roomUserService.findUsersByRoomCode(code);
   }
 }
