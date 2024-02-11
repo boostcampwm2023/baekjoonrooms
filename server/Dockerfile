@@ -27,4 +27,4 @@ ARG DB_PORT
 # Command to run the application
 RUN npm run build
 RUN chmod +x wait-for-mysql.sh
-CMD ./wait-for-mysql.sh $DB_HOSTNAME $DB_PORT npm run start:prod
+CMD ./wait-for-mysql.sh $DB_HOSTNAME $DB_PORT npm run prod
