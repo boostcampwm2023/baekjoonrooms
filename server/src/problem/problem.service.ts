@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Problem from '../entities/problem.entity';
+import { isNil } from 'src/common/utils';
 import { ILike, In, Raw, Repository } from 'typeorm';
+import Problem from '../entities/problem.entity';
 import { RandomProblemDto } from './dto/random.problem.dto';
 import { SearchProblemDto } from './dto/search.problem.dto';
 
@@ -57,7 +58,7 @@ export class ProblemService {
     const problemEntities: Problem[] = [];
     for (const bojProblemId of bojProblemIds) {
       const problem = await this.getProblemByBojProblemId(bojProblemId);
-      if (problem == null) {
+      if (isNil(problem)) {
         throw new Error(`bojProblemId ${bojProblemId} not found`);
       }
       problemEntities.push(problem);

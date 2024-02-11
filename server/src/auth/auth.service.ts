@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { UserService } from '../user/user.service';
+import { isNil } from 'src/common/utils';
 import User from '../entities/user.entity';
 import { ProviderInfo } from '../types/user';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
     const user =
       await this.userService.findUserByProviderInfo(mockProviderInfo);
 
-    if (user == null) {
+    if (isNil(user)) {
       this.logger.debug('잘못된 로그인 요청입니다!');
       throw new BadRequestException('잘못된 로그인 요청입니다!');
     }

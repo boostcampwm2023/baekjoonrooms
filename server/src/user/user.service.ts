@@ -4,9 +4,10 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProviderInfo } from '../types/user';
+import { isNil } from 'src/common/utils';
 import { Repository } from 'typeorm';
 import User from '../entities/user.entity';
+import { ProviderInfo } from '../types/user';
 import { CreateUserDto } from './dto/create.user.dto';
 
 @Injectable()
@@ -48,7 +49,7 @@ export class UserService {
 
   async findJoinedRooms(user: User) {
     const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null) {
+    if (isNil(joinedRooms)) {
       throw new BadRequestException('joinedRooms is null');
     }
     return joinedRooms;
@@ -56,7 +57,7 @@ export class UserService {
 
   async getSingleJoinedRoom(user: User) {
     const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null) {
+    if (isNil(joinedRooms)) {
       throw new InternalServerErrorException('joinedRooms is null');
     }
     if (joinedRooms.length !== 1) {

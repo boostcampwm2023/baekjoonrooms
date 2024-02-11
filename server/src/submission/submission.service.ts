@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as cheerio from 'cheerio';
+import { isNil } from 'src/common/utils';
 import Room from 'src/entities/room.entity';
 import { RankingResponseDto } from 'src/room-user/dto/ranking-response.dto';
 import { EntityManager, Repository } from 'typeorm';
@@ -52,7 +53,7 @@ export class SubmissionService {
     if (!user) throw new BadRequestException('존재하지 않는 유저입니다.');
 
     const roomUsers = await user.joinedRooms;
-    if (roomUsers == null || roomUsers.length === 0)
+    if (isNil(roomUsers) || roomUsers.length === 0)
       throw new BadRequestException('참여중인 방이 없습니다.');
 
     const roomUser = roomUsers[0];
@@ -64,17 +65,17 @@ export class SubmissionService {
     }
 
     const endAt = room.endAt;
-    if (endAt == null || endAt < new Date()) {
+    if (isNil(endAt) || endAt < new Date()) {
       throw new BadRequestException('이미 종료된 방입니다.');
     }
 
     const problems = await room.problems;
-    if (problems == null || problems.length === 0)
+    if (isNil(problems) || problems.length === 0)
       throw new BadRequestException('문제가 없는 방입니다.');
 
     const problem =
       await this.problemService.getProblemByBojProblemId(bojProblemId);
-    if (problem == null)
+    if (isNil(problem))
       throw new BadRequestException('존재하지 않는 문제입니다.');
 
     if (
@@ -83,7 +84,7 @@ export class SubmissionService {
       throw new BadRequestException('참여중인 방에 없는 문제입니다.');
     }
 
-    if (user.username == null)
+    if (isNil(user.username))
       throw new BadRequestException('username이 없습니다.');
 
     await this.socketService.submitCode(
