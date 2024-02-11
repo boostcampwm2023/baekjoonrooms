@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
-import morgan from 'morgan';
 import { AppModule } from './app.module';
 import {
   makeRedisStore,
   makeSessionMiddleware,
 } from './common/middleware/session';
 import { CustomLogger } from './logger/custom.logger';
+import { morganSetup } from './logger/morgan';
 import { SocketIOAdapter } from './socket/socket.adapter';
 
 Error.stackTraceLimit = Infinity;
@@ -46,39 +46,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-
-function morganSetup(app) {
-  morgan.token('status-message', (req, res) => {
-    return res.statusMessage;
-  });
-
-  morgan.token('formatted-date', () => {
-    const date = new Date();
-    return date.toLocaleString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
-  });
-
-  app.use(
-    morgan(
-      '\n-->>> [:formatted-date] :remote-addr :remote-user ":method :url HTTP/:http-version"',
-      {
-        immediate: true,
-      },
-    ),
-  );
-  app.use(
-    morgan(
-      '<<<-- [:formatted-date] :status :status-message :response-time :res[content-length]',
-      {
-        immediate: false,
-      },
-    ),
-  );
-}
