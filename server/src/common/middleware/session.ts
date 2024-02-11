@@ -1,10 +1,11 @@
 import RedisStore from 'connect-redis';
 import session from 'express-session';
 import Redis from 'ioredis';
+import { isNil } from '../utils';
 
 export const makeRedisStore = () => {
   const REDIS_HOST = process.env.REDIS_HOSTNAME;
-  if (REDIS_HOST == null) throw new Error('REDIS_HOST is not defined');
+  if (isNil(REDIS_HOST)) throw new Error('REDIS_HOST is not defined');
 
   const redis = new Redis({
     host: REDIS_HOST,

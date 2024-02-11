@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
+import { isNil } from 'src/common/utils';
 import { SubmissionService } from 'src/submission/submission.service';
 import { Repository } from 'typeorm';
 import Room from '../entities/room.entity';
@@ -43,7 +44,7 @@ export class RoomService {
       throw new BadRequestException('이미 참가한 방이 있습니다.');
     }
 
-    if (user.username == null)
+    if (isNil(user.username))
       throw new BadRequestException('username이 없습니다.');
     const code = await this.createRoomCode(user.username);
 
@@ -81,7 +82,7 @@ export class RoomService {
       throw new BadRequestException('존재하지 않는 방입니다.');
     }
     const room = roomUsers[0].room;
-    if (room == null) {
+    if (isNil(room)) {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
     this.logger.debug(`user ${user.username} joining room ${room.code}...`);
@@ -96,7 +97,7 @@ export class RoomService {
 
   async exitRoom(user: User) {
     const joinedRooms = await user.joinedRooms;
-    if (joinedRooms == null) {
+    if (isNil(joinedRooms) || joinedRooms.length === 0) {
       throw new InternalServerErrorException(
         '참가 중인 방을 찾을 수 없습니다.',
       );
@@ -110,14 +111,14 @@ export class RoomService {
     await this.roomUserRepository.remove(roomUser);
 
     const room = roomUser.room;
-    if (room == null) {
+    if (isNil(room)) {
       throw new InternalServerErrorException('방을 찾을 수 없습니다.');
     }
 
     await this.socketService.notifyExit(user.username, room);
 
     const numberOfJoinedUsers = (await room.joinedUsers)?.length;
-    if (numberOfJoinedUsers == null || numberOfJoinedUsers === 0) {
+    if (isNil(numberOfJoinedUsers) || numberOfJoinedUsers === 0) {
       await this.destroyRoom(room);
     }
   }

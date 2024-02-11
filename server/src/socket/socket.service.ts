@@ -1,16 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
-import Room from '../entities/room.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { WsException } from '@nestjs/websockets';
-import { RoomInfoType } from '../types/room-info';
 import { Server } from 'socket.io';
+import { isNil } from 'src/common/utils';
+import { Repository } from 'typeorm';
+import * as util from 'util';
 import { Status } from '../const/boj-results';
+import Room from '../entities/room.entity';
+import User from '../entities/user.entity';
+import { ProblemService } from '../problem/problem.service';
 import { ChatEvent, MessageInterface } from '../types/message-interface';
 import { ProblemType } from '../types/problem-type';
-import User from '../entities/user.entity';
-import * as util from 'util';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ProblemService } from '../problem/problem.service';
+import { RoomInfoType } from '../types/room-info';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -54,10 +55,10 @@ export class SocketService {
     const host = await room.host;
     const problems = await room.problems;
 
-    if (roomUsers == null) throw new WsException('roomUsers is null');
-    if (host == null) throw new WsException('host is null');
-    if (problems == null || problems.length === 0)
-      throw new WsException('problems is null');
+    if (isNil(roomUsers)) throw new WsException('roomUsers is null');
+    if (isNil(host)) throw new WsException('host is null');
+    if (isNil(problems) || problems.length === 0)
+      throw new WsException('problems do not exist');
 
     const problemTypes: ProblemType[] = problems.map((problem) => {
       return {
@@ -144,7 +145,7 @@ export class SocketService {
     // check if the user is the host of the room
 
     const host = await roomUser.room.host;
-    if (host == null) throw new WsException('host is null');
+    if (isNil(host)) throw new WsException('host is null');
     if (host.id !== user.id) {
       throw new WsException('방장이 아닙니다.');
     }
@@ -154,8 +155,8 @@ export class SocketService {
     // update room entity properties: problems, isStarted, endAt
 
     const { problems, duration } = startingRoomInfo;
-    if (problems == null) throw new WsException('problems is null');
-    if (duration == null) throw new WsException('duration is null');
+    if (isNil(problems)) throw new WsException('problems is null');
+    if (isNil(duration)) throw new WsException('duration is null');
     const bojProblemIds = problems.map((problem) => problem.bojProblemId);
     const problemEntities =
       await this.problemService.getProblemsByBojProblemIds(bojProblemIds);
