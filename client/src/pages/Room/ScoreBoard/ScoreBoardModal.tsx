@@ -2,15 +2,14 @@ import ScoreBoard from './ScoreBoard';
 import { FaChartSimple, FaXmark } from 'react-icons/fa6';
 import { RefObject } from 'react';
 import { useTheme } from '../../../hooks/useTheme';
-import { Score } from '../../../types/Score';
+import { ScoreBoardInformation } from '../../../types/ScoreBoardInformation';
 
 interface ModalProps {
-  scores: Score[];
+  scores: ScoreBoardInformation;
   modalOverlayRef: RefObject<HTMLDivElement>;
   closeModal: () => void;
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
 }
-
 
 const iconStyle = {
   fontSize: '1.5rem',
@@ -44,7 +43,7 @@ export default function ScoreBoardModal({
           </div>
           <div className="text-xs text-text_default">3 online</div>
         </div>
-        <ScoreBoard scores ={scores}/>
+        <ScoreBoard scores={scores} />
       </div>
     </div>
   );
