@@ -1,17 +1,19 @@
 import {
   BadRequestException,
+  forwardRef,
   Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
-  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import { isNil } from 'src/common/utils';
 import { SubmissionService } from 'src/submission/submission.service';
 import { Repository } from 'typeorm';
+import { Status } from '../const/boj-results';
 import Room from '../entities/room.entity';
+import Submission from '../entities/submission.entity';
 import User from '../entities/user.entity';
 import RoomUser from '../room-user/room-user.entity';
 import { RoomUserService } from '../room-user/room-user.service';
@@ -129,5 +131,38 @@ export class RoomService {
       throw new BadRequestException('존재하지 않는 방입니다.');
     }
     return room;
+  }
+
+  /**
+   * returns an array of user id, username, and the number of accepted problems of the user, sorted by the number of accepted problems
+   * @param code
+   */
+  async getRoomRankings(code: string) {
+    Submission;
+    User;
+    const qb = this.roomRepository
+      .createQueryBuilder('room')
+      .where('room.code = :code', { code })
+      .innerJoin('room.joinedUsers', 'roomUser')
+      .innerJoin('roomUser.user', 'user')
+      .innerJoin(
+        'room.submissions',
+        'submission',
+        'submission.status = :status AND submission.user_id = user.id',
+        {
+          status: Status.ACCEPTED,
+        },
+      )
+      .innerJoin('submission.problem', 'problem')
+      .select('user.id', 'userId')
+      .addSelect('user.username', 'username')
+      .addSelect('COUNT(DISTINCT submission.problem)', 'acceptedCount')
+      .addSelect('MAX(submission.submittedAt)', 'lastAcceptedAt')
+      .groupBy('user.id')
+      .orderBy('acceptedCount', 'DESC')
+      .addOrderBy('lastAcceptedAt', 'ASC');
+
+    const data = await qb.getRawMany();
+    return { data };
   }
 }

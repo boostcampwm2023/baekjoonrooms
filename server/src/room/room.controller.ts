@@ -15,6 +15,7 @@ import { Request } from 'express';
 import { SessionAuthGuard } from '../auth/auth.guard';
 import User from '../entities/user.entity';
 import { RoomUserService } from '../room-user/room-user.service';
+import { RoomCodePipe } from './room-code/room-code.pipe';
 import { RoomService } from './room.service';
 
 @Controller('room')
@@ -68,5 +69,11 @@ export class RoomController {
   @HttpCode(HttpStatus.OK)
   async getRoomUsers(@Param('code') code: string) {
     return await this.roomUserService.findUsersByRoomCode(code);
+  }
+
+  @Get('/:code/rankings')
+  @HttpCode(HttpStatus.OK)
+  async getRoomRankings(@Param('code', RoomCodePipe) code: string) {
+    return await this.roomService.getRoomRankings(code);
   }
 }
