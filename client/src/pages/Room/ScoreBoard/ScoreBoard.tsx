@@ -1,36 +1,53 @@
 import { useRoom } from '../../../hooks/useRoom';
-import { Score } from '../../../types/Score';
+import { ScoreBoardInformation } from '../../../types/ScoreBoardInformation';
+import { Submission } from '../../../types/Submission';
 import Players from './Players';
 
 interface ScoreBoardProps {
-  scores: Score[];
+  scores: ScoreBoardInformation;
+}
+
+interface PlayerScore {
+  playerName: string;
+  results: Submission[];
 }
 
 export default function ScoreBoard({ scores }: ScoreBoardProps) {
   const { participantNames, problems } = useRoom().roomInfo;
 
-
   const playerNames: string[] = participantNames;
   const problemIds: number[] = problems.map((problem) => problem.bojProblemId);
 
-  const playerScores: Array<{ playerName: string; results: Score[] }> =
-    playerNames.map((playerName) => {
-      const results: Score[] = problemIds.map((problemId) => {
-        const score = scores.find(
-          (score) =>
-            score.username === playerName && score.bojProblemId === problemId,
-        );
-        return score
-          ? score
-          : { username: playerName, bojProblemId: problemId, status: 'WAITING' };
-      });
-      return { playerName: playerName, results: results };
+  const playerScores: PlayerScore[] = playerNames.map((playerName) => {
+    const results: Submission[] = problemIds.map((problemId) => {
+      const submissions = scores.submissions.find(
+        (score) =>
+          score.username === playerName && score.bojProblemId === problemId,
+      );
+      return (
+        submissions || {
+          username: playerName,
+          bojProblemId: problemId,
+          status: 'WAITING',
+        }
+      );
     });
+    return { playerName, results };
+  });
 
+  const sortedPlayerScores: PlayerScore[] = scores.rankings
+    .map((ranking) =>
+      playerScores.find(
+        (playerScore) => playerScore.playerName === ranking.username,
+      ),
+    )
+    .filter(
+      (playerScore): playerScore is PlayerScore => playerScore !== undefined,
+    );
 
   return (
     <ul className="my-5 flex w-full flex-col overflow-auto text-sm font-medium text-text_default">
-      {playerScores.map((playerScore, index) => (
+      {sortedPlayerScores.map((playerScore, index) => (
         <Players
           key={index}
           index={index}
