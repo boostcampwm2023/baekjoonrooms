@@ -148,15 +148,14 @@ export class RoomService {
       .innerJoin(
         'room.submissions',
         'submission',
-        'submission.status = :status AND submission.user_id = user.id',
+        'submission.status = :status AND submission.user_id = user.id AND submission.alreadyAccepted = false',
         {
           status: Status.ACCEPTED,
         },
       )
-      .innerJoin('submission.problem', 'problem')
       .select('user.id', 'userId')
       .addSelect('user.username', 'username')
-      .addSelect('COUNT(DISTINCT submission.problem)', 'acceptedCount')
+      .addSelect('COUNT(submission.id)', 'acceptedCount')
       .addSelect('MAX(submission.submittedAt)', 'lastAcceptedAt')
       .groupBy('user.id')
       .orderBy('acceptedCount', 'DESC')
