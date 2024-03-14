@@ -1,4 +1,3 @@
-import { Status } from '../const/boj-results';
 import {
   BaseEntity,
   Column,
@@ -6,6 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Status } from '../const/boj-results';
 import Problem from './problem.entity';
 import Room from './room.entity';
 import User from './user.entity';
@@ -37,4 +37,7 @@ export default class Submission extends BaseEntity {
 
   @ManyToOne(() => Problem, (problem) => problem.submissions, { cascade: true })
   problem?: Problem;
+
+  @Column()
+  alreadyAccepted!: boolean;
 }

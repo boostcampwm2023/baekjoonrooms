@@ -105,6 +105,15 @@ export class SubmissionService {
       status,
     );
 
+    const alreadyAccepted = await this.submissionRepository.exist({
+      where: {
+        user: { id: user.id },
+        problem: { id: problem.id },
+        room: { id: room.id },
+        status: Status.ACCEPTED,
+      },
+    });
+
     return await this.submissionRepository
       .create({
         status,
@@ -112,6 +121,7 @@ export class SubmissionService {
         room,
         problem,
         submittedAt,
+        alreadyAccepted,
       })
       .save();
   }
