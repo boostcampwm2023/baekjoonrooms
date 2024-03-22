@@ -2,11 +2,10 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useState } from 'react';
 import { FaCircleUser } from 'react-icons/fa6';
 
-import { useLocalStorage } from '../../contexts/useLocalStorage';
+import { getItem, setItem } from '../../utils/localStorage';
 
 export default function Profile() {
   const { user } = useAuthContext();
-  const { getItem, setItem } = useLocalStorage();
   const userInfo = { provider: user?.provider, providerId: user?.providerId };
   const [imageError, setImageError] = useState(false);
 

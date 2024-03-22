@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useState, useEffect } from 'react';
 
-import { useLocalStorage } from './useLocalStorage';
+import { getItem, setItem } from '../utils/localStorage';
 
 type Theme =
   | 'atom-one-dark'
@@ -24,8 +24,6 @@ interface ThemeProviderProps {
 const localStorageKey = 'theme';
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const { getItem, setItem } = useLocalStorage();
-
   const storedTheme = getItem(localStorageKey) as Theme | null;
 
   const [theme, setTheme] = useState<Theme>(storedTheme || 'atom-one-dark');

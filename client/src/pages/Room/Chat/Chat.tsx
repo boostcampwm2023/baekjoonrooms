@@ -2,6 +2,7 @@ import { FaArrowRight } from 'react-icons/fa6';
 import TextAreaAutoSize from 'react-textarea-autosize';
 
 import Message from './Message';
+import { getItem, setItem } from '../../../utils/localStorage';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 
 import {
@@ -14,16 +15,8 @@ import { useEffect } from 'react';
 
 export default function Chat() {
   const { user } = useAuthContext();
-  const {
-    roomId,
-    messages,
-    setMessages,
-    getItem,
-    setItem,
-    inputRef,
-    messagesRef,
-    socketRef,
-  } = useRoom();
+  const { roomId, messages, setMessages, inputRef, messagesRef, socketRef } =
+    useRoom();
 
   const socket = socketRef.current;
 
@@ -95,7 +88,7 @@ export default function Chat() {
         return newMessages;
       });
     });
-  }, [socket, roomId, setItem, setMessages, getItem]);
+  }, [socket, roomId, setMessages]);
 
   useEffect(() => {
     function autoScrollToLatestMessage() {
