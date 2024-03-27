@@ -2,7 +2,10 @@ import { FaArrowRight } from 'react-icons/fa6';
 import TextAreaAutoSize from 'react-textarea-autosize';
 
 import Message from './Message';
-import { getItem, setItem } from '../../../utils/localStorage';
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+} from '../../../utils/localStorage';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 
 import {
@@ -65,7 +68,7 @@ export default function Chat() {
   }
 
   useEffect(() => {
-    const storedRoomMessagesString = getItem(`${roomId}-messages`);
+    const storedRoomMessagesString = getLocalStorageItem(`${roomId}-messages`);
 
     if (storedRoomMessagesString) {
       const storedRoomMessages: RoomMessagesLocalStorage = JSON.parse(
@@ -79,7 +82,7 @@ export default function Chat() {
     socket?.on('chat-message', (newMessage) => {
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages, newMessage];
-        setItem(
+        setLocalStorageItem(
           `${roomId}-messages`,
           JSON.stringify({
             messages: newMessages,

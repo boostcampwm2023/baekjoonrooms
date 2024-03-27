@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { UserSession } from '../types/UserSessionType';
 import { logout } from '../apis/logout';
 import { getSession } from '../apis/getSession';
-import { removeItem } from '../utils/localStorage';
+import { removeLoaclStorageItem } from '../utils/localStorage';
 
 export interface AuthContextType {
   user: UserSession | null;
@@ -34,8 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const onLogout = async () => {
     await logout();
-    removeItem('userInfo');
-    console.log('logout');
+    removeLoaclStorageItem('userInfo');
     navigate('/');
   };
 

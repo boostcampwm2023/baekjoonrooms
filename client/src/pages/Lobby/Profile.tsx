@@ -2,7 +2,10 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useState } from 'react';
 import { FaCircleUser } from 'react-icons/fa6';
 
-import { getItem, setItem } from '../../utils/localStorage';
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+} from '../../utils/localStorage';
 
 export default function Profile() {
   const { user } = useAuthContext();
@@ -10,10 +13,10 @@ export default function Profile() {
   const [imageError, setImageError] = useState(false);
 
   if (
-    !getItem('userInfo') ||
-    getItem('userInfo') !== JSON.stringify(userInfo)
+    !getLocalStorageItem('userInfo') ||
+    getLocalStorageItem('userInfo') !== JSON.stringify(userInfo)
   ) {
-    setItem('userInfo', JSON.stringify(userInfo));
+    setLocalStorageItem('userInfo', JSON.stringify(userInfo));
   }
 
   // TODO: AuthContext쪽 UserType 재정의
