@@ -1,7 +1,7 @@
 import Problems from './Problems/Problems';
 import ScoreboardButton from './ScoreBoard/ScoreBoardButton';
 import Chat from './Chat/Chat';
-import StartButton from './Tiimer/StartButton';
+import StartButton from './Timer/StartButton';
 import RoomInfo from './RoomInfo/RoomInfo';
 
 export default function Room() {

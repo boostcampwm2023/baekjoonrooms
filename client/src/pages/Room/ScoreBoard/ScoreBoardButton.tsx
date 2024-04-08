@@ -2,14 +2,14 @@ import { FaChartSimple } from 'react-icons/fa6';
 import ScoreBoardModal from './ScoreBoardModal';
 import { useRef, useState } from 'react';
 import { getScoreBoardInformation } from '../../../apis/scoreBoard';
-import { useRoom } from '../../../hooks/useRoom';
 import { ScoreBoardInformation } from '../../../types/ScoreBoardInformation';
+import { useRoomStore } from '../../../store/roomStore';
 
 export default function ScoreboardButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scores, setScores] = useState<ScoreBoardInformation>({submissions: [], rankings: []});
   const modalOverlayRef = useRef<HTMLDivElement>(null);
-  const { roomCode, roomInfo } = useRoom();
+  const { roomCode, roomInfo } = useRoomStore();
 
   const openModal = async () => {
     try {

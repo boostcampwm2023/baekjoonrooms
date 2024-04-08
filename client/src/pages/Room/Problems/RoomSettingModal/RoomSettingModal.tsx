@@ -1,4 +1,4 @@
-import { RefObject, useState, Dispatch, SetStateAction } from 'react';
+import { RefObject, useState } from 'react';
 
 import SelectProblem from './SelectProblem';
 import RandomProblem from './RandomProblem';
@@ -8,15 +8,12 @@ import { FaToggleOff } from 'react-icons/fa6';
 import { FaToggleOn } from 'react-icons/fa6';
 import Dropdown from './Dropdown';
 import { ProblemType } from '../../../../types/ProblemType';
+import { useRoomStore } from '../../../../store/roomStore';
 
 interface RoomSettingModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;
   closeModal: () => void;
   modalOutsideClick: (arg: React.MouseEvent<HTMLDivElement>) => void;
-  problems: ProblemType[];
-  setProblems: Dispatch<SetStateAction<ProblemType[]>>;
-  duration: number;
-  setDuration: Dispatch<SetStateAction<number>>;
 }
 
 const iconStyle = {
@@ -27,11 +24,8 @@ export default function RoomSettingModal({
   modalOverlayRef,
   closeModal,
   modalOutsideClick,
-  problems,
-  setProblems,
-  duration,
-  setDuration,
 }: RoomSettingModalProps) {
+  const { problems, setProblems, duration, setDuration } = useRoomStore();
   const [problem, setProblem] = useState<ProblemType>({} as ProblemType);
   const [problemList, setProblemList] = useState<ProblemType[]>(problems);
   const [isRandom, setIsRandom] = useState<boolean>(false);

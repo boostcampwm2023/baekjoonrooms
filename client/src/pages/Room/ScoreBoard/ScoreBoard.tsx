@@ -1,4 +1,4 @@
-import { useRoom } from '../../../hooks/useRoom';
+import { useRoomStore } from '../../../store/roomStore';
 import { ScoreBoardInformation } from '../../../types/ScoreBoardInformation';
 import { Submission } from '../../../types/Submission';
 import Players from './Players';
@@ -13,7 +13,7 @@ interface PlayerScore {
 }
 
 export default function ScoreBoard({ scores }: ScoreBoardProps) {
-  const { participantNames, problems } = useRoom().roomInfo;
+  const { participantNames, problems } = useRoomStore().roomInfo;
 
   const playerNames: string[] = participantNames;
   const problemIds: number[] = problems.map((problem) => problem.bojProblemId);
