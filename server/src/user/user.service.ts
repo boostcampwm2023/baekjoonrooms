@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { isNil } from 'src/common/utils';
 import { Repository } from 'typeorm';
 import User from '../entities/user.entity';
+import RoomUser from '../room-user/room-user.entity';
 import { ProviderInfo } from '../types/user';
 import { CreateUserDto } from './dto/create.user.dto';
 
@@ -45,6 +46,20 @@ export class UserService {
     return this.userRepository.findOne({
       where: providerInfo,
     });
+  }
+
+  async getRoomIfJoined(param: { userId: number }) {
+    const { userId } = param;
+    const roomUsers = await RoomUser.find({
+      where: { user: { id: userId } },
+      relations: ['user', 'room'],
+    });
+
+    if (roomUsers.length === 0) {
+      throw new BadRequestException('not joined any room');
+    }
+
+    return roomUsers[0].room;
   }
 
   async findJoinedRooms(user: User) {
