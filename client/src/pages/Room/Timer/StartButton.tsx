@@ -8,8 +8,8 @@ export type StartButtonProps = {
 };
 
 export default function StartButton() {
-  const { socketRef } = useRoom();
-  const { isHost, roomInfo, problems, duration } = useRoomStore();
+  const { isHost, socketRef } = useRoom();
+  const { roomInfo, problems, duration } = useRoomStore();
 
   const start = () => {
     console.log('start');

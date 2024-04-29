@@ -5,9 +5,11 @@ import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
 import { useTheme } from '../../../hooks/useTheme';
 import ProblemLists from './ProblemLists';
 import { useRoomStore } from '../../../store/roomStore';
+import { useRoom } from '../../../hooks/useRoom';
 
 export default function Problems() {
-  const { isHost, roomInfo, problems } = useRoomStore();
+  const { isHost } = useRoom();
+  const {roomInfo, problems } = useRoomStore();
   const { theme } = useTheme();
 
   const [isModalOpen, setIsModalOpen] = useState(false);

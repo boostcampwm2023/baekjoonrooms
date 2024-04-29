@@ -3,8 +3,6 @@ import { RoomInfoType } from "./RoomInfoType";
 import { ProblemType } from "./ProblemType";
 
 export type RoomStoreType = {
-  isHost: boolean;
-  roomCode: string;
   roomId: string | undefined;
   messages: MessageInterface[];
   setMessages: (messages: ((prevMessages: MessageInterface[]) => MessageInterface[]) | MessageInterface[]) => void;

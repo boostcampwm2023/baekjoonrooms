@@ -3,8 +3,11 @@ import { Socket, io } from 'socket.io-client';
 import { RoomInfoType } from '../types/RoomInfoType';
 import { ProblemType } from '../types/ProblemType';
 import { useRoomStore } from '../store/roomStore';
+import { useLocation } from 'react-router-dom';
 
 export type RoomContextType = {
+  isHost: boolean;
+  roomCode: string;
   inputRef: React.RefObject<HTMLTextAreaElement>;
   messagesRef: React.RefObject<HTMLUListElement>;
   socketRef: React.RefObject<Socket | null>;
@@ -22,10 +25,10 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
   const serverUrl = import.meta.env.VITE_BASE_URL;
   const { setRoomInfo, setProblems, roomId } = useRoomStore();
 
-  // const location = useLocation();
+  const location = useLocation();
 
-  // const isHost = location.state?.isHost;
-  // const roomCode = location.state?.roomCode;
+  const isHost = location.state?.isHost;
+  const roomCode = location.state?.roomCode;
   // const roomId = useParams<{ roomId: string }>().roomId;
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -68,6 +71,8 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
   return (
     <RoomContext.Provider
       value={{
+        isHost,
+        roomCode,
         inputRef,
         messagesRef,
         socketRef,
