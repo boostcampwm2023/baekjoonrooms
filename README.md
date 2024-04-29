@@ -96,7 +96,7 @@
         </tr>
         <tr>
             <td style="text-align:center;"><a href="https://github.com/kiuuon">@kiuuon</a></td>
-            <td style="text-align:center;"><a href="https://github.com/dqgthb">@vimkim</a></td>
+            <td style="text-align:center;"><a href="https://github.com/vimkim">@vimkim</a></td>
             <td style="text-align:center;"><a href="https://github.com/sjn0910">@sjn0910</a></td>
             <td style="text-align:center;"><a href="https://github.com/Lukaid-dev">@Lukaid-dev</a></td>
             <td style="text-align:center;"><a href="https://github.com/glowisn">@glowisn</a></td>
