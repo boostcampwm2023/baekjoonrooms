@@ -27,18 +27,21 @@ export default function UserBasedRoute({
   const isParticipatingRoom =
     authStatus && roomCode && location.pathname !== `/room/${roomCode}`;
 
-  if (!authStatusIsPending && !myRoomCodeIsPending) {
-    if (isNotLoggedIn) {
-      return <Navigate to="/" replace />;
-    }
+  if (authStatusIsPending || myRoomCodeIsPending) {
+    // TODO: Add loading page
+    return <div>Loading...</div>;
+  }
 
-    if (isNotParticipatingRoom) {
-      return <Navigate to="/lobby" replace />;
-    }
+  if (isNotLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
 
-    if (isParticipatingRoom) {
-      return <Navigate to={`/room/${roomCode}`} replace />;
-    }
+  if (isNotParticipatingRoom) {
+    return <Navigate to="/lobby" replace />;
+  }
+
+  if (isParticipatingRoom) {
+    return <Navigate to={`/room/${roomCode}`} replace />;
   }
 
   return children;

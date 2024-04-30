@@ -1,12 +1,12 @@
 import { FaArrowRight } from 'react-icons/fa6';
 import TextAreaAutoSize from 'react-textarea-autosize';
+import { useQuery } from '@tanstack/react-query';
 
 import Message from './Message';
 import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from '../../../utils/localStorage';
-import { useAuthContext } from '../../../hooks/useAuthContext';
 
 import {
   ChatEvent,
@@ -15,9 +15,14 @@ import {
 } from '../../../types/Message';
 import { useRoom } from '../../../hooks/useRoom';
 import { useEffect } from 'react';
+import { getMyInfo } from '../../../apis/getMyInfo';
 
 export default function Chat() {
-  const { user } = useAuthContext();
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: getMyInfo,
+    staleTime: Infinity,
+  });
   const { roomId, messages, setMessages, inputRef, messagesRef, socketRef } =
     useRoom();
 

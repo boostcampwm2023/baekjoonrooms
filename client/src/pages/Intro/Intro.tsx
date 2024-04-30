@@ -4,9 +4,6 @@ import { IoTrophyOutline } from 'react-icons/io5';
 import { MdOutlinePrivacyTip } from 'react-icons/md'; // light
 
 // import VideoPlayer from '../components/Intro/VideoPlayer';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useAuthContext } from '../../hooks/useAuthContext';
 import { useTheme } from '../../hooks/useTheme';
 
 import LogoDefault from '../../assets/LogoDefault.svg';
@@ -15,15 +12,7 @@ import ChromeIcon from '../../assets/ChromeIcon.svg';
 import Demo from '../../assets/Demo.png';
 
 export default function Intro() {
-  const { user } = useAuthContext();
   const { theme } = useTheme();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate('/lobby');
-    }
-  }, [navigate, user]);
 
   return (
     <div className="h-full min-h-screen overscroll-none bg-bg">

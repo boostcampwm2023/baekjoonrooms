@@ -10,7 +10,7 @@ export default function LogoutButton() {
   const { mutate } = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.setQueryData(['authStatus'], undefined);
+      queryClient.setQueryData(['authStatus'], false);
       removeLoaclStorageItem('userInfo');
       navigate('/');
     },

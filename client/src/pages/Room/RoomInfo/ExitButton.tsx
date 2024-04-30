@@ -10,7 +10,7 @@ export default function ExitButton() {
   const { mutate } = useMutation({
     mutationFn: exitRoom,
     onSuccess: () => {
-      queryClient.setQueryData(['myRoomCode'], undefined);
+      queryClient.setQueryData(['myRoomCode'], null);
       navigate(`/lobby`);
     },
     onError: () => {
