@@ -1,7 +1,5 @@
 import {
   BadRequestException,
-  forwardRef,
-  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -9,8 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import { isNil } from 'src/common/utils';
-import { SubmissionService } from 'src/submission/submission.service';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Status } from '../const/boj-results';
 import Room from '../entities/room.entity';
 import Submission from '../entities/submission.entity';
@@ -32,8 +29,7 @@ export class RoomService {
     @InjectRepository(Room)
     private readonly roomRepository: Repository<Room>,
     private readonly socketService: SocketService,
-    @Inject(forwardRef(() => SubmissionService))
-    private readonly submissionService: SubmissionService,
+    private dataSource: DataSource,
   ) {}
 
   /**
@@ -50,16 +46,22 @@ export class RoomService {
       throw new BadRequestException('username이 없습니다.');
     const code = await this.createRoomCode(user.username);
 
-    this.logger.log(`creating room ${code}...`);
-    const room = new Room();
-    room.code = code;
-    room.host = Promise.resolve(user);
-    room.isStarted = false;
-    await this.roomRepository.save(room);
-    this.logger.log(`room ${code} successfully created by ${user.username}!`);
+    const room = await this.dataSource.transaction(async (manager) => {
+      const room = new Room();
+      room.code = code;
+      room.host = user;
+      room.isStarted = false;
+      await manager.save(room);
 
-    await this.roomUserService.create({ room, user });
-    this.socketService.notifyCreatingRoom(user.username, room.code);
+      const roomUser = new RoomUser();
+      roomUser.room = room;
+      roomUser.user = user;
+      await manager.save(roomUser);
+
+      this.socketService.notifyCreatingRoom(user.username, room.code);
+
+      return room;
+    });
     return room;
   }
 
@@ -92,37 +94,38 @@ export class RoomService {
     this.socketService.notifyJoiningRoom(user.username, room);
   }
 
-  async destroyRoom(room: Room) {
-    this.logger.log(`destroying room: ${room.code}`);
-    return await this.roomRepository.remove(room);
-  }
-
   async exitRoom(user: User) {
-    const joinedRooms = await user.joinedRooms;
-    if (isNil(joinedRooms) || joinedRooms.length === 0) {
-      throw new InternalServerErrorException(
-        '참가 중인 방을 찾을 수 없습니다.',
-      );
-    }
+    return this.dataSource.transaction(async (manager) => {
+      const joinedRooms = await manager.find(RoomUser, {
+        where: {
+          user: { id: user.id },
+        },
+        relations: ['room', 'room.joinedUsers', 'room.host', 'room.problems'],
+      });
 
-    if (joinedRooms.length > 1)
-      throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
+      if (isNil(joinedRooms) || joinedRooms.length === 0) {
+        throw new InternalServerErrorException(
+          '참가 중인 방을 찾을 수 없습니다.',
+        );
+      }
 
-    const roomUser = joinedRooms[0];
+      if (joinedRooms.length > 1) {
+        throw new InternalServerErrorException('참가 중인 방이 여러 개입니다.');
+      }
 
-    await this.roomUserRepository.remove(roomUser);
+      const roomUser = joinedRooms[0];
+      const room = roomUser.room;
+      if (isNil(room)) {
+        throw new InternalServerErrorException('roomUser에 room이 없습니다.');
+      }
 
-    const room = roomUser.room;
-    if (isNil(room)) {
-      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
-    }
+      await this.socketService.notifyExit(user.username, room);
 
-    await this.socketService.notifyExit(user.username, room);
-
-    const numberOfJoinedUsers = (await room.joinedUsers)?.length;
-    if (isNil(numberOfJoinedUsers) || numberOfJoinedUsers === 0) {
-      await this.destroyRoom(room);
-    }
+      await manager.remove(roomUser);
+      if (room?.joinedUsers?.length === 1) {
+        await manager.remove(room);
+      }
+    });
   }
 
   async findRoomByCode(code: string) {

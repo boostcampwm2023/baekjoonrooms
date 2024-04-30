@@ -43,7 +43,7 @@ export default class User extends BaseEntity {
   @OneToMany(() => RoomUser, (roomUser) => roomUser.user, {
     lazy: true,
   })
-  joinedRooms?: Promise<RoomUser[]>;
+  joinedRooms?: RoomUser[];
 
   @OneToMany(() => Submission, (submission) => submission.user)
   submissions?: Submission[];

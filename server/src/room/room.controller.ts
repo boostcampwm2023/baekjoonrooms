@@ -39,9 +39,7 @@ export class RoomController {
   })
   async createRoom(@Req() req: Request) {
     const user: User = req.user as User;
-    this.logger.debug(`user ${user.username} creating room...`);
     const room = await this.roomService.createRoom(user);
-    this.logger.debug(`room: ${room.code} successfully created!!`);
     return { code: room.code };
   }
 
