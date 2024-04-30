@@ -1,38 +1,34 @@
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createRoom } from '../../../apis/createRoom';
-import { useState } from 'react';
 import { RoomCreateType } from '../../../types/RoomCreateType';
 
 export default function RoomCreateButton() {
-  const [isLoading, setIsLoading] = useState(false);
-
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const onClick = async () => {
-    setIsLoading(true);
-    try {
-      const roomInfo: RoomCreateType | undefined = await createRoom();
-      if (roomInfo === undefined) {
-        setIsLoading(false);
-        return;
-      }
-      const roomCode = roomInfo.code;
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createRoom,
+    onSuccess: (roomInfo: RoomCreateType | undefined) => {
+      const roomCode = roomInfo?.code;
+      queryClient.setQueryData(['myRoomCode'], roomCode);
       navigate(`/room/${roomCode}`, {
         state: { isHost: true, roomCode: roomCode },
       });
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  };
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   return (
     <>
-      {isLoading ? (
+      {isPending ? (
         <div>loading...</div>
       ) : (
         <button
           className="flex h-[33px] w-[150px] items-center justify-center rounded-lg bg-accent font-medium text-default_white hover:opacity-80"
-          onClick={onClick}>
+          onClick={() => mutate()}>
           Create room
         </button>
       )}

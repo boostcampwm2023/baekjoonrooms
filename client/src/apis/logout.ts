@@ -5,5 +5,6 @@ export async function logout() {
     await apiClient.get('/auth/logout');
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }

@@ -5,5 +5,6 @@ export async function exitRoom() {
     await apiClient.post('/room/exit');
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
