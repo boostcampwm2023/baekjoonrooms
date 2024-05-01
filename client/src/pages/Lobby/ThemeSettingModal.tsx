@@ -6,12 +6,14 @@ import {
   FaXmark,
 } from 'react-icons/fa6';
 import { RxExit } from 'react-icons/rx';
+import { useQuery } from '@tanstack/react-query';
+
 import { ProblemType } from '../../types/ProblemType';
 import { getProblemButtonColor } from '../../utils/getProblemButtonColor';
 import Message from '../Room/Chat/Message';
 import { MessageInterface, ChatEvent } from '../../types/Message';
 import { useTheme } from '../../hooks/useTheme';
-import { useAuthContext } from '../../hooks/useAuthContext';
+import { getMyInfo } from '../../apis/getMyInfo';
 
 interface ThemeSettingModalProps {
   modalOverlayRef: RefObject<HTMLDivElement>;
@@ -26,7 +28,11 @@ export default function ThemeSettingModal({
 }: ThemeSettingModalProps) {
   const { theme, toggleTheme } = useTheme();
 
-  const { user } = useAuthContext();
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: getMyInfo,
+    staleTime: Infinity,
+  });
 
   const problems: ProblemType[] = [
     {

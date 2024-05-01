@@ -4,6 +4,8 @@ import { MessageInterface } from '../types/Message';
 import { RoomInfoType } from '../types/RoomInfoType';
 import { ProblemType } from '../types/ProblemType';
 import { useLocation, useParams } from 'react-router-dom';
+import { getMyRoomCode } from '../apis/getMyRoomCode';
+import { useQuery } from '@tanstack/react-query';
 
 export type RoomContextType = {
   isHost: boolean;
@@ -36,7 +38,14 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
   const location = useLocation();
 
   const isHost = location.state?.isHost;
-  const roomCode = location.state?.roomCode;
+  // const roomCode = location.state?.roomCode;
+  const { data: roomCode } = useQuery({
+    queryKey: ['myRoomCode'],
+    queryFn: getMyRoomCode,
+    staleTime: Infinity,
+  });
+
+  console.log(roomCode);
   const roomId = useParams<{ roomId: string }>().roomId;
 
   const inputRef = useRef<HTMLTextAreaElement>(null);

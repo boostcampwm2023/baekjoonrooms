@@ -1,14 +1,19 @@
-import { useAuthContext } from '../../hooks/useAuthContext';
 import { useState } from 'react';
 import { FaCircleUser } from 'react-icons/fa6';
+import { useQuery } from '@tanstack/react-query';
 
 import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from '../../utils/localStorage';
+import { getMyInfo } from '../../apis/getMyInfo';
 
 export default function Profile() {
-  const { user } = useAuthContext();
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: getMyInfo,
+    staleTime: Infinity,
+  });
   const userInfo = { provider: user?.provider, providerId: user?.providerId };
   const [imageError, setImageError] = useState(false);
 

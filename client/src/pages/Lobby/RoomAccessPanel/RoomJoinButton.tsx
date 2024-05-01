@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 import axios from 'axios';
 import { joinRoom } from '../../../apis/joinRoom';
 
 export default function RoomJoinButton() {
   const [roomCode, setRoomCode] = useState<string>('');
-
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const onClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -22,7 +22,7 @@ export default function RoomJoinButton() {
 
     try {
       await joinRoom(roomCode);
-
+      queryClient.setQueryData(['myRoomCode'], roomCode);
       navigate(`/room/${roomCode}`, {
         state: { roomCode: roomCode, isHost: false },
       });

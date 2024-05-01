@@ -1,44 +1,47 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { useQuery } from '@tanstack/react-query';
+import { getAuthStatus } from '../apis/getAuthStatus';
+import { getMyRoomCode } from '../apis/getMyRoomCode';
 
 export default function UserBasedRoute({
   children,
 }: {
   children: JSX.Element;
 }) {
-  const { user, isLoading } = useAuthContext();
   const location = useLocation();
+  const { isPending: authStatusIsPending, data: authStatus } = useQuery({
+    queryKey: ['authStatus'],
+    queryFn: getAuthStatus,
+    staleTime: Infinity,
+  });
+  const { isPending: myRoomCodeIsPending, data: roomCode } = useQuery({
+    queryKey: ['myRoomCode'],
+    queryFn: getMyRoomCode,
+    staleTime: Infinity,
+  });
 
-  if (!isLoading) {
-    const isNotLoggedIn =
-      !user && location.pathname !== '/' && location.pathname !== '/home';
-    const isNotParticipatingRoom =
-      user && !user.participatingRoomCode && location.pathname !== '/lobby';
-    const isParticipatingRoom =
-      user &&
-      user.participatingRoomCode &&
-      location.pathname !== `/room/${user.participatingRoomCode}`;
+  const isNotLoggedIn =
+    !authStatus && location.pathname !== '/' && location.pathname !== '/home';
+  const isNotParticipatingRoom =
+    authStatus && !roomCode && location.pathname !== '/lobby';
+  const isParticipatingRoom =
+    authStatus && roomCode && location.pathname !== `/room/${roomCode}`;
 
-    if (isNotLoggedIn) {
-      return <Navigate to="/" replace />;
-    }
+  if (authStatusIsPending || myRoomCodeIsPending) {
+    // TODO: Add loading page
+    return <div>Loading...</div>;
+  }
 
-    if (isNotParticipatingRoom) {
-      return <Navigate to="/lobby" replace />;
-    }
+  if (isNotLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
 
-    if (isParticipatingRoom) {
-      return (
-        <Navigate
-          to={`/room/${user.participatingRoomCode}`}
-          state={{
-            isHost: user.isHost,
-            roomCode: user.participatingRoomCode,
-          }}
-          replace
-        />
-      );
-    }
+  if (isNotParticipatingRoom) {
+    return <Navigate to="/lobby" replace />;
+  }
+
+  if (isParticipatingRoom) {
+    return <Navigate to={`/room/${roomCode}`} replace />;
   }
 
   return children;
