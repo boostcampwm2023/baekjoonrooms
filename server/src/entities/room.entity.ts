@@ -45,20 +45,17 @@ export default class Room extends BaseEntity {
   @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deletedAt?: Date;
 
-  @ManyToOne(() => User, (user) => user.hostedRooms, {
-    lazy: true,
-    nullable: false,
-  })
-  host?: Promise<User>;
+  @ManyToOne(() => User, (user) => user.hostedRooms)
+  host?: User;
 
-  @OneToMany(() => RoomUser, (roomUser) => roomUser.room, { lazy: true })
-  joinedUsers?: Promise<RoomUser[]>;
+  @OneToMany(() => RoomUser, (roomUser) => roomUser.room)
+  joinedUsers?: RoomUser[];
 
-  @OneToMany(() => Submission, (submission) => submission.room, { lazy: true })
-  submissions?: Promise<Submission[]>;
+  @OneToMany(() => Submission, (submission) => submission.room)
+  submissions?: Submission[];
 
   // 이 방에서 출제된 문제들
-  @ManyToMany(() => Problem, (problem) => problem.rooms, { lazy: true })
+  @ManyToMany(() => Problem, (problem) => problem.rooms)
   @JoinTable()
-  problems?: Promise<Problem[]>;
+  problems?: Problem[];
 }

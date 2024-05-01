@@ -10,13 +10,25 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiProperty,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Request } from 'express';
 import { SessionAuthGuard } from '../auth/auth.guard';
 import User from '../entities/user.entity';
 import { RoomUserService } from '../room-user/room-user.service';
 import { RoomCodePipe } from './room-code/room-code.pipe';
 import { RoomService } from './room.service';
+import { IsString } from 'class-validator';
+
+class JoinRoomDto {
+  @ApiProperty()
+  @IsString()
+  code!: string;
+}
 
 @Controller('room')
 @ApiTags('room')
@@ -39,15 +51,16 @@ export class RoomController {
   })
   async createRoom(@Req() req: Request) {
     const user: User = req.user as User;
-    this.logger.debug(`user ${user.username} creating room...`);
     const room = await this.roomService.createRoom(user);
-    this.logger.debug(`room: ${room.code} successfully created!!`);
     return { code: room.code };
   }
 
   @Post('join')
   @HttpCode(HttpStatus.OK)
-  async joinRoom(@Req() req: Request, @Body() body: { code: string }) {
+  @ApiOperation({
+    summary: '방 참가',
+  })
+  async joinRoom(@Req() req: Request, @Body() body: JoinRoomDto) {
     const user: User = req.user as User;
     const { code } = body;
     this.logger.debug(`user: ${user.username} joining room: ${code}`);

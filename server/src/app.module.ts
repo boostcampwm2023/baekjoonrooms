@@ -18,6 +18,7 @@ import { RoomModule } from './room/room.module';
 import { SocketModule } from './socket/socket.module';
 import { SubmissionModule } from './submission/submission.module';
 import { UserModule } from './user/user.module';
+import { RoomsModule } from './rooms/rooms.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { UserModule } from './user/user.module';
     SubmissionModule,
     RoomUserModule,
     LoggerModule,
+    RoomsModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,4 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WsException } from '@nestjs/websockets';
 import { Server } from 'socket.io';
@@ -51,14 +55,19 @@ export class SocketService {
   }
 
   async makeRoomInfo(room: Room) {
-    const roomUsers = await room.joinedUsers;
-    const host = await room.host;
-    const problems = await room.problems;
+    const roomUsers = room.joinedUsers;
+    const host = room.host;
+    const problems = room.problems;
 
-    if (isNil(roomUsers)) throw new WsException('roomUsers is null');
-    if (isNil(host)) throw new WsException('host is null');
-    if (isNil(problems) || problems.length === 0)
-      throw new WsException('problems do not exist');
+    if (isNil(roomUsers)) {
+      throw new InternalServerErrorException('roomUsers is null');
+    }
+    if (isNil(host)) {
+      throw new InternalServerErrorException('host is null');
+    }
+    if (isNil(problems)) {
+      throw new InternalServerErrorException('problems do not exist');
+    }
 
     const problemTypes: ProblemType[] = problems.map((problem) => {
       return {
@@ -160,7 +169,7 @@ export class SocketService {
     const bojProblemIds = problems.map((problem) => problem.bojProblemId);
     const problemEntities =
       await this.problemService.getProblemsByBojProblemIds(bojProblemIds);
-    room.problems = Promise.resolve(problemEntities);
+    room.problems = problemEntities;
 
     room.isStarted = true;
     room.endAt = new Date(Date.now() + duration * 60 * 1000);

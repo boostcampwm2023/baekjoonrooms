@@ -20,6 +20,15 @@ export class AuthController {
 
   constructor() {}
 
+  @Get('/status')
+  @ApiOperation({
+    summary: 'Check Auth Status',
+    description: 'Check if user is logged in.',
+  })
+  async checkAuthStatus(@Req() req: Request) {
+    return req.isAuthenticated();
+  }
+
   @Get('github')
   @UseGuards(GithubAuthGuard)
   async login() {}
