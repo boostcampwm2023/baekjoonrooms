@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SessionAuthGuard } from '../auth/auth.guard';
 import User from '../entities/user.entity';
@@ -6,6 +6,7 @@ import { GetUser } from './decorators/user.decorator';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UserService } from './user.service';
 import Room from '../entities/room.entity';
+import { isNil } from '../common/utils';
 
 @UseGuards(SessionAuthGuard)
 @Controller('users')
@@ -52,18 +53,15 @@ export class UserController {
     });
   }
 
-  @Get('/me/room/:roomCode/am-i-host')
+  @Get('/me/room/am-i-host')
   @ApiOperation({
     summary: '내가 방장인지 조회',
   })
-  async getMyRoomIsHost(
-    @Param('roomCode') roomCode: string,
-    @GetUser() user: User,
-  ) {
+  async getMyRoomIsHost(@GetUser() user: User) {
     const room = await Room.findOne({
-      where: { code: roomCode },
+      where: { host: { id: user.id } },
       relations: ['host'],
     });
-    return { isHost: room?.host?.id === user.id };
+    return !isNil(room);
   }
 }

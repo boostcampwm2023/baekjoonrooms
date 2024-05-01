@@ -73,25 +73,33 @@ export class RoomService {
   }
 
   async joinRoom(user: User, roomCode: string) {
-    const joinedRooms = await user.joinedRooms;
+    const joinedRooms = await RoomUser.find({
+      where: {
+        user: { id: user.id },
+      },
+      relations: ['room', 'user'],
+    });
 
     if (joinedRooms != null && joinedRooms.length !== 0) {
       throw new BadRequestException('이미 참가한 방이 있습니다.');
     }
 
-    const roomUsers =
-      await this.roomUserService.findRoomUsersByRoomCode(roomCode);
+    const roomUsers = await RoomUser.find({
+      where: {
+        room: { code: roomCode },
+      },
+      relations: ['room', 'user'],
+    });
 
     if (roomUsers.length === 0) {
-      throw new BadRequestException('존재하지 않는 방입니다.');
+      throw new BadRequestException(`No one is in the room ${roomCode}.`);
     }
+
     const room = roomUsers[0].room;
-    if (isNil(room)) {
-      throw new InternalServerErrorException('방을 찾을 수 없습니다.');
-    }
     this.logger.debug(`user ${user.username} joining room ${room.code}...`);
-    await this.roomUserRepository.create({ room, user }).save();
+
     this.socketService.notifyJoiningRoom(user.username, room);
+    return await RoomUser.create({ room, user }).save();
   }
 
   async exitRoom(user: User) {
