@@ -1,11 +1,12 @@
-import { RefObject, useState } from 'react';
+import { useState, RefObject } from 'react';
+import { FaXmark } from 'react-icons/fa6';
+import { FaToggleOff } from 'react-icons/fa6';
+import { FaToggleOn } from 'react-icons/fa6';
+import { useShallow } from 'zustand/react/shallow';
 
 import SelectProblem from './SelectProblem';
 import RandomProblem from './RandomProblem';
 import ProblemList from './ProblemList';
-import { FaXmark } from 'react-icons/fa6';
-import { FaToggleOff } from 'react-icons/fa6';
-import { FaToggleOn } from 'react-icons/fa6';
 import Dropdown from './Dropdown';
 import { ProblemType } from '../../../../types/ProblemType';
 import { useRoomStore } from '../../../../store/roomStore';
@@ -25,7 +26,14 @@ export default function RoomSettingModal({
   closeModal,
   modalOutsideClick,
 }: RoomSettingModalProps) {
-  const { problems, setProblems, duration, setDuration } = useRoomStore();
+  const { problems, setProblems, duration, setDuration } = useRoomStore(
+    useShallow((state) => ({
+      problems: state.problems,
+      setProblems: state.setProblems,
+      duration: state.duration,
+      setDuration: state.setDuration,
+    })),
+  );
   const [problem, setProblem] = useState<ProblemType>({} as ProblemType);
   const [problemList, setProblemList] = useState<ProblemType[]>(problems);
   const [isRandom, setIsRandom] = useState<boolean>(false);
