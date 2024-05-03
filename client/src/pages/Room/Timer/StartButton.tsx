@@ -1,4 +1,5 @@
 import { useRoom } from '../../../hooks/useRoom';
+import { useRoomStore } from '../../../store/roomStore';
 import Timer from './Timer';
 
 export type StartButtonProps = {
@@ -7,7 +8,8 @@ export type StartButtonProps = {
 };
 
 export default function StartButton() {
-  const { socketRef, isHost, roomInfo, problems, duration } = useRoom();
+  const { isHost, socketRef } = useRoom();
+  const { roomInfo, problems, duration } = useRoomStore();
 
   const start = () => {
     console.log('start');

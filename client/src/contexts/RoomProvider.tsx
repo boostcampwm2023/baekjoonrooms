@@ -1,25 +1,16 @@
-import { ReactNode, createContext, useEffect, useRef, useState } from 'react';
+import { ReactNode, createContext, useEffect, useRef } from 'react';
 import { Socket, io } from 'socket.io-client';
-import { MessageInterface } from '../types/Message';
 import { RoomInfoType } from '../types/RoomInfoType';
 import { ProblemType } from '../types/ProblemType';
-import { useLocation, useParams } from 'react-router-dom';
+import { useRoomStore } from '../store/roomStore';
+import { useLocation } from 'react-router-dom';
 
 export type RoomContextType = {
   isHost: boolean;
   roomCode: string;
-  roomId: string | undefined;
   inputRef: React.RefObject<HTMLTextAreaElement>;
   messagesRef: React.RefObject<HTMLUListElement>;
   socketRef: React.RefObject<Socket | null>;
-  messages: MessageInterface[];
-  setMessages: React.Dispatch<React.SetStateAction<MessageInterface[]>>;
-  roomInfo: RoomInfoType;
-  setRoomInfo: React.Dispatch<React.SetStateAction<RoomInfoType>>;
-  problems: ProblemType[];
-  setProblems: React.Dispatch<React.SetStateAction<ProblemType[]>>;
-  duration: number;
-  setDuration: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const RoomContext = createContext<RoomContextType>(
@@ -32,24 +23,25 @@ interface RoomProviderProps {
 
 export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
   const serverUrl = import.meta.env.VITE_BASE_URL;
+  const { setRoomInfo, setProblems, roomId } = useRoomStore();
 
   const location = useLocation();
 
   const isHost = location.state?.isHost;
   const roomCode = location.state?.roomCode;
-  const roomId = useParams<{ roomId: string }>().roomId;
+  // const roomId = useParams<{ roomId: string }>().roomId;
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesRef = useRef<HTMLUListElement>(null);
   const socketRef = useRef<Socket | null>(null);
 
-  const [messages, setMessages] = useState<MessageInterface[]>([]);
+  // const [messages, setMessages] = useState<MessageInterface[]>([]);
 
-  const [roomInfo, setRoomInfo] = useState<RoomInfoType>({} as RoomInfoType);
+  // const [roomInfo, setRoomInfo] = useState<RoomInfoType>({} as RoomInfoType);
 
-  const [problems, setProblems] = useState<ProblemType[]>([]);
+  // const [problems, setProblems] = useState<ProblemType[]>([]);
 
-  const [duration, setDuration] = useState<number>(0); // minutes
+  // const [duration, setDuration] = useState<number>(0); // minutes
 
   useEffect(() => {
     const socket: Socket = io(serverUrl, {
@@ -74,25 +66,16 @@ export const RoomProvider: React.FC<RoomProviderProps> = ({ children }) => {
     return () => {
       socket.disconnect();
     };
-  }, [roomId, serverUrl]);
+  }, [roomId, serverUrl, setProblems, setRoomInfo]);
 
   return (
     <RoomContext.Provider
       value={{
         isHost,
         roomCode,
-        roomId,
         inputRef,
         messagesRef,
         socketRef,
-        messages,
-        setMessages,
-        roomInfo,
-        setRoomInfo,
-        problems,
-        setProblems,
-        duration,
-        setDuration,
       }}>
       {children}
     </RoomContext.Provider>

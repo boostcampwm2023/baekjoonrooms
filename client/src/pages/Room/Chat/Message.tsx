@@ -1,11 +1,11 @@
-import { useRoom } from '../../../hooks/useRoom';
 import { userColors } from '../../../../public/userColors';
 import { hash } from '../../../utils/hash';
 import { ChatEvent, MessageInterface } from '../../../types/Message';
 import MessageBody from './MessageBody';
+import { useRoomStore } from '../../../store/roomStore';
 
 export default function Message({ message }: { message: MessageInterface }) {
-  const { roomCode } = useRoom();
+  const { roomCode } = useRoomStore();
   const generateRandomColor = (username: string) => {
     const idx = Math.abs(hash(username + roomCode) % userColors.length);
     return userColors[idx];

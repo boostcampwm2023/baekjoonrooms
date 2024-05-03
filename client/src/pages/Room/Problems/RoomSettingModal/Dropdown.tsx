@@ -5,7 +5,7 @@ export interface DropdownProps<T> {
   options: Array<T>;
   optionPostFix?: string;
   selected: T;
-  setSelected: React.Dispatch<React.SetStateAction<T>>;
+  setSelected: (value: T) => void | React.Dispatch<React.SetStateAction<T>>;
   buttonClassName?: string;
   itemBoxClassName?: string;
   itemClassName?: string;
@@ -17,7 +17,7 @@ export interface DropdownProps<T> {
  * @param {Array<T>} props.options dropdown items with value
  * @param {string} props.optionPostFix postfix of dropdown item
  * @param {T} props.selected selected item
- * @param {React.Dispatch<React.SetStateAction<T>>} props.setSelected set selected item
+ * @param {function(T):void | React.Dispatch<React.SetStateAction<T>> } props.setSelected set selected item
  * @param {string} props.buttonClassName className of dropdown button for tailwindcss
  * @param {string} props.itemBoxClassName className of dropdown item box for tailwindcss
  * @param {string} props.itemClassName className of dropdown item for tailwindcss

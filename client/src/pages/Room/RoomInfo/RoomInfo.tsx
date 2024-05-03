@@ -2,10 +2,10 @@ import ExitButton from './ExitButton';
 import { FaRegCopy } from 'react-icons/fa6';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRoom } from '../../../hooks/useRoom';
+import { useRoomStore } from '../../../store/roomStore';
 
 export default function RoomInfo() {
-  const { roomCode } = useRoom();
+  const { roomCode } = useRoomStore();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(roomCode);

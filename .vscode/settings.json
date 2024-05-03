@@ -18,6 +18,7 @@
     "tanstack",
     "toastify",
     "typeorm",
-    "Xmark"
+    "Xmark",
+    "zustand"
   ]
 }

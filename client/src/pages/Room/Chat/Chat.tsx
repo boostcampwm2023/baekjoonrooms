@@ -15,10 +15,12 @@ import {
 } from '../../../types/Message';
 import { useRoom } from '../../../hooks/useRoom';
 import { useEffect } from 'react';
+import { useRoomStore } from '../../../store/roomStore';
 
 export default function Chat() {
   const { user } = useAuthContext();
-  const { roomId, messages, setMessages, inputRef, messagesRef, socketRef } =
+  const {roomId, messages, setMessages} = useRoomStore();
+  const {  inputRef, messagesRef, socketRef } =
     useRoom();
 
   const socket = socketRef.current;
@@ -80,8 +82,8 @@ export default function Chat() {
     }
 
     socket?.on('chat-message', (newMessage) => {
-      setMessages((prevMessages) => {
-        const newMessages = [...prevMessages, newMessage];
+      setMessages((prevMessages: MessageInterface[]) => {
+        const newMessages: MessageInterface[] = [...prevMessages, newMessage];
         setLocalStorageItem(
           `${roomId}-messages`,
           JSON.stringify({

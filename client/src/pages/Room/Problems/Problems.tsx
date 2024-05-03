@@ -3,12 +3,13 @@ import { FaPencil } from 'react-icons/fa6';
 
 import RoomSettingModal from './RoomSettingModal/RoomSettingModal';
 import { useTheme } from '../../../hooks/useTheme';
-import { useRoom } from '../../../hooks/useRoom';
 import ProblemLists from './ProblemLists';
+import { useRoomStore } from '../../../store/roomStore';
+import { useRoom } from '../../../hooks/useRoom';
 
 export default function Problems() {
-  const { isHost, roomInfo, problems, setProblems, duration, setDuration } =
-    useRoom();
+  const { isHost } = useRoom();
+  const {roomInfo, problems } = useRoomStore();
   const { theme } = useTheme();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,10 +58,6 @@ export default function Problems() {
             modalOverlayRef={modalOverlayRef}
             closeModal={closeModal}
             modalOutsideClick={modalOutsideClick}
-            problems={problems}
-            setProblems={setProblems}
-            duration={duration}
-            setDuration={setDuration}
           />
         )}
       </>
